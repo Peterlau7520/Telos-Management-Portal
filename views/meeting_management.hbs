@@ -70,16 +70,24 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label>ESTATE NAME</label>
-                                                <input type="text" class="form-control" placeholder="Title" name="estateName">
+                                                <label>選擇屋苑 | SELECT ESTATES</label>
+                                                <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
+                                                <select class="form-control" id="estateYoutube">
+                                                    <option value="">Select Estates</option>
+                                                    <option value="Estate 1">ESTATE 1</option>
+                                                    <option value="Estate 2">ESTATE 2</option>
+                                                    <option value="Estate 3">ESTATE 3</option>
+                                                </select>   
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label>MEETING'S TITLE</label>
-                                                <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle">
+                                                <label>選擇會議 | SELECT MEETINGS</label>
+                                                <select class="form-control" id="meetingYoutube">
+                                                    <option value="">Select Meeting</option>
+                                                </select> 
                                             </div>
                                         </div>
                                     </div>
@@ -110,20 +118,35 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label>ESTATE NAME</label>
-                                                <input type="text" class="form-control" placeholder="Title" name="estateName">
+                                                <label>選擇屋苑 | SELECT ESTATE</label>
+                                                <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
+                                                 <select class="form-control" id="estatePoll">
+                                                    <option value="">Select Estates</option>
+                                                    <option value="ESTATE 1">ESTATE 1</option>
+                                                    <option value="ESTATE 2">ESTATE 2</option>
+                                                    <option value="ESTATE 3">ESTATE 3</option>
+                                                </select> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label>MEETING'S TITLE</label>
-                                                <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle">
+                                                <label>選擇會議 | SELECT MEETINGS</label>
+                                                 <select class="form-control" id="meetingPoll">
+                                                    <option value="">Select Meeting</option>
+                                                </select> 
                                             </div>
                                         </div>
                                     </div>
                                     <!-- YOUR WORK HERE -->
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group pollModal">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
                                 
                                     <input type="hidden" name="floor_info" id="floor_info"/>
                                     <button type="submit" class="btn btn-info btn-fill pull-right">SEARCH</button>
@@ -135,7 +158,7 @@
                      <div class="col-md-12">
                        <div class="card">
                             <div class="header">
-                                <h4 class="title">ALL UPCOMING MEETINGS</h4>
+                                <h4 class="title"> <span id="upcomingMeeting"> ALL UPCOMING MEETINGS </span> / <span id="pastMeeting"> PAST MEETING </span></h4>
                             </div>
                                 <div class="content table-responsive table-full-width">
                                 <table class="table table-hover table-striped">
@@ -145,9 +168,10 @@
                                         <th>MEETING START TIME</th>
                                         <th>ESTATE NAME</th>
                                         <th>MEETING TITLE</th>
+                                        <th>MEETING STATUS</th>
                                         <th></th>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="tableCtrl">
                                         <tr>
                                             <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a> </td>
                                             <td>Sat Nov 25 2017 14:00 | ENDED</td>
@@ -155,7 +179,8 @@
                                              Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a>
                                             </td>
                                             <td>HKU</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>                                       
+                                           <td> 2017 Annual General Meeting | 2017 週年大會</td> 
+                                           <td>current meetings</td>                                      
                                         </tr>
                                                                                 <tr>
                                             <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a>  </td>
@@ -164,7 +189,8 @@
                                                 Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a>
                                             </td>
                                             <td>CUHK</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>                                       
+                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>  
+                                           <td>past meetings</td>                                     
                                         </tr>
                                         <tr>
                                             <td>  </td>
@@ -172,7 +198,8 @@
                                             <td>
                                                 Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a></td>
                                             <td>PolyU</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>                                       
+                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>   
+                                           <td>current meetings</td>                                    
                                         </tr>
                                         <tr>
                                             <td>  </td>
@@ -181,7 +208,8 @@
                                                 Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a>
                                             </td>
                                             <td>CitiU</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>                                       
+                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>
+                                           <td>past meetings</td>                                       
                                         </tr>
 
                                         {{!-- {{#if doc_links}} {{#each doc_links}}
@@ -242,7 +270,134 @@
                 </p>
             </div>
         </footer>
-
     </div>
 </div>
+<div id="floor_model" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#estateYoutube').change(function() {
+        var eState = $(this).val()
+        $("#meetingYoutube option").remove();
+        $("#meetingYoutube").append('<option value="">'+'Select Meeting'+'</option>');
+         if(eState){
+            //$("#meetingYoutube").val(eState);
+            $("#meetingYoutube").append('<option value='+eState+'>'+eState+'</option>');
+         }
+    });
+
+    $('#estatePoll').change(function() {
+        var eState = $(this).val()
+        $("#meetingPoll option").remove();
+        $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
+         if(eState){
+            //$("#meetingYoutube").val(eState);
+            $("#meetingPoll").append('<option value='+eState+'>'+eState+'</option>');
+         }
+    });
+
+    $('#meetingPoll').change(function() {
+        console.log('change')
+        var Upbtn = '<button type="button" class="btn btn-info btn-fill pollModel">更新投票結果 | Update Poll</button>'
+        $(".pollModal").html('');
+         $(".pollModal").append(Upbtn);
+    })
+
+    //edit poll model
+    
+    function poll_modal(blockdata){
+            var html = '<div class="modal-content ModelStyle">' +
+                            '<div class="modal-header">' +
+                                '<h4 class="modal-title">更新投票結果 | Update Poll</h4>'+
+                            '</div>' +            
+                                    '<div class="row">'+
+                                    '<h6>投票一 | Poll 1</h6>'+
+                                    '<div class="col-md-6">'+
+                                            '<div class="form-group">'+
+                                                '<label>是 | Yes:</label>'+
+                                                '<input type="text" class="form-control" name="yes" required/>'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label>否 | No:</label>'+
+                                                '<input type="text" class="form-control" name="no" required/>'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label>棄權 | Abstain:</label>'+
+                                                '<input type="text" class="form-control" name="abstain" required/>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '<div>'+    
+                                '</div>'+'</div>'
+                             
+                        html = html  +
+
+                            '<div class="modal-footer">' +
+                             '<button type="button" class="btn ConfirmBtn" id="cancel">確定 | Confirm</button>'+ 
+                            '</div>';
+                        return html;
+        }
+    
+    
+    
+    $(document).on('click','.pollModel',function(event){
+            var modeldata = '';
+            var modelhtml = poll_modal(modeldata);
+                $("#floor_model .modal-dialog").html(modelhtml);
+                $("#floor_model").modal();
+          }) 
+    
+    $(document).on('click','.ConfirmBtn',function(event){
+        $("#floor_model").modal('hide');
+    })
+    //upcoming Meeting
+    $(document).on("click", "#upcomingMeeting", function (event) {
+        $('.tableCtrl tr').remove();
+        $('#upcomingMeeting').css('color', 'Blue');
+        $('#pastMeeting').css('color', 'Black');
+        var html = '<tr>'+
+                        '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
+                        '<td>Sat Nov 25 2017 14:00 | ENDED</td>'+
+                        '<td>Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>HKU</td>'+
+                        '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+ 
+                       '<td>current meetings</td>'+     
+                       '</tr>'+
+                   '<tr>'+
+                        '<td></td>'+
+                        '<td>Sat Nov 25 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>PolyU</td>'+
+                       '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+   
+                       '<td>current meetings</td>'+                                    
+                    '</tr>';
+                       $('.tableCtrl').append(html);
+    })
+    //past Meeting
+    $(document).on("click", "#pastMeeting", function (event) {
+        $('.tableCtrl tr').remove();
+        $('#pastMeeting').css('color', 'Blue');
+        $('#upcomingMeeting').css('color', 'Black');
+        var html = '<tr>'+
+                        '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
+                        '<td>Sat Nov 25 2017 14:00 | ENDED</td>'+
+                        '<td>Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>CUHK</td>'+
+                        '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+  
+                        '<td>past meetings</td>'+                                     
+                    '</tr>'+
+                    '<tr>'+
+                        '<td></td>'+
+                        '<td>Sat Nov 25 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>CitiU</td>'+
+                        '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+
+                        '<td>past meetings</td>'+                                       
+                    '</tr>';
+                        $('.tableCtrl').append(html);
+    })
+})
+</script>
 
