@@ -8,10 +8,13 @@ const dateFormat = require('dateformat');
 const router = express.Router();
 const models = require('../models/models');
 var Busboy = require('busboy');
+var Promise = require('bluebird');
 const _ = require('lodash');
 const busboyBodyParser = require('busboy-body-parser');
 const fs = require('fs');
 var AWS = require('aws-sdk');
+var moment = require("moment");
+
 
 //AWS
 const BucketName = 'telospdf';
@@ -28,19 +31,58 @@ const Estate = models.Estate;
 const Meeting = models.Meeting;
 const Poll = models.Poll
 router.use(busboyBodyParser({multi: true}));
-
+let currentDate = new Date(); 
 router.get('/meetingManagement', (req,res)=> {
-
-    res.render('meeting_management');
-
+  const promiseArr = []
+  var meetings = []
+  Estate.find()
+  .then(function(Estate, err){
+    Meeting.find().populate('polls').lean()
+    .then(function(meeting, err){
+      _.forEach(meeting, function(item){
+        var endTime = moment.utc(new Date(item.endTime));
+        var startTime = moment.utc(new Date(item.startTime));
+        var pollEndTime = moment.utc(new Date(item.pollEndTime));
+        item.startTime =  startTime.format("D/MM/YYYY");
+        if(item.endTime > currentDate || item.currentDate == currentDate) { 
+          item.status = "Current Meeting"
+          item.endTime = endTime.format("D/MM/YYYY")
+        }
+        else{
+          item.endTime = endTime.format("D/MM/YYYY")
+          item.status = "Past Meeting"
+        }
+        if(item.pollEndTime > currentDate || item.pollEndTime == currentDate){
+          item.pollEndTime = pollEndTime.format("D/MM/YYYY")
+          item.pollTime = "Remind"
+        }
+        else{
+          item.pollEndTime = pollEndTime.format("D/MM/YYYY")
+          item.pollTime = "Ended"
+        }
+      })
+      meetings = meeting
+    var groups = _.groupBy(meeting, 'estateName'); 
+      res.render('meeting_management', {meetingsData: meeting, sortedData: groups});
+    })
+  })
 })
 
 router.post('/sendYouTubeLink', (req,res)=>{
-
-
-
-    
-
+  const id = req.body.meetingYoutube
+  Meeting.findOneAndUpdate({
+      _id: id
+    }, {
+      $set: { 
+        youtubelink: req.body.youtubeLink,
+      }
+    },{ 
+      new: true 
+    })
+.then(function(meeting, err){
+  res.redirect('/meetingManagement')
+  if(err) res.send(err);
+})
 })
 
 router.post('/getPolls', (req,res)=>{
@@ -49,11 +91,40 @@ router.post('/getPolls', (req,res)=>{
     
     
 })
-router.post('/updatePolls', (req,res)=>{
-    
-    
-    
+router.get('/updatePolls', (req,res)=>{
+  const promiseArr = []
+  const poll = [
+  {id: "",
+  options: [{choice: 'yes', percentage: '50'}, {choice: 'no', percentage: '60'}, {choice: 'abstain', percentage: '70'}]
+  },
+  {id: "",
+  options: [{choice: 'yes', percentage: '10'}, {choice: 'no', percentage: '10'}, {choice: 'abstain', percentage: '10'}]
+  }
+  ]
+   promiseArr.push(new Promise(function(resolve, reject){
+  _.forEach(poll, function(item) {
+    var options = item.options 
+    var  max = -Infinity
+    var key 
+     options.forEach(function (v, k) { 
+     if (max < +v.percentage) { 
+        max = +v.percentage; 
+        key = k; 
+      }
+      });
+      var finalResult = options[key].choice
+      Poll.findOneAndUpdate({_id: item.id,
+        $set: {
+          results: item.options,
+          finalResult: finalResult
+        }
+      })
+      .then(function(r, err){
+        console.log(r)
+      })
         
+      })
+  }))
 })
 
 router.post('/generateProxyForms', (req,res) => {
@@ -74,4 +145,5 @@ router.post('/meetingReminder', (req,res)=> {
 
 
 })
+
 module.exports = router;

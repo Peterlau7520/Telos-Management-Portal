@@ -66,17 +66,17 @@
                                 <h4 class="title">SEND YOUTUBE LINK</h4>
                             </div>
                             <div class="content">
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="post" enctype="multipart/form-data" action="/sendYouTubeLink">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATES</label>
                                                 <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
-                                                <select class="form-control" id="estateYoutube">
-                                                    <option value="">Select Estates</option>
-                                                    <option value="Estate 1">ESTATE 1</option>
-                                                    <option value="Estate 2">ESTATE 2</option>
-                                                    <option value="Estate 3">ESTATE 3</option>
+                                                <select class="form-control" id="estateYoutube" name="estateYoutube">
+                                                    {{#each sortedData as |value sorted_key|}} {{#if @key}}
+                                                    <option value="{{@key}}">{{@key}}</option>
+                                                    {{/if}}
+                                                    {{/each}}
                                                 </select>   
                                             </div>
                                         </div>
@@ -85,7 +85,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
-                                                <select class="form-control" id="meetingYoutube">
+                                                <select class="form-control" id="meetingYoutube" name="meetingYoutube">
                                                     <option value="">Select Meeting</option>
                                                 </select> 
                                             </div>
@@ -121,10 +121,10 @@
                                                 <label>選擇屋苑 | SELECT ESTATE</label>
                                                 <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
                                                  <select class="form-control" id="estatePoll">
-                                                    <option value="">Select Estates</option>
-                                                    <option value="ESTATE 1">ESTATE 1</option>
-                                                    <option value="ESTATE 2">ESTATE 2</option>
-                                                    <option value="ESTATE 3">ESTATE 3</option>
+                                                 {{#each sortedData as |value sorted_key|}} {{#if @key}}
+                                                    <option value="{{@key}}">{{@key}}</option>
+                                                    {{/if}}
+                                                    {{/each}}
                                                 </select> 
                                             </div>
                                         </div>
@@ -134,7 +134,7 @@
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
                                                  <select class="form-control" id="meetingPoll">
-                                                    <option value="">Select Meeting</option>
+                                                    <option value="">{{title}}</option>
                                                 </select> 
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@
                                     </div>
                                 
                                     <input type="hidden" name="floor_info" id="floor_info"/>
-                                    <button type="submit" class="btn btn-info btn-fill pull-right">SEARCH</button>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">UPLOAD</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -172,62 +172,19 @@
                                         <th></th>
                                     </thead>
                                     <tbody class="tableCtrl">
+                                   {{#each meetingsData as |value meeting_key|}} {{#if @key}}
                                         <tr>
                                             <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a> </td>
-                                            <td>Sat Nov 25 2017 14:00 | ENDED</td>
+                                            <td>{{pollEndTime}} | {{pollTime}}</td>
                                             <td>
-                                             Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a>
+                                             {{startTime}} | <a href="/votingReminder" class="btn btn-danger btn-fill">{{pollTime}}</a>
                                             </td>
-                                            <td>HKU</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td> 
-                                           <td>current meetings</td>                                      
+                                            <td>{{estateName}}</td>
+                                           <td> {{title}} | {{titleChn}}</td> 
+                                           <td>{{status}}</td>                                  
                                         </tr>
-                                                                                <tr>
-                                            <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a>  </td>
-                                            <td>Sat Nov 25 2017 14:00 | ENDED</td>
-                                            <td>
-                                                Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a>
-                                            </td>
-                                            <td>CUHK</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>  
-                                           <td>past meetings</td>                                     
-                                        </tr>
-                                        <tr>
-                                            <td>  </td>
-                                            <td>Sat Nov 25 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>
-                                            <td>
-                                                Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a></td>
-                                            <td>PolyU</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>   
-                                           <td>current meetings</td>                                    
-                                        </tr>
-                                        <tr>
-                                            <td>  </td>
-                                            <td>Sat Nov 25 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>
-                                            <td>
-                                                Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a>
-                                            </td>
-                                            <td>CitiU</td>
-                                           <td> 2017 Annual General Meeting | 2017 週年大會</td>
-                                           <td>past meetings</td>                                       
-                                        </tr>
-
-                                        {{!-- {{#if doc_links}} {{#each doc_links}}
-                                        <tr>
-                                            <td>Post Date/發出日期</td>
-                                            <td>
-                                                <a href='{{this.url}}' class="view-pdf" data-toggle="modal" data-target="#myModal">{{this.fileName}}</a>
-                                            </td>
-                                            <td>Effective Until/有效期至</td>
-                                        </tr>
+                                        {{/if}}
                                         {{/each}}
-                                        {{else}}
-                                        <tr>
-                                            <td colspan="2">
-                                                No Notices Found/沒有已發出通告
-                                            </td>
-                                        </tr>
-                                        {{/if}} --}}
                                     </tbody>
                                 </table>
 
@@ -279,59 +236,72 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
+    console.log({{{stringify sortedData}}})
+    var data = '{{{stringify sortedData}}}'
+    var newdata = JSON.parse(data);
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
+        const meeting = newdata[eState]
         $("#meetingYoutube option").remove();
         $("#meetingYoutube").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
             //$("#meetingYoutube").val(eState);
-            $("#meetingYoutube").append('<option value='+eState+'>'+eState+'</option>');
+             $.each(meeting, function(key,item){  
+                $("#meetingYoutube").append('<option value='+item._id+'>'+item.title+'</option>');
+            })
          }
     });
-
+    var meeting = ''
     $('#estatePoll').change(function() {
         var eState = $(this).val()
+        //eState = JSON.stringify(eState)
+        console.log(eState)
+        console.log(newdata[eState])
+         meeting = newdata[eState]
         $("#meetingPoll option").remove();
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
             //$("#meetingYoutube").val(eState);
-            $("#meetingPoll").append('<option value='+eState+'>'+eState+'</option>');
+            $.each(meeting, function(key,item){  
+                $("#meetingPoll").append('<option value='+key+'>'+item.title+'</option>');
+            })
          }
     });
-
-    $('#meetingPoll').change(function() {
-        console.log('change')
+    var selectedMeeting = ''
+    $('#meetingPoll').change(function(event) {
+        console.log('change', $(this).val(), meeting)
+        const value = $(this).val()
+         selectedMeeting = meeting[value]
         var Upbtn = '<button type="button" class="btn btn-info btn-fill pollModel">更新投票結果 | Update Poll</button>'
         $(".pollModal").html('');
-         $(".pollModal").append(Upbtn);
+         $(".pollModal").append(Upbtn, selectedMeeting);
     })
 
     //edit poll model
     
-    function poll_modal(blockdata){
+    function poll_modal(blockdata, selectedMeeting){
+        console.log(selectedMeeting, "selectedMeeting", blockdata)
             var html = '<div class="modal-content ModelStyle">' +
                             '<div class="modal-header">' +
                                 '<h4 class="modal-title">更新投票結果 | Update Poll</h4>'+
                             '</div>' +            
-                                    '<div class="row">'+
-                                    '<h6>投票一 | Poll 1</h6>'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="row">'
+                                    for(i=0; i< selectedMeeting.polls.length; i++){
+                                        html = html + 
+                                    '<h6>"'+selectedMeeting.polls[i].pollNameChn+'" | "'+selectedMeeting.polls[i].pollName+'"</h6>'+
+                                    '<div class="col-md-6">'
+                                        for(j=0; j< selectedMeeting.polls[i].options.length; j++){
+                                            html = html +
                                             '<div class="form-group">'+
-                                                '<label>是 | Yes:</label>'+
-                                                '<input type="text" class="form-control" name="yes" required/>'+
-                                            '</div>'+
-                                            '<div class="form-group">'+
-                                                '<label>否 | No:</label>'+
-                                                '<input type="text" class="form-control" name="no" required/>'+
-                                            '</div>'+
-                                            '<div class="form-group">'+
-                                                '<label>棄權 | Abstain:</label>'+
-                                                '<input type="text" class="form-control" name="abstain" required/>'+
-                                            '</div>'+
+                                                '<label>是 | "'+selectedMeeting.polls[i].options[j]+'"</label>'+
+                                                '<input type="number" class="form-control" name="'+selectedMeeting.polls[i].options[j]+'" required/>'+
+                                            '</div>'
+                                        }
+                                        html = html +
                                         '</div>'+
                                     '<div>'+    
                                 '</div>'+'</div>'
-                             
+                             }
                         html = html  +
 
                             '<div class="modal-footer">' +
@@ -344,7 +314,7 @@ $(document).ready(function () {
     
     $(document).on('click','.pollModel',function(event){
             var modeldata = '';
-            var modelhtml = poll_modal(modeldata);
+            var modelhtml = poll_modal(modeldata, selectedMeeting);
                 $("#floor_model .modal-dialog").html(modelhtml);
                 $("#floor_model").modal();
           }) 

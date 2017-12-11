@@ -28,7 +28,10 @@ const residentSchema = new Schema({
     unit: String,
     block: String,
     floor: String,
-    owner: Boolean
+    owner: Boolean,
+    HKIDUrl: String,
+    digitalSignature: String,
+    shares: String
 });
 
 //ESTATE
@@ -124,7 +127,9 @@ const meetingSchema = new Schema({
             ref: 'Poll'
         }
     ],
-    active: Boolean
+    active: Boolean,
+    estate:String,
+    youtubelink: String,
 })
 
 

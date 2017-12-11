@@ -15,6 +15,7 @@ var AWS = require('aws-sdk');
 
 //Data models
 const Estate = models.Estate;
+const Resident = models.Resident;
 const Meeting = models.Meeting;
 const Poll = models.Poll
 
@@ -22,4 +23,20 @@ router.get('/accountManagement', (req,res) => {
     res.render('account_management')
 })
 
+router.post('./updateOwnersResults', (req,res) => {
+Resident.findOneAndUpdate({_id: req.body.id},
+ { $set: {
+    name: req.body.name,
+    password: req.body.password,
+    shares: req.body.shares,
+    HKIDUrl: req.body.url,
+    digitalSignature: req.body.digitalSignature
+  }
+}, { 
+      new: true 
+    })
+.then(function(resident, err){
+  res.json({data: resident, message: "Data Updated"})
+})
+})
 module.exports = router;
