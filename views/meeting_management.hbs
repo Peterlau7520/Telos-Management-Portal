@@ -94,7 +94,7 @@
                                       <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label>YOUTUBE LINK</label>
+                                                <label>YouTube 鏈接 | YouTube LINK</label>
                                                 <input type="text" class="form-control" placeholder="YOUTUBE" name="youtubeLink">
                                             </div>
                                         </div>
@@ -102,14 +102,14 @@
                                     <!-- YOUR WORK HERE -->
                                 
                                     <input type="hidden" name="floor_info" id="floor_info"/>
-                                    <button type="submit" class="btn btn-info btn-fill pull-right">SEND</button>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">發送 | Send</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card" style="height: 382px;">
                             <div class="header">
                                 <h4 class="title">UPDATE POLL RESULTS</h4>
                             </div>
@@ -147,8 +147,9 @@
                                         </div>
                                     </div>
                                     <div class ="pollValue" ></div>
+                                    <label>上傳文件 | ADD DOCUMENTS</label><br>
                                     <input type="file" name="file" id="file" />
-                                    <button type="submit" class="btn btn-info btn-fill pull-right">UPLOAD</button>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right" style="margin-top: 22px;">上傳 | Upload</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -171,7 +172,7 @@
                                         <th></th>
                                     </thead>
                                     <tbody class="tableCtrl">
-                                   {{#each meetingsData as |value meeting_key|}} {{#if @key}}
+                                   {{#each upcomingData as |value meeting_key|}} {{#if @key}}
                                         <tr>
                                             <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a> </td>
                                             <td>{{pollEndTime}} | {{pollTime}}</td>
@@ -280,32 +281,35 @@ $(document).ready(function () {
     
     function poll_modal(blockdata, selectedMeeting){
         console.log(selectedMeeting, "selectedMeeting", blockdata)
-            var html = '<div class="modal-content ModelStyle">' +
+            var html = '<div class="modal-content ModelStyle" style="padding: 10px;">' +
                             '<div class="modal-header">' +
                                 '<h4 class="modal-title">更新投票結果 | Update Poll</h4>'+
-                            '</div>' +    
-                                    '<div class="row">' 
+                            '</div>'  
+                                     
                                     for(i=0; i< selectedMeeting.polls.length; i++){
                                         html = html + 
-                                    '<h6>"'+selectedMeeting.polls[i].pollNameChn+'" | "'+selectedMeeting.polls[i].pollName+'"</h6>'+
+                                        '<div class="modal-body">' +
+                                    '<h6>'+selectedMeeting.polls[i].pollNameChn+' | '+selectedMeeting.polls[i].pollName+'</h6>'+
                                     '<div class="poll">' +
-                                    '<input type="hidden" name="id" value="'+selectedMeeting.polls[i]._id+'" >' + '</div>' +
-                                    '<div class="col-md-6">'
+                                    '<input type="hidden" name="id" value='+selectedMeeting.polls[i]._id+' >' + '</div>' 
+                                    
                                         for(j=0; j< selectedMeeting.polls[i].options.length; j++){
                                             html = html +
+                                            '<div class="col-md-12">' +
                                             '<div class="form-group voting_opt">'+
-                                                '<label>是 | '+selectedMeeting.polls[i].options[j]+':</label>'+
-                                                '<input type="number" class="form-control" id="'+selectedMeeting.polls[i].options[j]+'" style="width: 30%; display: inline;" name="option" required/>'+
-                                            '</div>'
+                                                '<label style="margin-right: 25px; width: 120px; float:left; padding-left: 30px; padding-top:5px;">是 | '+selectedMeeting.polls[i].options[j]+':</label>'+
+                                                '<input type="text" class="form-control" style="height:30px; float:left; width:100px; border-radius:0; border:0.5px solid #ccc;" id='+selectedMeeting.polls[i].options[j]+' style="width: 30%; display: inline;" name="option" required/>'+
+                                               ' <div class="fortrail">% </div>'+
+                                            '</div>' + '</div>'
                                         }
                                         html = html +
-                                        '</div>'+
                                     '<div>'+    
                                 '</div>'+'</div>'
                              }
                         html = html  +
-                            '<div class="modal-footer">' +
-                             '<button type="button" class="btn ConfirmBtn" id="cancel">確定 | Confirm</button>'+ 
+                            '<div class="modal-footer" style="border-top: 0px solid; margin-top: 25px;">' +
+                            '<button type="button" class="btn btn btn-info btn-fill CancelBtn" id="cancel1">確定 | Cancel</button>' +
+                             '<button type="button" class="btn btn btn-info btn-fill ConfirmBtn" id="cancel">確定 | Confirm</button>'+ 
                             '</div>';
                         return html;
         }
@@ -320,6 +324,9 @@ $(document).ready(function () {
           }) 
     var options = []
     var poll = []
+    $(document).on('click','.CancelBtn',function(event){
+        $("#floor_model").modal('hide');
+    })
     $(document).on('click','.ConfirmBtn',function(event){
         
         $.each($(".poll :input[name*='id']"), function(data1, key1){
@@ -339,25 +346,24 @@ $(document).ready(function () {
     })
     //upcoming Meeting
     $(document).on("click", "#upcomingMeeting", function (event) {
+        console.log({{{stringify upcomingData}}})
+        const upcomingnewData = '{{{stringify upcomingData}}}'
+        var upcomingData = JSON.parse(upcomingnewData)
+        console.log(upcomingData)
         $('.tableCtrl tr').remove();
         $('#upcomingMeeting').css('color', 'Blue');
         $('#pastMeeting').css('color', 'Black');
-        var html = '<tr>'+
+        var html = '' 
+        for(var i=0; i<upcomingData.length; i++){
+        html = html + '<tr>'+
                         '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
-                        '<td>Sat Nov 25 2017 14:00 | ENDED</td>'+
-                        '<td>Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>HKU</td>'+
-                        '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+ 
-                       '<td>current meetings</td>'+     
-                       '</tr>'+
-                   '<tr>'+
-                        '<td></td>'+
-                        '<td>Sat Nov 25 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>PolyU</td>'+
-                       '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+   
-                       '<td>current meetings</td>'+                                    
-                    '</tr>';
+                        '<td>'+upcomingData[i].pollEndTime+' | '+upcomingData[i].pollTime+'</td>'+
+                        '<td>'+upcomingData[i].startTime+' | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>'+upcomingData[i].estateName+'</td>'+
+                        '<td> '+upcomingData[i].title+'" | "'+upcomingData[i].titleChn+'</td>'+ 
+                       '<td>'+upcomingData[i].status+'</td>'+     
+                       '</tr>';
+                }
                        $('.tableCtrl').append(html);
     })
     //past Meeting
@@ -365,22 +371,19 @@ $(document).ready(function () {
         $('.tableCtrl tr').remove();
         $('#pastMeeting').css('color', 'Blue');
         $('#upcomingMeeting').css('color', 'Black');
-        var html = '<tr>'+
+        const pastnewData = '{{{stringify pastData}}}'
+        var pastData = JSON.parse(pastnewData)
+        var html =''
+        for(var i=0; i<pastData.length; i++){
+        html = html + '<tr>'+
                         '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
-                        '<td>Sat Nov 25 2017 14:00 | ENDED</td>'+
-                        '<td>Fri Dec 01 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>CUHK</td>'+
-                        '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+  
-                        '<td>past meetings</td>'+                                     
-                    '</tr>'+
-                    '<tr>'+
-                        '<td></td>'+
-                        '<td>Sat Nov 25 2017 14:00 | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>Fri Dec 01 2017 14:00 | <a href="/meetingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>CitiU</td>'+
-                        '<td> 2017 Annual General Meeting | 2017 週年大會</td>'+
-                        '<td>past meetings</td>'+                                       
-                    '</tr>';
+                        '<td>'+pastData[i].pollEndTime+' | "'+pastData[i].pollTime+' </td>'+
+                        '<td>'+pastData[i].startTime+' </td>'+
+                        '<td>'+pastData[i].estateName+'</td>'+
+                        '<td> '+pastData[i].title+' | '+pastData[i].titleChn+'</td>'+ 
+                       '<td>'+pastData[i].status+'</td>'+     
+                       '</tr>';
+                }
                         $('.tableCtrl').append(html);
     })
 })

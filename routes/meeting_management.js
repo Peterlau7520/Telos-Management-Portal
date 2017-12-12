@@ -34,24 +34,19 @@ router.use(busboyBodyParser({multi: true}));
 let currentDate = new Date(); 
 router.get('/meetingManagement', (req,res)=> {
   const promiseArr = []
+  const currentMeetings = []
+  const pastMeeting = []
   var meetings = []
   Estate.find()
   .then(function(Estate, err){
-    Meeting.find().populate('polls').lean()
+    Meeting.find().populate('polls').lean().sort({startTime: -1})
     .then(function(meeting, err){
       _.forEach(meeting, function(item){
         var endTime = moment.utc(new Date(item.endTime));
         var startTime = moment.utc(new Date(item.startTime));
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
         item.startTime =  startTime.format("D/MM/YYYY");
-        if(item.endTime > currentDate || item.currentDate == currentDate) { 
-          item.status = "Current Meeting"
-          item.endTime = endTime.format("D/MM/YYYY")
-        }
-        else{
-          item.endTime = endTime.format("D/MM/YYYY")
-          item.status = "Past Meeting"
-        }
+
         if(item.pollEndTime > currentDate || item.pollEndTime == currentDate){
           item.pollEndTime = pollEndTime.format("D/MM/YYYY")
           item.pollTime = "Remind"
@@ -60,10 +55,20 @@ router.get('/meetingManagement', (req,res)=> {
           item.pollEndTime = pollEndTime.format("D/MM/YYYY")
           item.pollTime = "Ended"
         }
+        if(item.endTime > currentDate || item.currentDate == currentDate) { 
+          item.status = "Current Meeting"
+          item.endTime = endTime.format("D/MM/YYYY")
+          currentMeetings.push(item)
+        }
+        else{
+          item.endTime = endTime.format("D/MM/YYYY")
+          item.status = "Past Meeting"
+          pastMeeting.push(item)
+        }
       })
       meetings = meeting
     var groups = _.groupBy(meeting, 'estateName'); 
-      res.render('meeting_management', {meetingsData: meeting, sortedData: groups});
+      res.render('meeting_management', {upcomingData: currentMeetings, pastData:pastMeeting ,sortedData: groups});
     })
   })
 })
@@ -155,7 +160,8 @@ router.post('/updatePolls', (req,res)=>{
       Poll.findOneAndUpdate({
       _id: item.id
     }, {
-              $set: {
+        $set: {
+          pollReport: fileLinks,
           results: item.options,
           finalResult: finalResult
         }

@@ -95,7 +95,8 @@ const pollSchema = new Schema({
     ],
     finalResult: String,
     results: [{choice: String, percentage: Number}],
-    votes: Array
+    votes: Array,
+    pollReport: Array
 });
 
 //NOTICE

@@ -28,7 +28,7 @@ router.post('/searchUser', (req, res) => {
   var query = []
    query['$or']=[];
     query["$or"].push()
-  Resident.find({estateName: {$regex: req.body.estateName, $options: 'i'}})
+  Resident.find({account: req.body.estateName})
   .then(function(data){
     res.render('account_management', {searchResult: data})
     console.log(data)

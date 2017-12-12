@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="col-md-7">
-                        <div class="card">
+                        <div class="card" style="height: 298px;">
                             <div class="header">
                                 <h4 class="title">住戶信息 | OWNER’S INFORMATION</h4>
                             </div>
@@ -95,44 +95,43 @@
                             <div class="content">
                                 <form method="post" enctype="multipart/form-data" action="/updateOwnersResults">
                                     <div class="row">
-                                        <div class="col-md-8">
-                                        <div class = "button-save" id="btn_{{resident_key}}"></div>
-                                            <div class="form-group">
-                                                <label>NAME</label>
-                                                <input type="hidden" name="id" value={{_id}} >
-                                                 <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Name" name="name" value={{name}} disabled="true"> 
-                                            </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class = " button-save pull-right" id="btn_{{resident_key}}"></div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label>Password</label>
-                                                <input type="password" id={{resident_key}} class="form-control hide-input" placeholder="password" name="password" value={{password}} disabled="true"> 
+                                    </div>    
+                                        <div class="row">    
+                                             <div class="col-lg-4 col-md-4">    
+                                                    <div class="form-group">
+                                                        <label>NAME</label>
+                                                        <input type="hidden" name="id" value={{_id}} >
+                                                         <input type="text" id={{resident_key}}  class="form-control hide-input" placeholder="Name" name="name" value={{name}} disabled="true"> 
+                                                    </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                            
+                                            <div class="col-lg-8 col-md-8">
+                                                <div class="form-group" >
+                                                    <label>Password</label>
+                                                    <input type="password" id={{resident_key}}  class="form-control hide-input" placeholder="password" name="password" value={{password}} disabled="true"> 
+                                                </div>
+                                            </div>
+                                     </div>
                                     <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="form-group" >
                                                 <label>Shares</label>
                                                 <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Shares" name="shares" value={{shares}} disabled="true"> 
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="form-group" >
                                                 <label>HKID URL</label>
                                                 <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="HKID Url" name="hkidUrl" disabled="true" value={{HKIDUrl}} > 
                                             </div>
                                         </div>
-                                    </div>
-                                                   <div class="row">
-                                        <div class="col-md-8">
+                                        <div class="col-lg-6 col-lg-6">
                                             <div class="form-group">
                                                 <label>DIGITAL SIGNATURE URL</label>
-                                                 htt<input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Digital Signature Url" name="digitalSignatureUrl" disabled="true" value={{digitalSignature}} > 
+                                                 <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Digital Signature Url" name="digitalSignatureUrl" disabled="true" value={{digitalSignature}} > 
                                             </div>
                                         </div>
                                     </div>
@@ -144,10 +143,6 @@
                             </div>
                             {{/each}}
                             {{/if}}
-                            {{#else}}
-                            <div> No Results found </div>
-                            {{/else}}
-
                         </div>
                     </div>
                     
