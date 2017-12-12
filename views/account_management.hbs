@@ -60,13 +60,13 @@
         <div class="content" style="padding-bottom:0; min-height:800px">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">SEARCH USER</h4>
                             </div>
                             <div class="content">
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="post" enctype="multipart/form-data" action="/searchUser">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
@@ -85,19 +85,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">SEARCH RESULTS</h4>
+                                <h4 class="title">住戶信息 | OWNER’S INFORMATION</h4>
                             </div>
+                            {{#if searchResult}}
+                            {{#each searchResult as |value resident_key|}} 
                             <div class="content">
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="post" enctype="multipart/form-data" action="/updateOwnersResults">
                                     <div class="row">
                                         <div class="col-md-8">
+                                        <div class = "button-save" id="btn_{{resident_key}}"></div>
                                             <div class="form-group">
                                                 <label>NAME</label>
-                                                <p> Peter Lau</p>
-                                                {{!-- <input type="text" class="form-control" placeholder="Title" name="estateName"> --}}
+                                                <input type="hidden" name="id" value={{_id}} >
+                                                 <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Name" name="name" value={{name}} disabled="true"> 
                                             </div>
                                         </div>
                                     </div>
@@ -105,17 +108,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>Password</label>
-                                                 peterlauyo1
-                                                {{!-- <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle"> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label>Estate</label>
-                                                 HKU
-                                                {{!-- <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle"> --}}
+                                                <input type="password" id={{resident_key}} class="form-control hide-input" placeholder="password" name="password" value={{password}} disabled="true"> 
                                             </div>
                                         </div>
                                     </div>
@@ -123,17 +116,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>Shares</label>
-                                                 2%
-                                                {{!-- <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle"> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label>Password</label>
-                                                 peterlauyo1
-                                                {{!-- <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle"> --}}
+                                                <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Shares" name="shares" value={{shares}} disabled="true"> 
                                             </div>
                                         </div>
                                     </div>
@@ -141,8 +124,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>HKID URL</label>
-                                                 https://aws.amazon.com/s3/
-                                                {{!-- <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle"> --}}
+                                                <input type="text" id={{resident_key}} class="form-control hide-input" placeholder="HKID Url" name="hkidUrl" disabled="true" value={{HKIDUrl}} > 
                                             </div>
                                         </div>
                                     </div>
@@ -150,18 +132,22 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>DIGITAL SIGNATURE URL</label>
-                                                 https://aws.amazon.com/s3/
-                                                {{!-- <input type="text" class="form-control" placeholder="Title Chinese" name="meetingTitle"> --}}
+                                                 htt<input type="text" id={{resident_key}} class="form-control hide-input" placeholder="Digital Signature Url" name="digitalSignatureUrl" disabled="true" value={{digitalSignature}} > 
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- YOUR WORK HERE -->
                                 
                                     <input type="hidden" name="floor_info" id="floor_info"/>
-                                    <button type="submit" class="btn btn-danger btn-fill pull-right">EDIT</button>
+                                    <button type="button" class="btn btn-danger btn-fill pull-right edit-button" id={{resident_key}}>EDIT</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
+                            {{/each}}
+                            {{/if}}
+                            {{#else}}
+                            <div> No Results found </div>
+                            {{/else}}
+
                         </div>
                     </div>
                     
@@ -204,4 +190,15 @@
 
     </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('.edit-button').click(function(event) {
+        console.log(event.target.id)
+        $(`input[id=${event.target.id}]`).prop('disabled', false);
+        $(`input[id=${event.target.id}]`).removeClass('hide-input');
+        $(`#btn_${event.target.id}`).append(`<button type="submit" class="btn btn-danger btn-fill pull-right" name="save" id=${event.target.id}>編輯住戶 | Edit Owner</button>`)
+         console.log(event.target.id)
+    })
+})
 
+</script>

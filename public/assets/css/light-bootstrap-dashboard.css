@@ -2815,3 +2815,7 @@ body > .navbar-collapse {
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     -webkit-overflow-scrolling: touch; } }
+
+.hide-input{
+  border: 0px solid;
+}

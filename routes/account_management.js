@@ -23,20 +23,35 @@ router.get('/accountManagement', (req,res) => {
     res.render('account_management')
 })
 
-router.post('./updateOwnersResults', (req,res) => {
+router.post('/searchUser', (req, res) => {
+  console.log(req.body, "user")
+  var query = []
+   query['$or']=[];
+    query["$or"].push()
+  Resident.find({estateName: {$regex: req.body.estateName, $options: 'i'}})
+  .then(function(data){
+    res.render('account_management', {searchResult: data})
+    console.log(data)
+  })
+  //{ $regex: term, $options: 'i'}
+})
+router.post('/updateOwnersResults', (req,res) => {
+  console.log(req.body)
 Resident.findOneAndUpdate({_id: req.body.id},
  { $set: {
     name: req.body.name,
     password: req.body.password,
     shares: req.body.shares,
-    HKIDUrl: req.body.url,
-    digitalSignature: req.body.digitalSignature
+    HKIDUrl: req.body.hkidUrl,
+    digitalSignature: req.body.digitalSignatureUrl
   }
 }, { 
       new: true 
     })
 .then(function(resident, err){
-  res.json({data: resident, message: "Data Updated"})
+  res.render('account_management')
+  console.log(resident)
+  //res.json({data: resident, message: "Data Updated"})
 })
 })
 module.exports = router;

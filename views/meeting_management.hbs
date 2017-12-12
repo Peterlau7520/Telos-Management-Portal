@@ -114,13 +114,12 @@
                                 <h4 class="title">UPDATE POLL RESULTS</h4>
                             </div>
                             <div class="content">
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="post" enctype="multipart/form-data" action="/updatePolls">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATE</label>
-                                                <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
-                                                 <select class="form-control" id="estatePoll">
+                                                 <select class="form-control" id="estatePoll" name="estatePoll">
                                                  {{#each sortedData as |value sorted_key|}} {{#if @key}}
                                                     <option value="{{@key}}">{{@key}}</option>
                                                     {{/if}}
@@ -133,7 +132,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
-                                                 <select class="form-control" id="meetingPoll">
+                                                 <select class="form-control" id="meetingPoll" name="meetingPoll">
                                                     <option value="">{{title}}</option>
                                                 </select> 
                                             </div>
@@ -147,8 +146,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                
-                                    <input type="hidden" name="floor_info" id="floor_info"/>
+                                    <div class ="pollValue" ></div>
+                                    <input type="file" name="file" id="file" />
                                     <button type="submit" class="btn btn-info btn-fill pull-right">UPLOAD</button>
                                     <div class="clearfix"></div>
                                 </form>
@@ -284,17 +283,19 @@ $(document).ready(function () {
             var html = '<div class="modal-content ModelStyle">' +
                             '<div class="modal-header">' +
                                 '<h4 class="modal-title">更新投票結果 | Update Poll</h4>'+
-                            '</div>' +            
-                                    '<div class="row">'
+                            '</div>' +    
+                                    '<div class="row">' 
                                     for(i=0; i< selectedMeeting.polls.length; i++){
                                         html = html + 
                                     '<h6>"'+selectedMeeting.polls[i].pollNameChn+'" | "'+selectedMeeting.polls[i].pollName+'"</h6>'+
+                                    '<div class="poll">' +
+                                    '<input type="hidden" name="id" value="'+selectedMeeting.polls[i]._id+'" >' + '</div>' +
                                     '<div class="col-md-6">'
                                         for(j=0; j< selectedMeeting.polls[i].options.length; j++){
                                             html = html +
-                                            '<div class="form-group">'+
-                                                '<label>是 | "'+selectedMeeting.polls[i].options[j]+'"</label>'+
-                                                '<input type="number" class="form-control" name="'+selectedMeeting.polls[i].options[j]+'" required/>'+
+                                            '<div class="form-group voting_opt">'+
+                                                '<label>是 | '+selectedMeeting.polls[i].options[j]+':</label>'+
+                                                '<input type="number" class="form-control" id="'+selectedMeeting.polls[i].options[j]+'" style="width: 30%; display: inline;" name="option" required/>'+
                                             '</div>'
                                         }
                                         html = html +
@@ -303,7 +304,6 @@ $(document).ready(function () {
                                 '</div>'+'</div>'
                              }
                         html = html  +
-
                             '<div class="modal-footer">' +
                              '<button type="button" class="btn ConfirmBtn" id="cancel">確定 | Confirm</button>'+ 
                             '</div>';
@@ -318,9 +318,24 @@ $(document).ready(function () {
                 $("#floor_model .modal-dialog").html(modelhtml);
                 $("#floor_model").modal();
           }) 
-    
+    var options = []
+    var poll = []
     $(document).on('click','.ConfirmBtn',function(event){
-        $("#floor_model").modal('hide');
+        
+        $.each($(".poll :input[name*='id']"), function(data1, key1){
+            var id = $(this).val()
+            console.log(id)
+         $.each($(".voting_opt :input[name*='option']"), function(data, key){    
+            options.push({choice: $(this).attr('id') , percentage: $(this).val()})
+                       //$("#meetingPoll").append('<option value='+key+'>'+item.title+'</option>');
+         })
+         poll.push({id: id, options: options})
+        })
+        poll = JSON.stringify(poll)
+        var html = `<input type="hidden" name="polls" value=${poll} />` 
+          $('.pollValue').append(html)
+            console.log(poll, "poll")
+            $("#floor_model").modal('hide');
     })
     //upcoming Meeting
     $(document).on("click", "#upcomingMeeting", function (event) {

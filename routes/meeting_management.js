@@ -91,16 +91,55 @@ router.post('/getPolls', (req,res)=>{
     
     
 })
-router.get('/updatePolls', (req,res)=>{
+router.post('/updatePolls', (req,res)=>{
+  console.log(req.body, req.files)
   const promiseArr = []
-  const poll = [
-  {id: "",
-  options: [{choice: 'yes', percentage: '50'}, {choice: 'no', percentage: '60'}, {choice: 'abstain', percentage: '70'}]
-  },
-  {id: "",
-  options: [{choice: 'yes', percentage: '10'}, {choice: 'no', percentage: '10'}, {choice: 'abstain', percentage: '10'}]
-  }
-  ]
+  const fileLinks=[]
+  // const poll = [
+  // {id: "",
+  // options: [{choice: 'yes', percentage: '50'}, {choice: 'no', percentage: '60'}, {choice: 'abstain', percentage: '70'}]
+  // },
+  // {id: "",
+  // options: [{choice: 'yes', percentage: '10'}, {choice: 'no', percentage: '10'}, {choice: 'abstain', percentage: '10'}]
+  // }
+  // ]
+  if(req.files && req.files.file) {
+        var files = req.files.file
+        for (var i = 0; i < files.length; i++) {
+            var info = files[i].data;
+            var name = files[i].name.replace(/ /g,'');
+            //meeting.fileLinks.push(name);
+            fileLinks.push(name)
+                var data = {
+                Bucket: BucketName,
+                Key: `${req.user.estateName.replace(/ /g,'')}/Polls/${name}`,
+                Body: info,
+                ContentType: 'application/pdf',
+                ContentDisposition: 'inline',
+                ACL: "public-read"
+            }; // req.user.estateName
+            bucket.putObject(data, function (err, data) {
+                if (err) {
+                    console.log('Error uploading data: ', err);
+                } else {
+                    console.log('succesfully uploaded the pdf!');
+                    updatePolls(req, res, fileLinks)
+                      /*bucket.deleteObject({
+                      Bucket: BucketName,
+                      Key: req.body.fileLinks[0].url
+                    }, function(err, filed){
+                        console.log(filed)
+                    })*/
+                }
+            });
+        }
+    }
+    else{
+      updatePolls(req, res, fileLinks)
+    }
+    function updatePolls(req, res, fileLinks){
+      console.log("hh")
+      const poll = JSON.parse(req.body.polls)
    promiseArr.push(new Promise(function(resolve, reject){
   _.forEach(poll, function(item) {
     var options = item.options 
@@ -113,18 +152,23 @@ router.get('/updatePolls', (req,res)=>{
       }
       });
       var finalResult = options[key].choice
-      Poll.findOneAndUpdate({_id: item.id,
-        $set: {
+      Poll.findOneAndUpdate({
+      _id: item.id
+    }, {
+              $set: {
           results: item.options,
           finalResult: finalResult
         }
-      })
+    },{ 
+      new: true 
+    })
       .then(function(r, err){
         console.log(r)
       })
         
       })
   }))
+ }
 })
 
 router.post('/generateProxyForms', (req,res) => {
