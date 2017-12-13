@@ -74,9 +74,8 @@
                                                 <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
                                                 <select class="form-control" id="estateYoutube" name="estateYoutube">
                                                     <option value="" selected hidden>Select Estate</option>
-                                                    {{#each sortedData as |value sorted_key|}} {{#if @key}}
-                                                    <option value="{{@key}}">{{@key}}</option>
-                                                    {{/if}}
+                                                    {{#each Estate as |value estate_key|}}
+                                                    <option value="{{estate_key}}">{{estateName}}</option>
                                                     {{/each}}
                                                 </select>   
                                             </div>
@@ -122,9 +121,8 @@
                                                 <label>選擇屋苑 | SELECT ESTATE</label>
                                                  <select class="form-control" id="estatePoll" name="estatePoll">
                                                  <option value="" selected hidden>Select Estate</option>
-                                                 {{#each sortedData as |value sorted_key|}} {{#if @key}}
-                                                    <option  value="{{@key}}">{{@key}}</option>
-                                                    {{/if}}
+                                                 {{#each Estate as |value estate_key|}}
+                                                    <option value="{{estate_key}}">{{estateName}}</option>
                                                     {{/each}}
                                                 </select> 
                                             </div>
@@ -150,7 +148,11 @@
                                     </div>
                                     <div class ="pollValue" ></div>
                                     <label>上傳文件 | ADD DOCUMENTS</label><br>
-                                    <input type="file" name="file" id="file" />
+                                    <label class="uploadbutton">
+                                    <div class="button">Choose file</div>
+                                    <div class='input-file-text'>No File Chosen</div>
+                                    <input class="input-file" type="file" />
+                                    </label>
                                     <button type="submit" class="btn btn-info btn-fill pull-right" style="margin-top: 22px;">上傳 | Upload</button>
                                     <div class="clearfix"></div>
                                 </form>
@@ -238,12 +240,12 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    console.log({{{stringify sortedData}}})
-    var data = '{{{stringify sortedData}}}'
+    console.log({{{stringify Estate}}})
+    var data = '{{{stringify Estate}}}'
     var newdata = JSON.parse(data);
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
-        const meeting = newdata[eState]
+        const meeting = newdata[eState].currentMeetings
         $("#meetingYoutube option").remove();
         $("#meetingYoutube").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
@@ -258,8 +260,8 @@ $(document).ready(function () {
         var eState = $(this).val()
         //eState = JSON.stringify(eState)
         console.log(eState)
-        console.log(newdata[eState])
-         meeting = newdata[eState]
+        console.log(newdata[eState].currentMeetings)
+         meeting = newdata[eState].currentMeetings
         $("#meetingPoll option").remove();
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
@@ -274,6 +276,7 @@ $(document).ready(function () {
         console.log('change', $(this).val(), meeting)
         const value = $(this).val()
          selectedMeeting = meeting[value]
+         console.log(selectedMeeting, "selectedMeeting")
         var Upbtn = '<button type="button" class="btn btn-info btn-fill pollModel">更新投票結果 | Update Poll</button>'
         $(".pollModal").html('');
          $(".pollModal").append(Upbtn, selectedMeeting);

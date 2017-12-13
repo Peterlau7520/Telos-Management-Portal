@@ -2837,3 +2837,34 @@ body > .navbar-collapse {
   float:left;
   cursor:pointer
 }
+  .uploadbutton {
+    height: 30px;
+    margin-top: 25px;
+    margin-left: 25px;
+    display: inline-block;
+    /*overflow: hidden;*/
+    cursor: pointer;
+}
+.uploadbutton .input-file {
+  opacity: 0;   
+}
+.uploadbutton .button {
+    width: 170px;
+    line-height: 22px;
+    height: 24px;
+    text-align: center;
+    background: #fff;
+    font-size: 13px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+    color: #333;
+    display: inline-block;
+    font-weight: normal;
+    margin-right: 25px;
+}
+.uploadbutton .input-file-text {
+    width: 150px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal;
+}

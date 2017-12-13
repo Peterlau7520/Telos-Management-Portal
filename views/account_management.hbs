@@ -191,6 +191,7 @@ $(document).ready(function () {
         console.log(event.target.id)
         $(`input[id=${event.target.id}]`).prop('disabled', false);
         $(`input[id=${event.target.id}]`).removeClass('hide-input');
+        $(`#btn_${event.target.id}`).html('')
         $(`#btn_${event.target.id}`).append(`<button type="submit" class="btn btn-danger btn-fill pull-right" name="save" id=${event.target.id}>編輯住戶 | Edit Owner</button>`)
          console.log(event.target.id)
     })

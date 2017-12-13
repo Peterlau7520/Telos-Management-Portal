@@ -37,16 +37,20 @@ router.get('/meetingManagement', (req,res)=> {
   const currentMeetings = []
   const pastMeeting = []
   var meetings = []
-  Estate.find()
+  Estate.find().populate('currentMeetings', 'polls').populate('pastMeetings')
   .then(function(Estate, err){
+    console.log(Estate, "estate")
     Meeting.find().populate('polls').lean().sort({startTime: -1})
     .then(function(meeting, err){
       _.forEach(meeting, function(item){
         var endTime = moment.utc(new Date(item.endTime));
-        var startTime = moment.utc(new Date(item.startTime));
+         var startTime = moment.utc(new Date(item.startTime));
+        item.startTime =  startTime.format("DD/MM/YYYY");
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
         item.startTime =  startTime.format("D/MM/YYYY");
+        console.log(item, "item.pollEndTime")
         if(item.pollEndTime > currentDate || item.pollEndTime == currentDate){
+
           item.pollEndTime = pollEndTime.format("D/MM/YYYY")
           item.pollTime = "Remind"
         }
@@ -54,7 +58,7 @@ router.get('/meetingManagement', (req,res)=> {
           item.pollEndTime = pollEndTime.format("D/MM/YYYY")
           item.pollTime = "Ended"
         }
-        if(item.endTime > currentDate || item.currentDate == currentDate) { 
+        if(Date.parse(new Date(item.endTime)) > Date.parse(new Date)){
           item.status = "Current Meeting"
           item.endTime = endTime.format("D/MM/YYYY")
           currentMeetings.push(item)
@@ -65,9 +69,7 @@ router.get('/meetingManagement', (req,res)=> {
           pastMeeting.push(item)
         }
       })
-      meetings = meeting
-    var groups = _.groupBy(meeting, 'estateName'); 
-      res.render('meeting_management', {upcomingData: currentMeetings, pastData:pastMeeting ,sortedData: groups});
+      res.render('meeting_management', {upcomingData: currentMeetings, pastData:pastMeeting ,Estate: Estate});
     })
   })
 })
