@@ -37,9 +37,12 @@ router.get('/meetingManagement', (req,res)=> {
   const currentMeetings = []
   const pastMeeting = []
   var meetings = []
-  Estate.find().populate('currentMeetings', 'polls').populate('pastMeetings')
-  .then(function(Estate, err){
-    console.log(Estate, "estate")
+  Estate.find().populate({path: 'currentMeetings',
+                  model: 'Meeting',
+                  populate:[{
+                    path: 'polls',
+                    model: 'Poll'}]}).populate('pastMeetings')
+  .then(function(estate, err){
     Meeting.find().populate('polls').lean().sort({startTime: -1})
     .then(function(meeting, err){
       _.forEach(meeting, function(item){
@@ -48,7 +51,6 @@ router.get('/meetingManagement', (req,res)=> {
         item.startTime =  startTime.format("DD/MM/YYYY");
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
         item.startTime =  startTime.format("D/MM/YYYY");
-        console.log(item, "item.pollEndTime")
         if(item.pollEndTime > currentDate || item.pollEndTime == currentDate){
 
           item.pollEndTime = pollEndTime.format("D/MM/YYYY")
@@ -69,7 +71,7 @@ router.get('/meetingManagement', (req,res)=> {
           pastMeeting.push(item)
         }
       })
-      res.render('meeting_management', {upcomingData: currentMeetings, pastData:pastMeeting ,Estate: Estate});
+      res.render('meeting_management', {upcomingData: currentMeetings, pastData:pastMeeting ,Estate: estate});
     })
   })
 })
