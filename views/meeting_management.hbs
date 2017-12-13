@@ -71,7 +71,6 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATES</label>
-                                                <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
                                                 <select class="form-control" id="estateYoutube" name="estateYoutube">
                                                     <option value="" selected hidden>Select Estate</option>
                                                     {{#each Estate as |value estate_key|}}
@@ -153,7 +152,8 @@
                                     <div class='input-file-text'>No File Chosen</div>
                                     <input class="input-file" type="file" />
                                     </div>
-                                    <button type="submit" class="btn btn-info btn-fill pull-right" style="margin-top: 5px;">上傳 | Upload</button>
+                                    <div class="row">
+                                    <button type="submit" class="btn btn-info btn-fill btnupload pull-right" >上傳 | Upload</button></div>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -240,7 +240,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    console.log({{{stringify upcomingData}}})
+    console.log({{{stringify Estate}}})
     var data = '{{{stringify Estate}}}'
     var newdata = JSON.parse(data);
     $('#estateYoutube').change(function() {
@@ -277,7 +277,7 @@ $(document).ready(function () {
         const value = $(this).val()
          selectedMeeting = meeting[value]
          console.log(selectedMeeting, "selectedMeeting")
-        var Upbtn = '<button type="button" class="btn btn-info btn-fill pollModel">更新投票結果 | Update Poll</button>'
+        var Upbtn = '<button type="button" class="btn btn-info  btn-fill pollModel">更新投票結果 | Update Poll</button>'
         $(".pollModal").html('');
          $(".pollModal").append(Upbtn, selectedMeeting);
     })

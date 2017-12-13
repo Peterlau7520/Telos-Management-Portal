@@ -116,7 +116,9 @@ h1 .subtitle {
 
 .text-danger, .text-danger:hover {
   color: #FF4A55 !important; }
-
+.btnUpload{
+    margin-top: 5px !important;
+  }
 /*     General overwrite     */
 .fortrail {
   width: 20px;
@@ -2810,7 +2812,9 @@ body > .navbar-collapse {
 
   .table-responsive {
     overflow: visible; }
-
+  .btnUpload{
+    margin-top: -13px !important;
+  }
   .navbar-nav p {
     line-height: normal;
     margin: 0; } }
@@ -2826,6 +2830,7 @@ body > .navbar-collapse {
 .hide-input{
   border: 0px solid;
 }
+
 .div-input{
    padding:5px 10px;
   background:#00ad2d;
@@ -2848,6 +2853,9 @@ body > .navbar-collapse {
 .uploadbutton .input-file {
   opacity: 0;   
 }
+.btnupload{
+    margin-top: -2%;
+    }
 .uploadbutton .button {
     width: 170px;
     line-height: 22px;
@@ -2868,3 +2876,9 @@ body > .navbar-collapse {
     font-size: 13px;
     font-weight: normal;
 }
+@media screen and (max-width:991px ){
+    .btnupload{
+    position: absolute;
+    margin-top: -16px;
+    margin-left: -10%;
+    }
