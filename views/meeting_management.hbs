@@ -147,13 +147,13 @@
                                         </div>
                                     </div>
                                     <div class ="pollValue" ></div>
-                                    <label>上傳文件 | ADD DOCUMENTS</label><br>
-                                    <label class="uploadbutton">
+                                    <label style="margin-bottom: -3px;">上傳文件 | ADD DOCUMENTS</label>
+                                    <div class="uploadbutton">
                                     <div class="button">Choose file</div>
                                     <div class='input-file-text'>No File Chosen</div>
                                     <input class="input-file" type="file" />
-                                    </label>
-                                    <button type="submit" class="btn btn-info btn-fill pull-right" style="margin-top: 22px;">上傳 | Upload</button>
+                                    </div>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right" style="margin-top: 5px;">上傳 | Upload</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -183,7 +183,7 @@
                                             <td>
                                              {{startTime}} | <a href="/votingReminder" class="btn btn-danger btn-fill">{{pollTime}}</a>
                                             </td>
-                                            <td>{{estateName}}</td>
+                                            <td>{{estate}}</td>
                                            <td> {{title}} | {{titleChn}}</td> 
                                            <td>{{status}}</td>                                  
                                         </tr>
@@ -240,7 +240,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    console.log({{{stringify Estate}}})
+    console.log({{{stringify upcomingData}}})
     var data = '{{{stringify Estate}}}'
     var newdata = JSON.parse(data);
     $('#estateYoutube').change(function() {
@@ -288,9 +288,8 @@ $(document).ready(function () {
         console.log(selectedMeeting, "selectedMeeting", blockdata)
             var html = '<div class="modal-content ModelStyle" style="padding: 10px;">' +
                             '<div class="modal-header">' +
-                                '<h4 class="modal-title">更新投票結果 | Update Poll</h4>'+
+                                '<h4 class="modal-title">更新投票結果 | Update Poll Results</h4>'+
                             '</div>'  
-                                     
                                     for(i=0; i< selectedMeeting.polls.length; i++){
                                         html = html + 
                                         '<div class="modal-body">' +
@@ -364,7 +363,7 @@ $(document).ready(function () {
                         '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
                         '<td>'+upcomingData[i].pollEndTime+' | '+upcomingData[i].pollTime+'</td>'+
                         '<td>'+upcomingData[i].startTime+' | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
-                        '<td>'+upcomingData[i].estateName+'</td>'+
+                        '<td>'+upcomingData[i].estate+'</td>'+
                         '<td> '+upcomingData[i].title+'" | "'+upcomingData[i].titleChn+'</td>'+ 
                        '<td>'+upcomingData[i].status+'</td>'+     
                        '</tr>';
@@ -384,7 +383,7 @@ $(document).ready(function () {
                         '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
                         '<td>'+pastData[i].pollEndTime+' | "'+pastData[i].pollTime+' </td>'+
                         '<td>'+pastData[i].startTime+' </td>'+
-                        '<td>'+pastData[i].estateName+'</td>'+
+                        '<td>'+pastData[i].estate+'</td>'+
                         '<td> '+pastData[i].title+' | '+pastData[i].titleChn+'</td>'+ 
                        '<td>'+pastData[i].status+'</td>'+     
                        '</tr>';
