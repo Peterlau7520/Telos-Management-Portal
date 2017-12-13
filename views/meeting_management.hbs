@@ -176,7 +176,7 @@
                                         <th></th>
                                     </thead>
                                     <tbody class="tableCtrl">
-                                   {{#each upcomingData as |value meeting_key|}} {{#if @key}}
+                                   {{#each upcomingData as |value meeting_key|}}
                                         <tr>
                                             <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a> </td>
                                             <td>{{pollEndTime}} | {{pollTime}}</td>
@@ -187,7 +187,6 @@
                                            <td> {{title}} | {{titleChn}}</td> 
                                            <td>{{status}}</td>                                  
                                         </tr>
-                                        {{/if}}
                                         {{/each}}
                                     </tbody>
                                 </table>
