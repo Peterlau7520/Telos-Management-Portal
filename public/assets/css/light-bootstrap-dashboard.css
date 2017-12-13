@@ -2842,6 +2842,16 @@ body > .navbar-collapse {
   float:left;
   cursor:pointer
 }
+#fileValue::-webkit-file-upload-button{
+    color: #000; 
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 3px 50px;
+    border: 1px solid #c2c2c2;
+    opacity: 0.8;
+    border-radius: 4px;
+}
+
   .uploadbutton {
     height: 30px;
     margin-top: 13px;
