@@ -31,7 +31,7 @@ const Estate = models.Estate;
 const Meeting = models.Meeting;
 const Poll = models.Poll
 router.use(busboyBodyParser({multi: true}));
-let currentDate = new Date(); 
+let currentDate = moment.utc(new Date()); 
 router.get('/meetingManagement', (req,res)=> {
   const promiseArr = []
   const currentMeetings = []
@@ -46,7 +46,6 @@ router.get('/meetingManagement', (req,res)=> {
         var startTime = moment.utc(new Date(item.startTime));
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
         item.startTime =  startTime.format("D/MM/YYYY");
-
         if(item.pollEndTime > currentDate || item.pollEndTime == currentDate){
           item.pollEndTime = pollEndTime.format("D/MM/YYYY")
           item.pollTime = "Remind"

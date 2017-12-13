@@ -73,6 +73,7 @@
                                                 <label>選擇屋苑 | SELECT ESTATES</label>
                                                 <!--<input type="text" class="form-control" placeholder="Title" name="estateName">-->
                                                 <select class="form-control" id="estateYoutube" name="estateYoutube">
+                                                    <option value="" selected hidden>Select Estate</option>
                                                     {{#each sortedData as |value sorted_key|}} {{#if @key}}
                                                     <option value="{{@key}}">{{@key}}</option>
                                                     {{/if}}
@@ -120,8 +121,9 @@
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATE</label>
                                                  <select class="form-control" id="estatePoll" name="estatePoll">
+                                                 <option value="" selected hidden>Select Estate</option>
                                                  {{#each sortedData as |value sorted_key|}} {{#if @key}}
-                                                    <option value="{{@key}}">{{@key}}</option>
+                                                    <option  value="{{@key}}">{{@key}}</option>
                                                     {{/if}}
                                                     {{/each}}
                                                 </select> 
