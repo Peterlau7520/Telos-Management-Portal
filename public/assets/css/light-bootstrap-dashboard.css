@@ -2886,9 +2886,3 @@ body > .navbar-collapse {
     font-size: 13px;
     font-weight: normal;
 }
-@media screen and (max-width:991px ){
-    .btnupload{
-    position: absolute;
-    margin-top: -16px;
-    margin-left: -10%;
-    }

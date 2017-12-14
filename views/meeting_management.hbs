@@ -3,7 +3,7 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="/" class="simple-text">
+                <a href="/login" class="simple-text">
                     Telos Management Portal
                 </a>
                 <a href="/" class="simple-text">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card" style="height: 382px;">
+                        <div class="card" style="height: 450px;">
                             <div class="header">
                                 <h4 class="title">UPDATE POLL RESULTS</h4>
                             </div>
@@ -145,15 +145,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class ="pollValue" ></div>                                  
+                                    <div class="row">
+                                        <div class ="pollValue" ></div> 
+                                    </div>
+                                    <div class="row">                             
                                     <div class="form-group upload-btn-wrapper">
                                         <label>Agenda | 議程</label>
                                         <div class="documents_wrapper1">
                                             <input type="file" name="file" accept="application/pdf" style="border-radius: 4px;" id="fileValue"/>      
                                         </div>
+                                        
                                     </div>
+                                    </div>    
                                     <div class="row">
-                                    <button type="submit" class="btn btn-info btn-fill btnupload pull-right" >上傳 | Upload</button></div>
+                                        <div class="form-group">
+                                            <a type="submit" class="btn btn-info btn-fill btnupload pull-right" >上傳 | Upload</a>
+                                        </div>
+                                    </div>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -181,7 +189,7 @@
                                             <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a> </td>
                                             <td>{{pollEndTime}} | {{pollTime}}</td>
                                             <td>
-                                             {{startTime}} | <a href="/votingReminder" class="btn btn-danger btn-fill">{{pollTime}}</a>
+                                             {{startTime}}
                                             </td>
                                             <td>{{estate}}</td>
                                            <td> {{title}} | {{titleChn}}</td> 
@@ -311,7 +319,7 @@ $(document).ready(function () {
                              }
                         html = html  +
                             '<div class="modal-footer" style="border-top: 0px solid; margin-top: 25px;">' +
-                            '<button type="button" class="btn btn btn-info btn-fill CancelBtn" id="cancel1">確定 | Cancel</button>' +
+                            '<button type="button" class="btn btn btn-danger btn-fill CancelBtn" id="cancel1">取消 | Cancel</button>' +
                              '<button type="button" class="btn btn btn-info btn-fill ConfirmBtn" id="cancel">確定 | Confirm</button>'+ 
                             '</div>';
                         return html;
@@ -361,9 +369,9 @@ $(document).ready(function () {
         html = html + '<tr>'+
                         '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
                         '<td>'+upcomingData[i].pollEndTime+' | '+upcomingData[i].pollTime+'</td>'+
-                        '<td>'+upcomingData[i].startTime+' | <a href="/votingReminder" class="btn btn-danger btn-fill">REMIND</a></td>'+
+                        '<td>'+upcomingData[i].startTime +
                         '<td>'+upcomingData[i].estate+'</td>'+
-                        '<td> '+upcomingData[i].title+'" | "'+upcomingData[i].titleChn+'</td>'+ 
+                        '<td> '+upcomingData[i].title+ " | " + upcomingData[i].titleChn+'</td>'+ 
                        '<td>'+upcomingData[i].status+'</td>'+     
                        '</tr>';
                 }
