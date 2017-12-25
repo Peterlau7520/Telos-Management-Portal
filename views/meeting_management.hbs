@@ -186,7 +186,7 @@
                                     <tbody class="tableCtrl">
                                    {{#each upcomingData as |value meeting_key|}}
                                         <tr>
-                                            <td>  <a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a> </td>
+                                            <td>  <a href="/" id="{{meeting_key}}" class="btn btn-info btn-fill generate-Proxy">GENERATE</a> </td>
                                             <td>{{pollEndTime}} | {{pollTime}}</td>
                                             <td>
                                              {{startTime}}
@@ -377,6 +377,31 @@ $(document).ready(function () {
                        $('.tableCtrl').append(html);
     })
     //past Meeting
+    $(document).on("click", ".generate-Proxy", function (event) {
+        event.preventDefault();
+        console.log(event.target.id, "event")
+        const upcomingnewData = '{{{stringify upcomingData}}}'
+        var upcomingData = JSON.parse(upcomingnewData)
+        console.log(upcomingData[event.target.id], "dd")
+        const HostName = "http://localhost:3000"
+             $.ajax(HostName+'/generateProxyForms', {
+                  type: 'POST',
+                  data: JSON.stringify(upcomingData[event.target.id]),
+                  contentType: 'application/json',
+                 beforeSend: function() { 
+                    var html = '<img id="theImg" class ="loader" src= "assets/img/load.gif "/>'
+                      $("#loading").append(html);
+                      $("#submit").prop('disabled', true); // disable button
+                    }, 
+                    success:function(data){ 
+                       var html = ''
+                      $("#loading").append(html);
+                      $("#submit").prop('disabled', false); 
+                      location.reload(); // enable button
+                    },
+                  error  : function() { console.log('error');}
+            });
+    })
     $(document).on("click", "#pastMeeting", function (event) {
         $('.tableCtrl tr').remove();
         $('#pastMeeting').css('color', 'Blue');
