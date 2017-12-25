@@ -19,8 +19,8 @@ var moment = require("moment");
 //AWS
 const BucketName = 'telospdf';
 AWS.config.update({
-  accessKeyId: process.env.S3_KEY,
-  secretAccessKey: process.env.secretAccessKey
+  accessKeyId: /*process.env.S3_KEY |*/ "AKIAIMLMZLII2XCKU6UA",
+  secretAccessKey: /*process.env.secretAccessKey |*/ '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'
 });
 
 const bucket = new AWS.S3({params: {Bucket: BucketName}});
@@ -164,7 +164,8 @@ router.post('/updatePolls', (req,res)=>{
       new: true 
     })
       .then(function(r, err){
-        console.log(r)
+        if(err) res.send(err);
+       res.redirect('/meetingManagement')
       })
         
       })

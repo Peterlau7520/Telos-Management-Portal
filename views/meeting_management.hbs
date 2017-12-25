@@ -159,7 +159,7 @@
                                     </div>    
                                     <div class="row">
                                         <div class="form-group">
-                                            <a type="submit" class="btn btn-info btn-fill btnupload pull-right" >上傳 | Upload</a>
+                                            <button type="submit" class="btn btn-info btn-fill btnupload pull-right" >上傳 | Upload</button>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -303,7 +303,6 @@ $(document).ready(function () {
                                     '<h6>'+selectedMeeting.polls[i].pollNameChn+' | '+selectedMeeting.polls[i].pollName+'</h6>'+
                                     '<div class="poll">' +
                                     '<input type="hidden" name="id" value='+selectedMeeting.polls[i]._id+' >' + '</div>' 
-                                    
                                         for(j=0; j< selectedMeeting.polls[i].options.length; j++){
                                             html = html +
                                             '<div class="col-md-12">' +
