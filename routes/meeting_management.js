@@ -46,27 +46,19 @@ router.get('/meetingManagement', (req,res)=> {
     Meeting.find().populate('polls').lean().sort({startTime: -1})
     .then(function(meeting, err){
       _.forEach(meeting, function(item){
-        var endTime = moment.utc(new Date(item.endTime));
-         var startTime = moment.utc(new Date(item.startTime));
-        item.startTime =  startTime.format("DD/MM/YYYY");
+        console.log(item);
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
-        item.startTime =  startTime.format("D/MM/YYYY");
-        if(item.pollEndTime > currentDate || item.pollEndTime == currentDate){
-
-          item.pollEndTime = pollEndTime.format("D/MM/YYYY")
+        if(pollEndTime > currentDate || pollEndTime == currentDate){
           item.pollTime = "Remind"
         }
         else{
-          item.pollEndTime = pollEndTime.format("D/MM/YYYY")
           item.pollTime = "Ended"
         }
         if(Date.parse(new Date(item.endTime)) > Date.parse(new Date)){
           item.status = "Current Meeting"
-          item.endTime = endTime.format("D/MM/YYYY")
           currentMeetings.push(item)
         }
         else{
-          item.endTime = endTime.format("D/MM/YYYY")
           item.status = "Past Meeting"
           pastMeeting.push(item)
         }
