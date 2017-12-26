@@ -140,10 +140,11 @@ router.post('/updatePolls', (req,res)=>{
       updatePolls(req, res, fileLinks)
     }
     function updatePolls(req, res, fileLinks){
-      console.log("hh")
       const poll = JSON.parse(req.body.polls)
-   promiseArr.push(new Promise(function(resolve, reject){
+      console.log("hh", poll)
   _.forEach(poll, function(item) {
+    console.log(item, "item")
+     promiseArr.push(new Promise(function(resolve, reject){
     var options = item.options 
     var  max = -Infinity
     var key 
@@ -170,12 +171,18 @@ router.post('/updatePolls', (req,res)=>{
        res.redirect('/meetingManagement')
       })
         
-      })
   }))
+     })
  }
 })
 
 router.post('/generateProxyForms', (req,res) => {
+  console.log(req.body._id, "hhhh")
+Resident.find({estateName: req.user.estateName, proxyAppointed: req.body._id })
+.then(function(residents, err){
+  console.log(residents, "resident")
+
+})
 
 var html = '<!DOCTYPE html>'+
 '<html>'+
