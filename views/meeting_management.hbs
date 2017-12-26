@@ -305,8 +305,8 @@ $(document).ready(function () {
                                     '<input type="hidden" name="id" value='+selectedMeeting.polls[i]._id+' >' + '</div>' 
                                         for(j=0; j< selectedMeeting.polls[i].options.length; j++){
                                             html = html +
-                                            '<div class="col-md-12">' +
-                                            '<div class="form-group voting_opt">'+
+                                            '<div class="col-md-12 '+selectedMeeting.polls[i]._id+'">' +
+                                            '<div class="form-group voting_opt ">'+
                                                 '<label style="margin-right: 25px; width: 120px; float:left; padding-left: 30px; padding-top:5px;">是 | '+selectedMeeting.polls[i].options[j]+':</label>'+
                                                 '<input type="text" class="form-control" style="height:30px; float:left; width:100px; border-radius:0; border:0.5px solid #ccc;" id='+selectedMeeting.polls[i].options[j]+' style="width: 30%; display: inline;" name="option" required/>'+
                                                ' <div class="fortrail">% </div>'+
@@ -332,7 +332,6 @@ $(document).ready(function () {
                 $("#floor_model .modal-dialog").html(modelhtml);
                 $("#floor_model").modal();
           }) 
-    var options = []
     var poll = []
     $(document).on('click','.CancelBtn',function(event){
         $("#floor_model").modal('hide');
@@ -341,17 +340,19 @@ $(document).ready(function () {
         
         $.each($(".poll :input[name*='id']"), function(data1, key1){
             var id = $(this).val()
-            console.log(id)
-         $.each($(".voting_opt :input[name*='option']"), function(data, key){    
-            options.push({choice: $(this).attr('id') , percentage: $(this).val()})
-                       //$("#meetingPoll").append('<option value='+key+'>'+item.title+'</option>');
-         })
-         poll.push({id: id, options: options})
+            let options=[]
+            let dataVal = $("."+id).find(".voting_opt :input[name*='option']")
+            console.log(dataVal)
+            $.each(dataVal, function(data, key){    
+                options.push({choice: $(this).attr('id') , percentage: $(this).val()})
+            })
+            poll.push({id: id, options: options})
+            console.log(poll, "poll")
         })
         poll = JSON.stringify(poll)
         var html = `<input type="hidden" name="polls" value=${poll} />` 
           $('.pollValue').append(html)
-            console.log(poll, "poll")
+            
             $("#floor_model").modal('hide');
     })
     //upcoming Meeting
