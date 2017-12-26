@@ -39,11 +39,17 @@ router.get('/meetingManagement', (req,res)=> {
   const currentMeetings = []
   const pastMeeting = []
   var meetings = []
-  Estate.find().populate({path: 'currentMeetings',
-                  model: 'Meeting',
-                  populate:[{
-                    path: 'polls',
-                    model: 'Poll'}]}).populate('pastMeetings')
+  Estate.find().populate({
+    path: 'currentMeetings',
+    model: 'Meeting',
+    populate:[{
+      path: 'polls',
+      model: 'Poll'}]}).populate({
+        path: 'pastMeetings',
+        model: 'Meeting',
+        populate:[{
+          path: 'polls',
+          model: 'Poll'}]})
   .then(function(estate, err){
     Meeting.find().populate('polls').lean().sort({startTime: -1})
     .then(function(meeting, err){

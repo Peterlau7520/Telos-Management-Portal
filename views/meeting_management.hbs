@@ -267,8 +267,8 @@ $(document).ready(function () {
         var eState = $(this).val()
         //eState = JSON.stringify(eState)
         console.log(eState)
-        console.log(newdata[eState].currentMeetings)
-         meeting = newdata[eState].currentMeetings
+        console.log('newdata...', newdata)
+         meeting = newdata[eState].currentMeetings.concat(newdata[eState].pastMeetings);
         $("#meetingPoll option").remove();
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
