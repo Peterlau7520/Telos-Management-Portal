@@ -154,6 +154,8 @@ router.post('/updatePolls', (req,res)=>{
       }
       });
       var finalResult = options[key].choice
+      console.log("Item",item);
+      console.log("finalResult",finalResult); 
       Poll.findOneAndUpdate({
       _id: item.id
     }, {
