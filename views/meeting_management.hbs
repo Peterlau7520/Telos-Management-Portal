@@ -133,8 +133,9 @@
                                                 <label>選擇會議 | SELECT MEETINGS</label>
                                                  <select class="form-control" id="meetingPoll" name="meetingPoll">
                                                     <option value="">{{title}}</option>
-                                                </select> 
+                                                </select>    
                                             </div>
+                                            <div class="pollFileModal"></div>
                                         </div>
                                     </div>
                                     <!-- YOUR WORK HERE -->
@@ -240,6 +241,7 @@
         </footer>
     </div>
 </div>
+<div id="excelTable"></div>
 <div id="floor_model" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         
@@ -269,6 +271,7 @@ $(document).ready(function () {
         console.log(eState)
         console.log('newdata...', newdata)
          meeting = newdata[eState].currentMeetings.concat(newdata[eState].pastMeetings);
+         console.log(meeting, 'meeting')
         $("#meetingPoll option").remove();
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
@@ -280,13 +283,16 @@ $(document).ready(function () {
     });
     var selectedMeeting = ''
     $('#meetingPoll').change(function(event) {
+        $(".downloadPoll").remove();
         console.log('change', $(this).val(), meeting)
         const value = $(this).val()
          selectedMeeting = meeting[value]
          console.log(selectedMeeting, "selectedMeeting")
+         var Dnbtn = '<button type="button" class="btn btn-info btn-fill downloadPoll">發送 | Download Poll Results</button>'
         var Upbtn = '<button type="button" class="btn btn-info  btn-fill pollModel">更新投票結果 | Update Poll</button>'
         $(".pollModal").html('');
-         $(".pollModal").append(Upbtn, selectedMeeting);
+        $(".pollModal").append(Upbtn, selectedMeeting);
+         $(".pollFileModal").append(Dnbtn, selectedMeeting);
     })
 
     //edit poll model
@@ -325,7 +331,48 @@ $(document).ready(function () {
         }
     
     
-    
+    $(document).on('click','.downloadPoll',function(event){
+        console.log('download file')
+        
+     var  estatePoll = $("select[name=estatePoll]").val();
+     var  meetingPoll = $("select[name=meetingPoll]").val();
+     var html = '<table id="excelFile" style="width:100%">'+
+                    '<tr>'+
+                        '<th>Poll name</th>'+
+                        '<th>Option</th>' +
+                        '<th>VotedBy</th>' +
+                        '<th>Shares</th>' +
+                    '</tr>';
+      $.each(selectedMeeting.polls, function(key1, data1){
+        console.log(data1)
+        var votedUser = ''
+        var shares = ''
+         $.each(data1.voted, function(key1, voted){
+            shares = voted.shares
+            if(votedUser == ''){
+                votedUser = voted.name
+            }else{
+                votedUser = voted.name +', '+ voted.name
+            }
+         })
+        html = html +
+                    '<tr>'+
+                        '<th>'+data1.pollName+'</th>'+
+                        '<th>'+data1.votes+'</th>' +
+                        '<th>'+votedUser+'</th>' +
+                        '<th>'+shares+'</th>' +
+                    '</tr>';
+
+      })
+      html = html + '</table>'
+      $("#excelTable").append(html);
+      $("#excelFile").table2excel({  
+                name: "Table2Excel",  
+                filename: "myFileName",  
+                fileext: ".xls"  
+            }); 
+    })
+
     $(document).on('click','.pollModel',function(event){
             var modeldata = '';
             var modelhtml = poll_modal(modeldata, selectedMeeting);

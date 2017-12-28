@@ -44,7 +44,14 @@ router.get('/meetingManagement', (req,res)=> {
     model: 'Meeting',
     populate:[{
       path: 'polls',
-      model: 'Poll'}]}).populate({
+      model: 'Poll',
+    populate:[{
+      path: 'voted',
+      model: 'Resident',
+    select:"name shares"
+  }]}],
+    })
+  .populate({
         path: 'pastMeetings',
         model: 'Meeting',
         populate:[{
@@ -54,7 +61,6 @@ router.get('/meetingManagement', (req,res)=> {
     Meeting.find().populate('polls').lean().sort({startTime: -1})
     .then(function(meeting, err){
       _.forEach(meeting, function(item){
-        console.log(item);
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
         if(pollEndTime > currentDate || pollEndTime == currentDate){
           item.pollTime = "Remind"
