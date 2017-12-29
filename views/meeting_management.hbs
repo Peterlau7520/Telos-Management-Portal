@@ -1,3 +1,4 @@
+<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
 
@@ -366,13 +367,23 @@ $(document).ready(function () {
       })
       html = html + '</table>'
       $("#excelTable").append(html);
+      function getFileName(settings) {
+        return ( settings.filename ? settings.filename : "table2excel") + ".xls";
+        }
       $("#excelFile").table2excel({  
-                name: "Table2Excel",  
-                filename: "myFileName",  
-                fileext: ".xls"  
+                    exclude: ".noExl",
+                    name: "PollFile",
+                    filename: "PollFile",
+                    fileext: ".xls",
+                    exclude_img: true,
+                    exclude_links: true,
+                    exclude_inputs: true
             }); 
+    
     })
-
+        function getFileName() {
+            return ("table2excel") + ".xls";
+         }
     $(document).on('click','.pollModel',function(event){
             var modeldata = '';
             var modelhtml = poll_modal(modeldata, selectedMeeting);
