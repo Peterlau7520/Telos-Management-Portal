@@ -334,7 +334,7 @@ $(document).ready(function () {
     
     $(document).on('click','.downloadPoll',function(event){
         console.log('download file')
-        
+    $("#excelTable").html('');
      var  estatePoll = $("select[name=estatePoll]").val();
      var  meetingPoll = $("select[name=meetingPoll]").val();
      var html = '<table id="excelFile" style="width:100%">'+
@@ -366,14 +366,12 @@ $(document).ready(function () {
 
       })
       html = html + '</table>'
+      console.log(html, "html")
       $("#excelTable").append(html);
-      function getFileName(settings) {
-        return ( settings.filename ? settings.filename : "table2excel") + ".xls";
-        }
       $("#excelFile").table2excel({  
                     exclude: ".noExl",
                     name: "PollFile",
-                    filename: "PollFile",
+                    filename: selectedMeeting.title,
                     fileext: ".xls",
                     exclude_img: true,
                     exclude_links: true,
@@ -381,9 +379,6 @@ $(document).ready(function () {
             }); 
     
     })
-        function getFileName() {
-            return ("table2excel") + ".xls";
-         }
     $(document).on('click','.pollModel',function(event){
             var modeldata = '';
             var modelhtml = poll_modal(modeldata, selectedMeeting);

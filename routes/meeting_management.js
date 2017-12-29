@@ -30,6 +30,7 @@ const bucket = new AWS.S3({params: {Bucket: BucketName}});
 
 //Data models
 const Estate = models.Estate;
+const Resident = models.Resident;
 const Meeting = models.Meeting;
 const Poll = models.Poll
 router.use(busboyBodyParser({multi: true}));
@@ -191,12 +192,12 @@ router.post('/updatePolls', (req,res)=>{
 })
 
 router.post('/generateProxyForms', (req,res) => {
-  console.log(req.body._id, "hhhh")
+var src = ''
+  console.log(req.body._id, "hhhh", req.user.estateName)
 Resident.find({estateName: req.user.estateName, proxyAppointed: req.body._id })
 .then(function(residents, err){
   console.log(residents, "resident")
-
-})
+_.forEach(residents, function(resident) {
 
 var html = '<!DOCTYPE html>'+
 '<html>'+
@@ -259,12 +260,12 @@ var html = '<!DOCTYPE html>'+
 '          <h3 class="heading-instrument">INSTRUMENT OF PROXY FOR MEETINGS OF CORPORATIONS</h3>'+
 '      </div>'+
 '     <div class="form-contain">'+
-'       <p>The Incorporated Owners of <span class="text-color">'+req.user.estateName+'</span>(description of building)</p>'+
-'       <p class="space">I/We,<span class="text-color">'  +req.user.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+req.user.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">Telos</span> (name of proxy) *[or failing him <span  class="text-color"></span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+req.user.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +req.body.endTime+'</span> day of <span class="text-color">'  +req.body.startTime+'</span>*[and at any adjournment therof]</p>'+
+'       <p>The Incorporated Owners of <span class="text-color">'+resident.estateName+'</span>(description of building)</p>'+
+'       <p class="space">I/We,<span class="text-color">'  +resident.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+resident.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">Telos</span> (name of proxy) *[or failing him <span  class="text-color"></span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+req.user.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +req.body.endTime+'</span> day of <span class="text-color">'  +req.body.startTime+'</span>*[and at any adjournment therof]</p>'+
 ''+
 ''+
 '       <p class="dated-para">Dated this day of <span class="text-color">'+ new Date() +'</span> .</p>'+
-'        <p class="signature-text"><span class="text-color">resident.signature</span>(Signature of qwner(s))</p>'+
+'        <p class="signature-text"><span class="text-color">resident.signature</span>(Signature of owner(s))</p>'+
 '    '+
 '       <span>*Delete where inapplicable.</span>'+
 '     </div>'+
@@ -290,6 +291,8 @@ bucket.putObject(data, function (err, data) {
         }
   });
 });
+})
+})
 /*var data = convert(html, {format:'png', quality: 100, width: 1280, height: 960})
 console.log(data, "")*/
 
