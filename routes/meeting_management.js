@@ -337,17 +337,14 @@ router.post('/WriteExcellFile', (req, res) => {
                   console.log(poll, "poll")
                   var JsonData = {}
                    JsonData.PollName = poll.pollName
-                   var index = _.findIndex(poll.votingResults, function(o) { return o.resident == userId; });
-                      console.log(index, "index")
-                      if(index > 0 || index == 0) {
+                   //var index = _.findIndex(poll.votingResults, function(o) { return o.resident == userId; });
+                      if(poll.votingResults.length !=0 ) { //index > 0 || index == 0) {
                         console.log("h")
-                        JsonData.option = poll.votingResults[index].choice
+                        JsonData.option = poll.votingResults[0].choice
                       }
                       else{
                         JsonData.option = ''
                       }
-                      
-
                   if(poll.voted.length != 0){
                     _.forEach(poll.voted, function(vote) {
                     JsonData.votedBy = vote.name
