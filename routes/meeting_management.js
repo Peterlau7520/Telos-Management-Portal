@@ -330,26 +330,45 @@ router.post('/meetingReminder', (req,res)=> {
 })
 router.post('/WriteExcellFile', (req, res) => {
   console.log(req.body,"h")
-  var JsonData = {}
+  
         var JsonResultDataArray =[];
                 //var ResultData = poll[key];
                  _.forEach(req.body.polls, function(poll) {
-                  //console.log(poll, "poll")
+                  console.log(poll, "poll")
+                  var JsonData = {}
+                   JsonData.PollName = poll.pollName
+                      JsonData.option = poll.finalResult
                   if(poll.voted.length != 0){
                     _.forEach(poll.voted, function(vote) {
                     JsonData.votedBy = vote.name
                     JsonData.shares = vote.shares
                   })
                   }
-                     JsonData.PollName = poll.pollName
-                      JsonData.option = poll.finalResult
+                  else{
+                    JsonData.votedBy = ''
+                    JsonData.shares = ''
+                  }
+                    
                     JsonResultDataArray.push(JsonData)
                 });
-                 console.log(JsonResultDataArray, "JsonData")
-        var xls = json2xls(JsonResultDataArray);
-       fs.writeFile('./uploads/'+ req.body.title +'.xls', xls, function () {
+                  console.log(JsonResultDataArray, "JsonData")
+                  var xls = json2xls(JsonResultDataArray);
+                  //console.log(xls, "xls")
+                  res.send({xls: xls})
+
+                  /*fs.writeFileSync('data.xlsx', xls, 'binary');
+                  console.log("converted")*/
+
+                  /*app.get('/',function(req, res) {*/
+                      /*res.xls('data.xlsx', JsonResultDataArray);
+                       console.log("converted")*/
+                  //});
+
+
+       /* var xls = json2xls(JsonResultDataArray);
+       fs.writeFile('./uploads/'+ req.body.title.replace(/ /g,'') +'.xls', xls, function () {
         
-    res.json({fileName: './uploads/'+ req.body.title+'.xls'});
-});
+    res.json({fileName: './uploads/'+ req.body.title.replace(/ /g,'') +'.xls'});
+});*/
 });
 module.exports = router;
