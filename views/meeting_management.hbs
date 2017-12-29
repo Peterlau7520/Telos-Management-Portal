@@ -392,7 +392,7 @@ $(document).ready(function () {
         html = html +
                     '<tr>'+
                         '<th>'+data1.pollName+'</th>'+
-                        '<th>'+data1.votes+'</th>' +
+                        '<th>'+data1.finalResult+'</th>' +
                         '<th>'+votedUser+'</th>' +
                         '<th>'+shares+'</th>' +
                     '</tr>';
@@ -402,13 +402,13 @@ $(document).ready(function () {
       console.log(html, "html")
       $("#excelTable").append(html);
       $("#excelFile").table2excel({  
-                    exclude: ".noExl",
+                    //exclude: ".noExl",
                     name: "PollFile",
                     filename: selectedMeeting.title,
-                    fileext: ".xls",
-                    exclude_img: true,
+                    //fileext: ".xlsx",
+                   /* exclude_img: true,
                     exclude_links: true,
-                    exclude_inputs: true
+                    exclude_inputs: true*/
             }); 
     
     })

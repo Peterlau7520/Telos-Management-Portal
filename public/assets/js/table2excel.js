@@ -14,7 +14,7 @@
         exclude: ".noExl",
         name: "Table2Excel",
         filename: "table2excel",
-        fileext: ".xls",
+        fileext: ".xlsx",
         exclude_img: true,
         exclude_links: true,
         exclude_inputs: true
