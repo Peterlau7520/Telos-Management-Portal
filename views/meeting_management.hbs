@@ -344,6 +344,39 @@ $(document).ready(function () {
                         '<th>VotedBy</th>' +
                         '<th>Shares</th>' +
                     '</tr>';
+       /* const HostName = "http://localhost:3000"
+      $.ajax(HostName+'/WriteExcellFile', {
+                  type: 'POST',
+                  data: JSON.stringify(selectedMeeting),
+                  contentType: 'application/json',
+                 beforeSend: function() { 
+                    var html = '<img id="theImg" class ="loader" src= "assets/img/load.gif "/>'
+                      $("#loading").append(html);
+                      $("#submit").prop('disabled', true); // disable button
+                    }, 
+                    success:function(data){
+                    function downloadFile(filename) {
+                    var element = document.createElement('a');
+                    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent());
+                    element.setAttribute('download', filename);
+
+                    element.style.display = 'none';
+                    document.body.appendChild(element);
+
+                    element.click();
+
+                    document.body.removeChild(element);
+                }
+                          downloadFile(data.fileName);
+                         //res.download('data.xls');
+                        console.log(data, "data")
+                       var html = ''
+                      $("#loading").append(html);
+                      $("#submit").prop('disabled', false); 
+                      //location.reload(); // enable button
+                    },
+                  error  : function() { console.log('error');}
+            });       */
       $.each(selectedMeeting.polls, function(key1, data1){
         console.log(data1)
         var votedUser = ''
