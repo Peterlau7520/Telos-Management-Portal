@@ -345,7 +345,7 @@ $(document).ready(function () {
                         '<th>VotedBy</th>' +
                         '<th>Shares</th>' +
                     '</tr>';
-        const HostName = "http://192.168.1.80:3000"
+        const HostName = "http://localhost:3000"
       $.ajax(HostName+'/WriteExcellFile', {
                   type: 'POST',
                   data: JSON.stringify(selectedMeeting),
