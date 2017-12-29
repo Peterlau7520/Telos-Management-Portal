@@ -165,6 +165,7 @@
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
+                                    <iframe id="my_iframe" style="display:none;"></iframe>
                                 </form>
                             </div>
                         </div>
@@ -344,7 +345,7 @@ $(document).ready(function () {
                         '<th>VotedBy</th>' +
                         '<th>Shares</th>' +
                     '</tr>';
-       /* const HostName = "http://localhost:3000"
+        const HostName = "http://localhost:3000"
       $.ajax(HostName+'/WriteExcellFile', {
                   type: 'POST',
                   data: JSON.stringify(selectedMeeting),
@@ -355,19 +356,8 @@ $(document).ready(function () {
                       $("#submit").prop('disabled', true); // disable button
                     }, 
                     success:function(data){
-                    function downloadFile(filename) {
-                    var element = document.createElement('a');
-                    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent());
-                    element.setAttribute('download', filename);
-
-                    element.style.display = 'none';
-                    document.body.appendChild(element);
-
-                    element.click();
-
-                    document.body.removeChild(element);
-                }
-                          downloadFile(data.fileName);
+                        console.log(data, "dta")
+                        window.open("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + escape(data.xls))
                          //res.download('data.xls');
                         console.log(data, "data")
                        var html = ''
@@ -376,8 +366,8 @@ $(document).ready(function () {
                       //location.reload(); // enable button
                     },
                   error  : function() { console.log('error');}
-            });       */
-      $.each(selectedMeeting.polls, function(key1, data1){
+            });       
+     /* $.each(selectedMeeting.polls, function(key1, data1){
         console.log(data1)
         var votedUser = ''
         var shares = ''
@@ -392,7 +382,7 @@ $(document).ready(function () {
         html = html +
                     '<tr>'+
                         '<th>'+data1.pollName+'</th>'+
-                        '<th>'+data1.votes+'</th>' +
+                        '<th>'+data1.finalResult+'</th>' +
                         '<th>'+votedUser+'</th>' +
                         '<th>'+shares+'</th>' +
                     '</tr>';
@@ -402,14 +392,14 @@ $(document).ready(function () {
       console.log(html, "html")
       $("#excelTable").append(html);
       $("#excelFile").table2excel({  
-                    exclude: ".noExl",
+                    //exclude: ".noExl",
                     name: "PollFile",
                     filename: selectedMeeting.title,
-                    fileext: ".xls",
-                    exclude_img: true,
+                    //fileext: ".xlsx",
+                   /* exclude_img: true,
                     exclude_links: true,
-                    exclude_inputs: true
-            }); 
+                    exclude_inputs: true*/
+          //  }); */
     
     })
     $(document).on('click','.pollModel',function(event){
