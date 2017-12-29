@@ -329,15 +329,25 @@ router.post('/meetingReminder', (req,res)=> {
 
 })
 router.post('/WriteExcellFile', (req, res) => {
-  console.log(req.body,"h")
-  
+  console.log(req.body,"h", req.user)
+  const userId = req.user._id          //"5a447b9b1ffe2fd7868ea80c"
         var JsonResultDataArray =[];
                 //var ResultData = poll[key];
                  _.forEach(req.body.polls, function(poll) {
                   console.log(poll, "poll")
                   var JsonData = {}
                    JsonData.PollName = poll.pollName
-                      JsonData.option = poll.finalResult
+                   var index = _.findIndex(poll.votingResults, function(o) { return o.resident == userId; });
+                      console.log(index, "index")
+                      if(index > 0 || index == 0) {
+                        console.log("h")
+                        JsonData.option = poll.votingResults[index].choice
+                      }
+                      else{
+                        JsonData.option = ''
+                      }
+                      
+
                   if(poll.voted.length != 0){
                     _.forEach(poll.voted, function(vote) {
                     JsonData.votedBy = vote.name
