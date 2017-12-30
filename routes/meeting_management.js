@@ -49,7 +49,7 @@ router.get('/meetingManagement', (req,res)=> {
       path: 'polls',
       model: 'Poll',
     populate:[{
-      path: 'voted',
+      path: 'votingResults.resident',
       model: 'Resident',
     select:"name shares"
   }]}],
@@ -61,7 +61,10 @@ router.get('/meetingManagement', (req,res)=> {
           path: 'polls',
           model: 'Poll'}]})
   .then(function(estate, err){
-    Meeting.find().populate('polls').lean().sort({startTime: -1})
+    Meeting
+    .find()
+    .populate('polls')
+    .lean().sort({startTime: -1})
     .then(function(meeting, err){
       _.forEach(meeting, function(item){
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
@@ -112,14 +115,7 @@ router.post('/updatePolls', (req,res)=>{
   console.log(req.body, req.files)
   const promiseArr = []
   const fileLinks=[]
-  // const poll = [
-  // {id: "",
-  // options: [{choice: 'yes', percentage: '50'}, {choice: 'no', percentage: '60'}, {choice: 'abstain', percentage: '70'}]
-  // },
-  // {id: "",
-  // options: [{choice: 'yes', percentage: '10'}, {choice: 'no', percentage: '10'}, {choice: 'abstain', percentage: '10'}]
-  // }
-  // ]
+
   if(req.files && req.files.file) {
         var files = req.files.file
         for (var i = 0; i < files.length; i++) {
@@ -134,19 +130,13 @@ router.post('/updatePolls', (req,res)=>{
                 ContentType: 'application/pdf',
                 ContentDisposition: 'inline',
                 ACL: "public-read"
-            }; // req.user.estateName
+            }; 
             bucket.putObject(data, function (err, data) {
                 if (err) {
                     console.log('Error uploading data: ', err);
                 } else {
                     console.log('succesfully uploaded the pdf!');
                     updatePolls(req, res, fileLinks)
-                      /*bucket.deleteObject({
-                      Bucket: BucketName,
-                      Key: req.body.fileLinks[0].url
-                    }, function(err, filed){
-                        console.log(filed)
-                    })*/
                 }
             });
         }
@@ -329,53 +319,29 @@ router.post('/meetingReminder', (req,res)=> {
 
 })
 router.post('/WriteExcellFile', (req, res) => {
-  console.log(req.body,"h", req.user)
-  const userId = req.user._id          //"5a447b9b1ffe2fd7868ea80c"
+  console.log('here')
         var JsonResultDataArray =[];
-                //var ResultData = poll[key];
-                 _.forEach(req.body.polls, function(poll) {
-                  console.log(poll, "poll")
-                  var JsonData = {}
-                   JsonData.PollName = poll.pollName
-                   //var index = _.findIndex(poll.votingResults, function(o) { return o.resident == userId; });
-                      if(poll.votingResults.length !=0 ) { //index > 0 || index == 0) {
-                        console.log("h")
-                        JsonData.option = poll.votingResults[0].choice
-                      }
-                      else{
-                        JsonData.option = ''
-                      }
-                  if(poll.voted.length != 0){
-                    _.forEach(poll.voted, function(vote) {
-                    JsonData.votedBy = vote.name
-                    JsonData.shares = vote.shares
-                  })
-                  }
-                  else{
-                    JsonData.votedBy = ''
-                    JsonData.shares = ''
-                  }
-                    
-                    JsonResultDataArray.push(JsonData)
-                });
-                  console.log(JsonResultDataArray, "JsonData")
-                  var xls = json2xls(JsonResultDataArray);
-                  //console.log(xls, "xls")
-                  res.send({xls: xls})
+        //loop poll
+        const polls = req.body.polls;
+        forEach(polls, function(poll, index, arr){
+          console.log('poll', poll);
+          forEach(poll.votingResults, function(votingResult,index){
+            const result = {
+              pollName: poll.pollName,
+              option: votingResult.choice,
+              shares: votingResult.resident.shares,
+              resident: votingResult.resident.name
+            }
+            console.log(result);
+            JsonResultDataArray.push(result);
+          })
 
-                  /*fs.writeFileSync('data.xlsx', xls, 'binary');
-                  console.log("converted")*/
+        })
+        console.log(JsonResultDataArray, "JsonData")
+        var xls = json2xls(JsonResultDataArray);
+        //console.log(xls, "xls")
+        res.send({xls: xls})
 
-                  /*app.get('/',function(req, res) {*/
-                      /*res.xls('data.xlsx', JsonResultDataArray);
-                       console.log("converted")*/
-                  //});
-
-
-       /* var xls = json2xls(JsonResultDataArray);
-       fs.writeFile('./uploads/'+ req.body.title.replace(/ /g,'') +'.xls', xls, function () {
-        
-    res.json({fileName: './uploads/'+ req.body.title.replace(/ /g,'') +'.xls'});
-});*/
 });
 module.exports = router;
+
