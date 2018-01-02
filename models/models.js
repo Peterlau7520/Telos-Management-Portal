@@ -116,8 +116,7 @@ const pollSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Resident'
     }}],
-    votes: Array,
-    pollReport: Array
+    votes: Array
 });
 
 //NOTICE
@@ -183,6 +182,7 @@ const meetingSchema = new Schema({
     ],
     active: Boolean,
     pollEndTime: String,
+    pollReport: Array,
     estate:String,
     youtubelink: String,
     views: { type: String, default: 0 },

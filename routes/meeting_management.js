@@ -146,7 +146,7 @@ router.post('/updatePolls', (req,res)=>{
     }
     function updatePolls(req, res, fileLinks){
       const poll = JSON.parse(req.body.polls)
-      console.log("hh", poll)
+      console.log("hhffffffffffffffffffffff", req.body)
   _.forEach(poll, function(item) {
     console.log(item, "item")
      promiseArr.push(new Promise(function(resolve, reject){
@@ -166,7 +166,6 @@ router.post('/updatePolls', (req,res)=>{
       _id: item.id
     }, {
         $set: {
-          pollReport: fileLinks,
           results: item.options,
           finalResult: finalResult
         }
@@ -175,7 +174,20 @@ router.post('/updatePolls', (req,res)=>{
     })
       .then(function(r, err){
         if(err) res.send(err);
+         Meeting.findOneAndUpdate({
+      _id: req.body.meetingName
+    }, {
+        $set: {
+          pollReport: fileLinks
+        }
+    },{ 
+      new: true 
+    })
+         .then(function(meeting, err){
+                  if(err) res.send(err);
+
        res.redirect('/meetingManagement')
+     })
       })
         
   }))

@@ -290,6 +290,8 @@ $(document).ready(function () {
     $('#meetingPoll').change(function(event) {
         $(".downloadPoll").remove();
         console.log('change', $(this).val(), meeting)
+        var meetingName = meeting[$(this).val()]._id
+        $("#estate").append(`<input type="hidden" name="meetingName" value=${meetingName}>`);
         const value = $(this).val()
          selectedMeeting = meeting[value]
          console.log(selectedMeeting, "selectedMeeting")
