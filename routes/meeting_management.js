@@ -125,7 +125,7 @@ router.post('/updatePolls', (req,res)=>{
             fileLinks.push(name)
                 var data = {
                 Bucket: BucketName,
-                Key: `${req.user.estateName.replace(/ /g,'')}/Polls/${name}`,
+                Key: `${req.body.estateName.replace(/ /g,'')}/Polls/${name}`,
                 Body: info,
                 ContentType: 'application/pdf',
                 ContentDisposition: 'inline',
@@ -186,10 +186,9 @@ router.post('/updatePolls', (req,res)=>{
 router.post('/generateProxyForms', (req,res) => {
 var src = ''
 var promiseArr = []
-  console.log(req.body._id, "hhhh", req.user.estateName)
-Resident.find({estateName: req.user.estateName, proxyAppointed: req.body._id })
+  console.log(req.body, "hhhh")
+Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
 .then(function(residents, err){
-  console.log(residents, "resident")
 _.forEach(residents, function(resident) {
 promiseArr.push(new Promise(function(resolve, reject){
 var html = '<!DOCTYPE html>'+

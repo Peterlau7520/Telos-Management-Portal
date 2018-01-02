@@ -119,6 +119,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATE</label>
+                                                <div id="estate"></div>
                                                  <select class="form-control" id="estatePoll" name="estatePoll">
                                                  <option value="" selected hidden>Select Estate</option>
                                                  {{#each Estate as |value estate_key|}}
@@ -269,12 +270,14 @@ $(document).ready(function () {
     var meeting = ''
     $('#estatePoll').change(function() {
         var eState = $(this).val()
+        var estateName = newdata[eState].estateName
         //eState = JSON.stringify(eState)
         console.log(eState)
         console.log('newdata...', newdata)
          meeting = newdata[eState].currentMeetings.concat(newdata[eState].pastMeetings);
          console.log(meeting, 'meeting')
         $("#meetingPoll option").remove();
+        $("#estate").append(`<input type="hidden" name="estateName" value=${estateName}>`);
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
             //$("#meetingYoutube").val(eState);
