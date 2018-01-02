@@ -186,11 +186,21 @@ router.post('/updatePolls', (req,res)=>{
 router.post('/generateProxyForms', (req,res) => {
 var src = ''
 var promiseArr = []
-  console.log(req.body, "hhhh")
+  console.log(req.body.endTime  , req.body.startTime  , "hhhh")
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+var monthEnd = monthNames[new Date(req.body.endTime).getMonth()]
+var monthStart = monthNames[new Date(req.body.startTime).getMonth()]
+var newDate = moment(new Date()).format('Do') + ' of ' + monthNames[new Date().getMonth()] + ',' + new Date().getFullYear()
+var endDate = new Date(req.body.endTime).getDate() 
+var endMonth = monthNames[new Date(req.body.endTime).getMonth()]
+var startDate = moment(new Date(req.body.startTime)).format('Do')
+var startMonth = monthNames[new Date(req.body.startTime).getMonth()]
 Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
 .then(function(residents, err){
+  promiseArr.push(new Promise(function(resolve, reject){
 _.forEach(residents, function(resident) {
-promiseArr.push(new Promise(function(resolve, reject){
 var html = '<!DOCTYPE html>'+
 '<html>'+
 '<head>'+
@@ -227,9 +237,13 @@ var html = '<!DOCTYPE html>'+
 '.form-contain p{'+
 '  font-size: 17px;'+
 '  line-height: 2;'+
+'display: inline-block;'+
 '}'+
 '.text-color{'+
 '  color: #CF5255;'+
+'    border-bottom: 1px dotted #000; '  +
+   ' min-width: 380px;'+
+   ' display: inline-block;'+
 '}'+
 '.space{'+
 ' text-indent: 50px;'+
@@ -238,40 +252,48 @@ var html = '<!DOCTYPE html>'+
 '  text-align: center;'+
 '}'+
 '.dated-para{'+
-'  margin: 35px 0 56px 0;'+
+'  margin: 35px 0 56px 118px;'+
 '  text-align: center;'+
+'}'+
+'.signatures{'+
+      'float: right;' +
+    'position: relative;'+
+    'width: 95px;'+
+    'height: 48px;'+
+'    margin-top: -5%;'+
 '}'+
 '</style>'+
 '  <div class="form-width">'+
 '     <div class="form-heading">'+
-'       <span class="heading-left">Statutory Format of the Instrument of Proxy<br> for Meetings of Corporation</span>'+
-'       <span class="heading-right">Appendix 6</span>'+
 '       '+
 '     </div>'+
 '       <div>'+
+'       <h3 class="text-center" style=" text-align: center;padding-top: 56px;">FORM 2</h3>'+
 '          <h3 class="heading-instrument">INSTRUMENT OF PROXY FOR MEETINGS OF CORPORATIONS</h3>'+
 '      </div>'+
 '     <div class="form-contain">'+
 '       <p>The Incorporated Owners of <span class="text-color">'+resident.estateName+'</span>(description of building)</p>'+
-'       <p class="space">I/We,<span class="text-color">'  +resident.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+resident.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">Telos</span> (name of proxy) *[or failing him <span  class="text-color"></span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+resident.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +req.body.endTime+'</span> day of <span class="text-color">'  +req.body.startTime+'</span>*[and at any adjournment therof]</p>'+
+'       <p class="space">I/We,<span class="text-color">'  +resident.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+resident.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">Telos</span> (name of proxy) *[or failing him <span  class="text-color"></span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+resident.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +startDate+'</span> day of <span class="text-color">'  +startMonth+'</span>*[and at any adjournment therof]</p>'+
 ''+
 ''+
-'       <p class="dated-para">Dated this day of <span class="text-color">'+ new Date() +'</span> .</p>'
+'       <p class="dated-para">Dated this day of <span class="">'+ newDate +'</span> .</p><br/>'
         console.log(resident.signature, "ffffff")
         _.forEach(resident.signature, function(sign) {
           console.log(sign , "hhhhh")
-          html+= '<img src="'+sign+'" alt="one" >'
+          html+= '<img src="'+sign+'" alt="one" class="signatures" ><br/>'
           }) 
         if(resident.chopImage){
-          html+= '<img src="'+resident.chopImage+'" alt="one" >'
+          html+= '<img src="'+resident.chopImage+'" alt="one" class="signatures" ><br/>'
         }
          html+=
-'        <p class="signature-text"><span class="text-color">resident.signature</span>(Signature of owner(s))</p>'+
+'        <p class="signature-text" style="float: right;"><span class=""></span>Signatures</p><br/><br/><br/>'+
 '    '+
 '       <span>*Delete where inapplicable.</span>'+
-'     </div>'+
 ''+
+'<hr>'+
+    ' <span>The format as shown in this instrument is the statutory one which is set out in the Building Management Ordinance (Form 2 in Schedule 1A). No alteration of the format is permitted. </span>'+
 '  </div>'+
+'     </div>'+
 '</body>'+
 '</html>'
 pdf.create(html).toBuffer(function(err, buffer){
@@ -293,6 +315,7 @@ bucket.putObject(data, function (err, data) {
         }
   });
 });
+})
 }))
 Promise.all(promiseArr)
 .then(function(form, err){
@@ -303,8 +326,6 @@ Promise.all(promiseArr)
 })
 /*var data = convert(html, {format:'png', quality: 100, width: 1280, height: 960})
 console.log(data, "")*/
-
-})
 
 router.post('/votingReminder', (req,res) => {
 
