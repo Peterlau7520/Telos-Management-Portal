@@ -231,7 +231,7 @@ var html = '<!DOCTYPE html>'+
     'font-size: 10px;'+
  ' }'+
 '  .form-width{'+
-   'padding: 18px;'+
+   'padding: 25px;'+
 '  max-width: 745px;'+
 '    margin: 0 auto;'+
 '}'+
@@ -249,7 +249,7 @@ var html = '<!DOCTYPE html>'+
 '}'+
 '.heading-instrument{'+
 '  text-align: center;'+
-'  margin: 31px 0 63px 0;'+
+'  margin: 31px 0 20px 0;'+
 '    font-weight: 100;'+
 '}'+
 '.form-contain{'+
@@ -257,7 +257,7 @@ var html = '<!DOCTYPE html>'+
 '  margin: 0 auto;'+
 '}'+
 '.form-contain p{'+
-'  font-size: 12px;'+
+'  font-size: 10px;'+
 '  line-height: 2;'+
 'display: inline-block;'+
 '}'+
@@ -294,7 +294,7 @@ var html = '<!DOCTYPE html>'+
 '       '+
 '     </div>'+
 '       <div>'+
-'       <h3 class="text-center" style=" text-align: center;padding-top: 56px;">FORM 2</h3>'+
+'       <h3 class="text-center" style=" text-align: center;padding-top: 32px;">FORM 2</h3>'+
 '          <h3 class="heading-instrument">INSTRUMENT OF PROXY FOR MEETINGS OF CORPORATIONS</h3>'+
 '      </div>'+
 '     <div class="form-contain">'+
