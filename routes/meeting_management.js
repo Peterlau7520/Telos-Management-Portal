@@ -221,7 +221,7 @@ var html = '<!DOCTYPE html>'+
 '<body>'+
 '  <style>'+
 '  .form-width{'+
-'  width: 745px;'+
+'  max-width: 745px;'+
 '    margin: 0 auto;'+
 '}'+
 '.heading-left{'+
