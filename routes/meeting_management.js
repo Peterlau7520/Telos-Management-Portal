@@ -20,6 +20,7 @@ var pdf = require('html-pdf');
 var json2xls = require('json2xls');
 const download = require('download');
 var http = require('http');
+var options = { format: 'Letter' ,zoomFactor: 1, paginationOffset: 1, "height": "10.5in", "width": "8in"};
 //AWS
 const BucketName = 'telospdf';
 AWS.config.update({
@@ -225,7 +226,12 @@ var html = '<!DOCTYPE html>'+
 '</head>'+
 '<body>'+
 '  <style>'+
+'body{'+
+    'font-family: arial;'+
+    'font-size: 10px;'+
+ ' }'+
 '  .form-width{'+
+   'padding: 18px;'+
 '  max-width: 745px;'+
 '    margin: 0 auto;'+
 '}'+
@@ -251,7 +257,7 @@ var html = '<!DOCTYPE html>'+
 '  margin: 0 auto;'+
 '}'+
 '.form-contain p{'+
-'  font-size: 17px;'+
+'  font-size: 12px;'+
 '  line-height: 2;'+
 'display: inline-block;'+
 '}'+
@@ -268,15 +274,14 @@ var html = '<!DOCTYPE html>'+
 '  text-align: center;'+
 '}'+
 '.dated-para{'+
-'  margin: 35px 0 56px 118px;'+
-'  text-align: center;'+
+'  margin-left:73px;'+
 '}'+
-'.signatures{'+
-      'float: right;' +
-    'position: relative;'+
-    'width: 95px;'+
-    'height: 48px;'+
-'    margin-top: -5%;'+
+'.signature-block{'+
+'    width: 100%;'+
+    'text-align: right;'+
+'}'+
+'.signature-img img{'+
+  'width:88px;'+
 '}'+
 '@media screen and (max-width: 1280px){'+
   '.text-color{'+
@@ -297,17 +302,20 @@ var html = '<!DOCTYPE html>'+
 '       <p class="space">I/We,<span class="text-color">'  +resident.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+resident.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">Telos</span> (name of proxy) *[or failing him <span  class="text-color"></span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+resident.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +startDate+'</span> day of <span class="text-color">'  +startMonth+'</span>*[and at any adjournment therof]</p>'+
 ''+
 ''+
-'       <p class="dated-para">Dated this day of <span class="">'+ newDate +'</span> .</p><br/>'
+'       <p class="dated-para">Dated this day of <span class="">'+ newDate +'</span> .</p><br/>'+
+        '<div class="signature-block">'+
+            '<div class="signature-img">' 
         console.log(resident.signature, "ffffff")
         _.forEach(resident.signature, function(sign) {
           console.log(sign , "hhhhh")
-          html+= '<img src="'+sign+'" alt="one" class="signatures" ><br/>'
+          html+= '<img src="'+sign+'" alt="one" class="signatures" >'
           }) 
         if(resident.chopImage){
-          html+= '<img src="'+resident.chopImage+'" alt="one" class="signatures" ><br/>'
+          html+= '<img src="'+resident.chopImage+'" alt="one" class="signatures" >'
         }
          html+=
-'        <p class="signature-text" style="float: right;"><span class=""></span>Signatures</p><br/><br/><br/>'+
+         '</div>' + 
+'       <p class="signature-text" >Signatures</p></div>'+
 '    '+
 '       <span>*Delete where inapplicable.</span>'+
 ''+
@@ -317,7 +325,7 @@ var html = '<!DOCTYPE html>'+
 '     </div>'+
 '</body>'+
 '</html>'
-pdf.create(html).toBuffer(function(err, buffer){
+pdf.create(html, options).toBuffer(function(err, buffer){
   console.log('This is a buffer:', buffer, Buffer.isBuffer(buffer));
  var data = {
                 Bucket: BucketName,
