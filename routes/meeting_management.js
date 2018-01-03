@@ -266,6 +266,7 @@ var html = '<!DOCTYPE html>'+
 '    border-bottom: 1px dotted #000; '  +
    ' min-width: 380px;'+
    ' display: inline-block;'+
+       'text-align: center;'+
 '}'+
 '.space{'+
 ' text-indent: 50px;'+
