@@ -211,6 +211,10 @@ var startDate = moment(new Date(req.body.startTime)).format('Do')
 var startMonth = monthNames[new Date(req.body.startTime).getMonth()]
 Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
 .then(function(residents, err){
+  console.log(residents, "residents")
+  if(residents.length == 0){
+ res.redirect('/meetingManagement')  }
+ else{
   promiseArr.push(new Promise(function(resolve, reject){
 _.forEach(residents, function(resident) {
 var html = '<!DOCTYPE html>'+
@@ -274,6 +278,11 @@ var html = '<!DOCTYPE html>'+
     'height: 48px;'+
 '    margin-top: -5%;'+
 '}'+
+'@media screen and (max-width: 1280px){'+
+  '.text-color{'+
+    'min-width: 110px;'+
+ ' }'+
+'}' +
 '</style>'+
 '  <div class="form-width">'+
 '     <div class="form-heading">'+
@@ -329,6 +338,7 @@ bucket.putObject(data, function (err, data) {
 });
 })
 }))
+}
 Promise.all(promiseArr)
 .then(function(form, err){
   res.redirect('/meetingManagement')
