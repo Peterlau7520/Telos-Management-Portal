@@ -195,6 +195,7 @@ router.post('/updatePolls', (req,res)=>{
 })
 
 router.post('/generateProxyForms', (req,res) => {
+  console.log('here')
 var src = ''
 var promiseArr = []
   console.log(req.body.endTime  , req.body.startTime  , "hhhh")
