@@ -125,7 +125,7 @@ router.post('/updatePolls', (req,res)=>{
             fileLinks.push(name)
                 var data = {
                 Bucket: BucketName,
-                Key: `${req.body.estateName.replace(/ /g,'')}/Polls/${name}`,
+                Key: `${req.body.estateName.replace(/ /g,'')}/PollReport/${name}`,
                 Body: info,
                 ContentType: 'application/pdf',
                 ContentDisposition: 'inline',
@@ -222,7 +222,7 @@ var html = '<!DOCTYPE html>'+
 '<body>'+
 '  <style>'+
 '  .form-width{'+
-'  width: 745px;'+
+'  max-width: 745px;'+
 '    margin: 0 auto;'+
 '}'+
 '.heading-left{'+
