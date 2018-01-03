@@ -125,7 +125,7 @@ router.post('/updatePolls', (req,res)=>{
             fileLinks.push(name)
                 var data = {
                 Bucket: BucketName,
-                Key: `${req.body.estateName.replace(/ /g,'')}/Polls/${name}`,
+                Key: `${req.body.estateName.replace(/ /g,'')}/PollReport/${name}`,
                 Body: info,
                 ContentType: 'application/pdf',
                 ContentDisposition: 'inline',
@@ -146,7 +146,6 @@ router.post('/updatePolls', (req,res)=>{
     }
     function updatePolls(req, res, fileLinks){
       const poll = JSON.parse(req.body.polls)
-      console.log("hhffffffffffffffffffffff", req.body)
   _.forEach(poll, function(item) {
     console.log(item, "item")
      promiseArr.push(new Promise(function(resolve, reject){
