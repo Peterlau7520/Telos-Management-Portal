@@ -132,12 +132,12 @@ router.post('/updatePolls', (req,res)=>{
                 ContentDisposition: 'inline',
                 ACL: "public-read"
             }; 
-            bucket.putObject(data, function (err, data) {
+            bucket.upload(data, function (err, data) {
                 if (err) {
                     console.log('Error uploading data: ', err);
                 } else {
-                    console.log('succesfully uploaded the pdf!');
-                    updatePolls(req, res, fileLinks)
+                    console.log('succesfully uploaded the pdf!', data);
+                    updatePolls(req, res, data.Location)
                 }
             });
         }
