@@ -137,7 +137,7 @@ router.post('/updatePolls', (req,res)=>{
                     console.log('Error uploading data: ', err);
                 } else {
                     console.log('succesfully uploaded the pdf!', data);
-                    updatePolls(req, res, data.Location)
+                      updatePolls(req, res, data.Location)
                 }
             });
         }
@@ -148,7 +148,7 @@ router.post('/updatePolls', (req,res)=>{
     function updatePolls(req, res, fileLinks){
       const poll = JSON.parse(req.body.polls)
       console.log("hhffffffffffffffffffffff", req.body)
-  _.forEach(poll, function(item) {
+     _.forEach(poll, function(item) {
     console.log(item, "item")
      promiseArr.push(new Promise(function(resolve, reject){
     var options = item.options 
@@ -174,24 +174,27 @@ router.post('/updatePolls', (req,res)=>{
       new: true 
     })
       .then(function(r, err){
-        if(err) res.send(err);
-         Meeting.findOneAndUpdate({
-      _id: req.body.meetingName
-    }, {
-        $set: {
-          pollReport: fileLinks
-        }
-    },{ 
-      new: true 
-    })
-         .then(function(meeting, err){
-                  if(err) res.send(err);
-
-       res.redirect('/meetingManagement')
-     })
+        //if(err) res.send(err);
+       resolve(r)
       })
         
   }))
+     Promise.all(promiseArr)
+    .then(function(form, err){
+      if (err) res.send(err);
+      Meeting.findOneAndUpdate({
+         _id: req.body.meetingName
+        }, {
+         $set: {
+          pollReport: fileLinks
+        }
+        },{ 
+        new: true 
+      }).then(function(data, err){
+        res.redirect('/meetingManagement')
+            console.log("all files done")                    
+        })
+    })
      })
  }
 })
