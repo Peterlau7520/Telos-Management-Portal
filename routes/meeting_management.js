@@ -147,9 +147,7 @@ router.post('/updatePolls', (req,res)=>{
     }
     function updatePolls(req, res, fileLinks){
       const poll = JSON.parse(req.body.polls)
-      console.log("hhffffffffffffffffffffff", req.body)
      _.forEach(poll, function(item) {
-    console.log(item, "item")
      promiseArr.push(new Promise(function(resolve, reject){
     var options = item.options 
     var  max = -Infinity
@@ -160,7 +158,14 @@ router.post('/updatePolls', (req,res)=>{
         key = k; 
       }
       });
+      var i = 0
+       console.log(options[i+1].percentage, options[i+2].percentage,  options[i].percentage, "percentage")
+      if(options[i].percentage === options[i+1].percentage &&  options[i+1].percentage === options[i+2].percentage){
+        var finalResult = "N/A"
+      }
+      else{
       var finalResult = options[key].choice
+      }
       console.log("Item",item);
       console.log("finalResult",finalResult); 
       Poll.findOneAndUpdate({
