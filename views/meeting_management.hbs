@@ -252,8 +252,8 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    console.log({{{stringify Estate}}})
-    var data = '{{{stringify Estate}}}'
+    console.log(JSON.parse(`{{{stringify Estate}}}`))
+    var data = `{{{stringify Estate}}}`
     var newdata = JSON.parse(data);
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
@@ -320,7 +320,7 @@ $(document).ready(function () {
                                             html = html +
                                             '<div class="col-md-12 '+selectedMeeting.polls[i]._id+'">' +
                                             '<div class="form-group voting_opt ">'+
-                                                '<label style="margin-right: 25px; width: 120px; float:left; padding-left: 30px; padding-top:5px;">是 | '+selectedMeeting.polls[i].options[j]+':</label>'+
+                                                '<label style="margin-right: 25px; width: 120px; float:left; padding-left: 30px; padding-top:5px;">'+selectedMeeting.polls[i].options[j]+':</label>'+
                                                 '<input type="text" class="form-control" style="height:30px; float:left; width:100px; border-radius:0; border:0.5px solid #ccc;" id='+selectedMeeting.polls[i].options[j]+' style="width: 30%; display: inline;" name="option" required/>'+
                                                ' <div class="fortrail">% </div>'+
                                             '</div>' + '</div>'
@@ -438,8 +438,8 @@ $(document).ready(function () {
     })
     //upcoming Meeting
     $(document).on("click", "#upcomingMeeting", function (event) {
-        console.log({{{stringify upcomingData}}})
-        const upcomingnewData = '{{{stringify upcomingData}}}'
+        console.log(`{{{stringify upcomingData}}}`)
+        const upcomingnewData = `{{{stringify upcomingData}}}`;
         var upcomingData = JSON.parse(upcomingnewData)
         console.log(upcomingData)
         $('.tableCtrl tr').remove();
@@ -462,7 +462,7 @@ $(document).ready(function () {
     $(document).on("click", ".generate-Proxy", function (event) {
         event.preventDefault();
         console.log(event.target.id, "event")
-        const upcomingnewData = '{{{stringify upcomingData}}}'
+        const upcomingnewData = `{{{stringify upcomingData}}}`;
         var upcomingData = JSON.parse(upcomingnewData)
         console.log(upcomingData[event.target.id], "dd")
         const HostName = "http://localhost:3000"
