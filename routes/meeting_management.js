@@ -132,12 +132,12 @@ router.post('/updatePolls', (req,res)=>{
                 ContentDisposition: 'inline',
                 ACL: "public-read"
             }; 
-            bucket.putObject(data, function (err, data) {
+            bucket.upload(data, function (err, data) {
                 if (err) {
                     console.log('Error uploading data: ', err);
                 } else {
-                    console.log('succesfully uploaded the pdf!');
-                    updatePolls(req, res, fileLinks)
+                    console.log('succesfully uploaded the pdf!', data);
+                      updatePolls(req, res, data.Location)
                 }
             });
         }
@@ -147,8 +147,8 @@ router.post('/updatePolls', (req,res)=>{
     }
     function updatePolls(req, res, fileLinks){
       const poll = JSON.parse(req.body.polls)
-  _.forEach(poll, function(item) {
-    console.log(item, "item")
+
+     _.forEach(poll, function(item) {
      promiseArr.push(new Promise(function(resolve, reject){
     var options = item.options 
     var  max = -Infinity
@@ -159,7 +159,14 @@ router.post('/updatePolls', (req,res)=>{
         key = k; 
       }
       });
+      var i = 0
+       console.log(options[i+1].percentage, options[i+2].percentage,  options[i].percentage, "percentage")
+      if(options[i].percentage === options[i+1].percentage &&  options[i+1].percentage === options[i+2].percentage){
+        var finalResult = "N/A"
+      }
+      else{
       var finalResult = options[key].choice
+      }
       console.log("Item",item);
       console.log("finalResult",finalResult); 
       Poll.findOneAndUpdate({
@@ -173,24 +180,27 @@ router.post('/updatePolls', (req,res)=>{
       new: true 
     })
       .then(function(r, err){
-        if(err) res.send(err);
-         Meeting.findOneAndUpdate({
-      _id: req.body.meetingName
-    }, {
-        $set: {
-          pollReport: fileLinks
-        }
-    },{ 
-      new: true 
-    })
-         .then(function(meeting, err){
-                  if(err) res.send(err);
-
-       res.redirect('/meetingManagement')
-     })
+        //if(err) res.send(err);
+       resolve(r)
       })
         
   }))
+     Promise.all(promiseArr)
+    .then(function(form, err){
+      if (err) res.send(err);
+      Meeting.findOneAndUpdate({
+         _id: req.body.meetingName
+        }, {
+         $set: {
+          pollReport: fileLinks
+        }
+        },{ 
+        new: true 
+      }).then(function(data, err){
+        res.redirect('/meetingManagement')
+            console.log("all files done")                    
+        })
+    })
      })
  }
 })
@@ -266,6 +276,7 @@ var html = '<!DOCTYPE html>'+
 '    border-bottom: 1px dotted #000; '  +
    ' min-width: 380px;'+
    ' display: inline-block;'+
+       'text-align: center;'+
 '}'+
 '.space{'+
 ' text-indent: 50px;'+
