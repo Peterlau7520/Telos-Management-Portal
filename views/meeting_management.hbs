@@ -77,7 +77,7 @@
                                                     {{#each Estate as |value estate_key|}}
                                                     <option value="{{estate_key}}">{{estateName}}</option>
                                                     {{/each}}
-                                                </select>   
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +87,7 @@
                                                 <label>選擇會議 | SELECT MEETINGS</label>
                                                 <select class="form-control" id="meetingYoutube" name="meetingYoutube">
                                                     <option value="">Select Meeting</option>
-                                                </select> 
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -100,7 +100,7 @@
                                         </div>
                                     </div>
                                     <!-- YOUR WORK HERE -->
-                                
+
                                     <input type="hidden" name="floor_info" id="floor_info"/>
                                     <button type="submit" class="btn btn-info btn-fill pull-right">發送 | Send</button>
                                     <div class="clearfix"></div>
@@ -125,7 +125,7 @@
                                                  {{#each Estate as |value estate_key|}}
                                                     <option value="{{estate_key}}">{{estateName}}</option>
                                                     {{/each}}
-                                                </select> 
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@
                                                 <label>選擇會議 | SELECT MEETINGS</label>
                                                  <select class="form-control" id="meetingPoll" name="meetingPoll">
                                                     <option value="">{{title}}</option>
-                                                </select>    
+                                                </select>
                                             </div>
                                             <div class="pollFileModal"></div>
                                         </div>
@@ -144,22 +144,22 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group pollModal">
-                                               
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class ="pollValue" ></div> 
+                                        <div class ="pollValue" ></div>
                                     </div>
-                                    <div class="row">                             
+                                    <div class="row">
                                     <div class="form-group upload-btn-wrapper">
                                         <label>Agenda | 議程</label>
                                         <div class="documents_wrapper1">
-                                            <input type="file" name="file" accept="application/pdf" style="border-radius: 4px;" id="fileValue"/>      
+                                            <input type="file" name="file" accept="application/pdf" style="border-radius: 4px;" id="fileValue"/>
                                         </div>
-                                        
+
                                     </div>
-                                    </div>    
+                                    </div>
                                     <div class="row">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-info btn-fill btnupload pull-right" >上傳 | Upload</button>
@@ -196,15 +196,15 @@
                                              {{startTime}}
                                             </td>
                                             <td>{{estate}}</td>
-                                           <td> {{title}} | {{titleChn}}</td> 
-                                           <td>{{status}}</td>                                  
+                                           <td> {{title}} | {{titleChn}}</td>
+                                           <td>{{status}}</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
 
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 </div>
 
@@ -247,16 +247,13 @@
 <div id="excelTable"></div>
 <div id="floor_model" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
-        
+
     </div>
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-<<<<<<< HEAD
     console.log(JSON.parse(`{{{stringify Estate}}}`))
-=======
     console.log({{{stringify Estate}}})
->>>>>>> 77d80576db4692fa3c1453b0052c16595ddaf3c3
     var data = `{{{stringify Estate}}}`
     var newdata = JSON.parse(data);
     $('#estateYoutube').change(function() {
@@ -266,7 +263,7 @@ $(document).ready(function () {
         $("#meetingYoutube").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
             //$("#meetingYoutube").val(eState);
-             $.each(meeting, function(key,item){  
+             $.each(meeting, function(key,item){
                 $("#meetingYoutube").append('<option value='+item._id+'>'+item.title+'</option>');
             })
          }
@@ -285,7 +282,7 @@ $(document).ready(function () {
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
             //$("#meetingYoutube").val(eState);
-            $.each(meeting, function(key,item){  
+            $.each(meeting, function(key,item){
                 $("#meetingPoll").append('<option value='+key+'>'+item.title+'</option>');
             })
          }
@@ -307,19 +304,19 @@ $(document).ready(function () {
     })
 
     //edit poll model
-    
+
     function poll_modal(blockdata, selectedMeeting){
         console.log(selectedMeeting, "selectedMeeting", blockdata)
             var html = '<div class="modal-content ModelStyle" style="padding: 10px;">' +
                             '<div class="modal-header">' +
                                 '<h4 class="modal-title">更新投票結果 | Update Poll Results</h4>'+
-                            '</div>'  
+                            '</div>'
                                     for(i=0; i< selectedMeeting.polls.length; i++){
-                                        html = html + 
+                                        html = html +
                                         '<div class="modal-body">' +
                                     '<h6>'+selectedMeeting.polls[i].pollNameChn+' | '+selectedMeeting.polls[i].pollName+'</h6>'+
                                     '<div class="poll">' +
-                                    '<input type="hidden" name="id" value='+selectedMeeting.polls[i]._id+' >' + '</div>' 
+                                    '<input type="hidden" name="id" value='+selectedMeeting.polls[i]._id+' >' + '</div>'
                                         for(j=0; j< selectedMeeting.polls[i].options.length; j++){
                                             var regex = /[.\s]+/g;
                                              var option = selectedMeeting.polls[i].options[j].replace(regex, '_')
@@ -334,18 +331,18 @@ $(document).ready(function () {
                                             '</div>' + '</div>'
                                         }
                                         html = html +
-                                    '<div>'+    
+                                    '<div>'+
                                 '</div>'+'</div>'
                              }
                         html = html  +
                             '<div class="modal-footer" style="border-top: 0px solid; margin-top: 25px;">' +
                             '<button type="button" class="btn btn btn-danger btn-fill CancelBtn" id="cancel1">取消 | Cancel</button>' +
-                             '<button type="button" class="btn btn btn-info btn-fill ConfirmBtn" id="cancel">確定 | Confirm</button>'+ 
+                             '<button type="button" class="btn btn btn-info btn-fill ConfirmBtn" id="cancel">確定 | Confirm</button>'+
                             '</div>';
                         return html;
         }
-    
-    
+
+
     $(document).on('click','.downloadPoll',function(event){
         console.log('download file')
     $("#excelTable").html('');
@@ -363,11 +360,11 @@ $(document).ready(function () {
                   type: 'POST',
                   data: JSON.stringify(selectedMeeting),
                   contentType: 'application/json',
-                 beforeSend: function() { 
+                 beforeSend: function() {
                     var html = '<img id="theImg" class ="loader" src= "assets/img/load.gif "/>'
                       $("#loading").append(html);
                       $("#submit").prop('disabled', true); // disable button
-                    }, 
+                    },
                     success:function(data){
                         console.log(data, "dta")
                         window.open("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + escape(data.xls))
@@ -375,11 +372,11 @@ $(document).ready(function () {
                         console.log(data, "data")
                        var html = ''
                       $("#loading").append(html);
-                      $("#submit").prop('disabled', false); 
+                      $("#submit").prop('disabled', false);
                       //location.reload(); // enable button
                     },
                   error  : function() { console.log('error');}
-            });       
+            });
      /* $.each(selectedMeeting.polls, function(key1, data1){
         console.log(data1)
         var votedUser = ''
@@ -404,7 +401,7 @@ $(document).ready(function () {
       html = html + '</table>'
       console.log(html, "html")
       $("#excelTable").append(html);
-      $("#excelFile").table2excel({  
+      $("#excelFile").table2excel({
                     //exclude: ".noExl",
                     name: "PollFile",
                     filename: selectedMeeting.title,
@@ -413,27 +410,27 @@ $(document).ready(function () {
                     exclude_links: true,
                     exclude_inputs: true*/
           //  }); */
-    
+
     })
     $(document).on('click','.pollModel',function(event){
             var modeldata = '';
             var modelhtml = poll_modal(modeldata, selectedMeeting);
                 $("#floor_model .modal-dialog").html(modelhtml);
                 $("#floor_model").modal();
-          }) 
+          })
     var poll = []
     $(document).on('click','.CancelBtn',function(event){
         $("#floor_model").modal('hide');
     })
     $(document).on('click','.ConfirmBtn',function(event){
-        
+
         $.each($(".poll :input[name*='id']"), function(data1, key1){
             var id = $(this).val()
             let options=[]
             let dataVal = $("."+id).find(".voting_opt :input[name*='option']")
             console.log(dataVal)
-            $.each(dataVal, function(data, key){ 
-            console.log($(this).attr('id').replace(/\./g,' '), "iddddddddddd")   
+            $.each(dataVal, function(data, key){
+            console.log($(this).attr('id').replace(/\./g,' '), "iddddddddddd")
              var regex = /[_\s]+/g;
                 var updateCHoice = $(this).attr('id').replace(regex, '.')
                 options.push({choice: updateCHoice, percentage: $(this).val()})
@@ -442,34 +439,30 @@ $(document).ready(function () {
             console.log(poll, "poll")
         })
         poll = JSON.stringify(poll)
-        var html = `<input type="hidden" name="polls" value=${poll} />` 
+        var html = `<input type="hidden" name="polls" value=${poll} />`
           $('.pollValue').append(html)
-            
+
             $("#floor_model").modal('hide');
     })
     //upcoming Meeting
     $(document).on("click", "#upcomingMeeting", function (event) {
-<<<<<<< HEAD
         console.log(`{{{stringify upcomingData}}}`)
         const upcomingnewData = `{{{stringify upcomingData}}}`;
-=======
         console.log({{{stringify upcomingData}}})
-        const upcomingnewData = `{{{stringify upcomingData}}}`
->>>>>>> 77d80576db4692fa3c1453b0052c16595ddaf3c3
         var upcomingData = JSON.parse(upcomingnewData)
         console.log(upcomingData)
         $('.tableCtrl tr').remove();
         $('#upcomingMeeting').css('color', 'Blue');
         $('#pastMeeting').css('color', 'Black');
-        var html = '' 
+        var html = ''
         for(var i=0; i<upcomingData.length; i++){
         html = html + '<tr>'+
                         '<td><a href="/generateProxyForms" class="btn btn-info btn-fill">GENERATE</a></td>'+
                         '<td>'+upcomingData[i].pollEndTime+' | '+upcomingData[i].pollTime+'</td>'+
                         '<td>'+upcomingData[i].startTime +
                         '<td>'+upcomingData[i].estate+'</td>'+
-                        '<td> '+upcomingData[i].title+ " | " + upcomingData[i].titleChn+'</td>'+ 
-                       '<td>'+upcomingData[i].status+'</td>'+     
+                        '<td> '+upcomingData[i].title+ " | " + upcomingData[i].titleChn+'</td>'+
+                       '<td>'+upcomingData[i].status+'</td>'+
                        '</tr>';
                 }
                        $('.tableCtrl').append(html);
@@ -478,11 +471,7 @@ $(document).ready(function () {
     $(document).on("click", ".generate-Proxy", function (event) {
         event.preventDefault();
         console.log(event.target.id, "event")
-<<<<<<< HEAD
         const upcomingnewData = `{{{stringify upcomingData}}}`;
-=======
-        const upcomingnewData = `{{{stringify upcomingData}}}`
->>>>>>> 77d80576db4692fa3c1453b0052c16595ddaf3c3
         var upcomingData = JSON.parse(upcomingnewData)
         console.log(upcomingData[event.target.id], "dd")
         const HostName = "http://localhost:3000"
@@ -490,15 +479,15 @@ $(document).ready(function () {
                   type: 'POST',
                   data: JSON.stringify(upcomingData[event.target.id]),
                   contentType: 'application/json',
-                 beforeSend: function() { 
+                 beforeSend: function() {
                     var html = '<img id="theImg" class ="loader" src= "assets/img/load.gif "/>'
                       $("#loading").append(html);
                       $("#submit").prop('disabled', true); // disable button
-                    }, 
-                    success:function(data){ 
+                    },
+                    success:function(data){
                        var html = ''
                       $("#loading").append(html);
-                      $("#submit").prop('disabled', false); 
+                      $("#submit").prop('disabled', false);
                       location.reload(); // enable button
                     },
                   error  : function() { console.log('error');}
@@ -517,14 +506,13 @@ $(document).ready(function () {
                         '<td>'+pastData[i].pollEndTime+' | "'+pastData[i].pollTime+' </td>'+
                         '<td>'+pastData[i].startTime+' </td>'+
                         '<td>'+pastData[i].estate+'</td>'+
-                        '<td> '+pastData[i].title+' | '+pastData[i].titleChn+'</td>'+ 
-                       '<td>'+pastData[i].status+'</td>'+     
+                        '<td> '+pastData[i].title+' | '+pastData[i].titleChn+'</td>'+
+                       '<td>'+pastData[i].status+'</td>'+
                        '</tr>';
                 }
                         $('.tableCtrl').append(html);
     })
 
-    
+
 })
 </script>
-

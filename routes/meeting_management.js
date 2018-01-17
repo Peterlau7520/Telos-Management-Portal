@@ -1,6 +1,6 @@
 /**
  * This file serves routes for meetingManagement
- * 
+ *
  */
 const express = require('express');
 const forEach = require('async-foreach').forEach;
@@ -37,7 +37,7 @@ const Resident = models.Resident;
 const Meeting = models.Meeting;
 const Poll = models.Poll
 router.use(busboyBodyParser({multi: true}));
-let currentDate = moment.utc(new Date()); 
+let currentDate = moment.utc(new Date());
 router.get('/meetingManagement', (req,res)=> {
   const promiseArr = []
   const currentMeetings = []
@@ -94,11 +94,11 @@ router.post('/sendYouTubeLink', (req,res)=>{
   Meeting.findOneAndUpdate({
       _id: id
     }, {
-      $set: { 
+      $set: {
         youtubelink: req.body.youtubeLink,
       }
-    },{ 
-      new: true 
+    },{
+      new: true
     })
 .then(function(meeting, err){
   res.redirect('/meetingManagement')
@@ -107,10 +107,10 @@ router.post('/sendYouTubeLink', (req,res)=>{
 })
 
 router.post('/getPolls', (req,res)=>{
-    
-    
-    
-    
+
+
+
+
 })
 router.post('/updatePolls', (req,res)=>{
   console.log(req.body, req.files)
@@ -131,7 +131,7 @@ router.post('/updatePolls', (req,res)=>{
                 ContentType: 'application/pdf',
                 ContentDisposition: 'inline',
                 ACL: "public-read"
-            }; 
+            };
             bucket.upload(data, function (err, data) {
                 if (err) {
                     console.log('Error uploading data: ', err);
@@ -150,13 +150,13 @@ router.post('/updatePolls', (req,res)=>{
 
      _.forEach(poll, function(item) {
      promiseArr.push(new Promise(function(resolve, reject){
-    var options = item.options 
+    var options = item.options
     var  max = -Infinity
-    var key 
-     options.forEach(function (v, k) { 
-     if (max < +v.percentage) { 
-        max = +v.percentage; 
-        key = k; 
+    var key
+     options.forEach(function (v, k) {
+     if (max < +v.percentage) {
+        max = +v.percentage;
+        key = k;
       }
       });
       var i = 0
@@ -168,7 +168,7 @@ router.post('/updatePolls', (req,res)=>{
       var finalResult = options[key].choice
       }
       console.log("Item",item);
-      console.log("finalResult",finalResult); 
+      console.log("finalResult",finalResult);
       Poll.findOneAndUpdate({
       _id: item.id
     }, {
@@ -176,14 +176,14 @@ router.post('/updatePolls', (req,res)=>{
           results: item.options,
           finalResult: finalResult
         }
-    },{ 
-      new: true 
+    },{
+      new: true
     })
       .then(function(r, err){
         //if(err) res.send(err);
        resolve(r)
       })
-        
+
   }))
      Promise.all(promiseArr)
     .then(function(form, err){
@@ -194,11 +194,11 @@ router.post('/updatePolls', (req,res)=>{
          $set: {
           pollReport: fileLinks
         }
-        },{ 
-        new: true 
+        },{
+        new: true
       }).then(function(data, err){
         res.redirect('/meetingManagement')
-            console.log("all files done")                    
+            console.log("all files done")
         })
     })
      })
@@ -216,7 +216,7 @@ var promiseArr = []
 var monthEnd = monthNames[new Date(req.body.endTime).getMonth()]
 var monthStart = monthNames[new Date(req.body.startTime).getMonth()]
 var newDate = moment(new Date()).format('Do') + ' of ' + monthNames[new Date().getMonth()] + ',' + new Date().getFullYear()
-var endDate = new Date(req.body.endTime).getDate() 
+var endDate = new Date(req.body.endTime).getDate()
 var endMonth = monthNames[new Date(req.body.endTime).getMonth()]
 var startDate = moment(new Date(req.body.startTime)).format('Do')
 var startMonth = monthNames[new Date(req.body.startTime).getMonth()]
@@ -315,17 +315,17 @@ var html = '<!DOCTYPE html>'+
 ''+
 '       <p class="dated-para">Dated this day of <span class="">'+ newDate +'</span> .</p><br/>'+
         '<div class="signature-block">'+
-            '<div class="signature-img">' 
+            '<div class="signature-img">'
         console.log(resident.signature, "ffffff")
         _.forEach(resident.signature, function(sign) {
           console.log(sign , "hhhhh")
           html+= '<img src="'+sign+'" alt="one" class="signatures" >'
-          }) 
+          })
         if(resident.chopImage){
           html+= '<img src="'+resident.chopImage+'" alt="one" class="signatures" >'
         }
          html+=
-         '</div>' + 
+         '</div>' +
 '       <p class="signature-text" >Signatures</p></div>'+
 '    '+
 '       <span>*Delete where inapplicable.</span>'+
@@ -371,7 +371,7 @@ console.log(data, "")*/
 router.post('/votingReminder', (req,res) => {
 
 
-    
+
 })
 
 router.post('/meetingReminder', (req,res)=> {
@@ -405,4 +405,3 @@ router.post('/WriteExcellFile', (req, res) => {
 
 });
 module.exports = router;
-
