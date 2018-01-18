@@ -24,6 +24,7 @@
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
+    "generate-password": "^1.3.0",
     "hbs": "^4.0.1",
     "html-convert": "^2.1.7",
     "html-pdf": "^2.2.0",
