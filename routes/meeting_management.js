@@ -390,7 +390,7 @@ router.post('/WriteExcellFile', (req, res) => {
             const result = {
               pollName: poll.pollName,
               option: votingResult.choice,
-              shares: votingResult.resident.shares,
+              shares: parseFloat(votingResult.resident.shares),
               resident: votingResult.resident.name
             }
             console.log(result);
