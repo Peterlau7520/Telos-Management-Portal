@@ -239,6 +239,7 @@ $(document).ready(function () {
            var search = searchEstate(estateName)
            if(search){
              $("#estateForm").submit();
+             $("#estateForm")[0].reset();
            }
          }
        } else {

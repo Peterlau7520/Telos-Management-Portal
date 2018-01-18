@@ -16,6 +16,8 @@ const fs = require('fs');
 const path = require('path');
 var AWS = require('aws-sdk');
 
+const { registration } = require('./registration');
+
 //Data models
 const Estate = models.Estate;
 const Resident = models.Resident;
@@ -76,12 +78,14 @@ router.post('/generateAccount', (req, res) => {
   var fileBuffer = info;
   var fileLocation = path.join('public', 'uploads', name);
   var uploadFile = fileLocation;
-  var fileurl = path.join('uploads',  name);
   fs.writeFile(uploadFile, fileBuffer,function(err) {
       if (err) {console.log(err);}
       convertExcel( fileLocation, undefined, undefined, function(err, data){
-          console.log(data, "data")
-          res.json({data: data})
+          const excelFile = registration(data);
+          const xls = json2xls(excelFile);
+          fs.writeFileSync('Exported_data.xlsx', xls, 'binary');
+          fs.unlink(fileLocation);
+          res.download('Exported_data.xlsx')
       });
    });
 })
