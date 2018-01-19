@@ -16,6 +16,8 @@ const models = require('./models/models');
 //----------------ROUTES----------------
 const meetingManagement = require('./routes/meeting_management');
 const accountManagement = require('./routes/account_management');
+const searchMeetings = require('./routes/search_meetings');
+
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const Estate = models.Estate;
@@ -79,22 +81,21 @@ app.use('/', auth(passport));
 app.use('/', index);
 app.use('/', meetingManagement);
 app.use('/', accountManagement)
+app.use('/', searchMeetings)
 
 //----------------ERRORS----------------
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
+
     // render the error page
     res.status(err.status || 500);
     res.render('error', {layout: 'errorLayout.hbs'});
   });
-  
+
 
 //----------------START----------------
 app.listen(process.env.PORT || 3000, function () {
     console.log('server successfully started on Port 3000');
 })
-
-  

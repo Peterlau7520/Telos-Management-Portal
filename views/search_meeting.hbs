@@ -1,0 +1,449 @@
+<style>
+.search-wrapper {
+    width: 75%;
+    margin: 10px;
+    padding: 0;
+    float: right;
+}
+
+.search-wrapper input {
+    background: transparent url(../assets/img/search-ic.svg);
+    /* border: 1px solid #e4d8d8; */
+    /* color: #000; */
+    width: 100%;
+    height: 41px;
+    padding: 12px 15px 12px 55px;
+    -webkit-transition: all 0.7s ease 0s;
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: 12px;
+}
+</style>
+<meta http-equiv="content-type" content="text/plain; charset=UTF-8" />
+<div class="wrapper">
+    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="/login" class="simple-text">
+                  Telos Management Portal
+              </a>
+                <a href="/login" class="simple-text">
+                  天羅科技管理平台
+              </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="/meetingManagement">
+                      <i class="pe-7s-graph"></i>
+                      <p>MEETING MANAGEMENT<br>
+                          會議管理
+                      </p>
+                  </a>
+                </li>
+                <li>
+                    <a href="/accountManagement">
+                      <i class="pe-7s-user"></i>
+                      <p>OWNER's ACCOUNT</p>
+                      <p>業主賬戶管理</p>
+                  </a>
+                </li>
+                <li class="active">
+                    <a href="/searchMeetings">
+                      <i class="pe-7s-folder"></i>
+                      <p>MEETINGS
+                          <br> 會議
+                      </p>
+                  </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                      <i class="pe-7s-map-marker"></i>
+                      <p>LOG OUT
+                          <br>
+                          登出</p>
+                  </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header" style="width: 100%;">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="pull-left">
+                        <a class="navbar-brand" href="#">Meetings | 會議 </a>
+                    </div>
+                    <div class="search-wrapper">
+                        <input type="text" class="form-control input-lg text-left pull-right" id="searchEs" value="" placeholder="Search Estate" onchange="searchEstate()">
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse">
+                </div>
+            </div>
+        </nav>
+        <div id="customMainComponent" class="row page-wrapper custom_wrapper">
+            <div id="sidebarMenu" class="side-menu">
+                <nav class="navbar navbar-default" role="navigation">
+                    <!-- Main Menu -->
+                    <div class="side-menu-container">
+                        <ul class="nav navbar-nav sidebar-nav">
+                            <li class="panel panel-default panel-shadow" id="dropdown2">
+                                <a data-toggle="collapse" href="#dropdown-lvl2" class="dropdown-list down-meeting" style="border-bottom: 1px solid #e7e7e7;box-shadow: none;">
+                                    <span>Meetings | 過往會議</span>
+                                    <span class="sidebar-rt-arrow">
+                                        <i id="ispan" class="fa fa-angle-right right-arrow-add" style="font-size:27px;"></i>
+                                    </span>
+                                </a>
+                                <div id="dropdown-lvl2" class="panel-collapse collapse ">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav" role="tablist" id="tablist">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+                <br/>
+            </div>
+            <!-- Main Content -->
+            <div class="custom_scroll_wrap">
+                <div class="tab-content tab-wraper side-bar tls-wrapper">
+                    <div class="content-header">
+                        <div class="row">
+                            <div id="headingBottom" class="col-lg-7">
+                                <div id="headingBottom2">
+                                </div>
+                                <p id="endhour"> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="meetingData"></div>
+                    {{#each meetingsData as |value meeting_key|}} {{#if @key}}
+                    <div role="tabpanel" class="tab-pane" id="tab_{{_id}}">
+                        {{else}}
+                        <div role="tabpanel" class="tab-pane active" id="tab_{{_id}}">
+                            {{/if}}
+                            <div class="div-wrapper">
+                                <div class="tls-content-box">
+                                    <form role="form" name="edit_meeting_{{meeting_key}}" id="edit_meeting_{{meeting_key}}" action="" method="post">
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'>Meeting Title | 會議標題</label>
+                                            <input name="meeting_id" type="hidden" value="{{_id}}">
+                                            <input id='title_{{meeting_key}}' style='display:none' type="text" class="form-control input_fields_{{meeting_key}}" name="title" value="{{title}}">
+                                            <div id='title_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{title}}</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'> Meeting Start Time | 會議開始時間</label>
+                                            <input id='start_time_{{meeting_key}}' style='display:none' type="datetime-local" name="start_time" class="form-control input_fields_{{meeting_key}}" value="{{startTime}}">
+                                            <div id='stime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{startTime}}</div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'>Meeting End Time | 會議結束時間</label>
+                                            <input id='end_time_{{meeting_key}}' style='display:none' type="datetime-local" name="end_time" class="form-control input_fields_{{meeting_key}}" value="{{endTime}}">
+                                            <div id='etime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{endTime}}</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'>Venue | 地點</label>
+                                            <input t id='venue_{{meeting_key}}' style='display:none' type="text" class="form-control input_fields_{{meeting_key}}" name="venue" value="{{venue}}">
+                                            <div id='venue_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{venue}}</div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'>Agenda | 議程</label>
+                                            <table class="table table-bordered table_custom_Wrapper">
+                                                <tr>
+                                                    <th>
+                                                        <label>ID | 指數</label>
+                                                    </th>
+                                                    <th>
+                                                        <label>Document name | 文件名稱</label>
+                                                    </th>
+                                                </tr>
+                                                {{#each fileLinks}}
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td style="word-break: break-all;"><a href="{{this.url}}">{{this.name}}</a></td>
+                                                </tr>
+                                                {{/each}}
+                                            </table>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'> Meeting Summary | 會議摘要</label>
+                                            <input id='meeting_summary_{{meeting_key}}' style='display:none' type="datetime-local" name="meeting_summary" class="form-control input_fields_{{meeting_key}}" value="{{startTime}}">
+                                            <div id='stime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{meetingSummary}}</div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class='custom_label'>Meeting Summary Chinese | 會議概要中文</label>
+                                            <input id='meeting_summary_chinese_{{meeting_key}}' style='display:none' type="datetime-local" name="meeting_summary_chinese" class="form-control input_fields_{{meeting_key}}" value="{{endTime}}">
+                                            <div id='etime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{meetingSummaryChn}}</div>
+                                        </div>
+                                        <br/>
+                                        <br/>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                    <div class="clearfix"></div>
+                                    <div id="loader2"></div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="div-wrapper">
+                                <div class="tls-content-box">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        {{#each polls}}
+                                        <div class="panel panel-default" style='box-shadow:-5px 6px 9px -8px #888888;margin-left: 1%;margin-right: 1%;'>
+                                            <a role="button" data-toggle="collapse" style='color:black' data-parent="#accordion" href="#poll_{{_id}}" aria-expanded="true" aria-controls="collapseOne">
+                                                <div class="panel-heading" role="tab">
+                                                    <h4 class="panel-title">
+                                                    {{pollNameChn}} | {{pollName}}
+                                                </h4>
+                                                    <h6 class="pull-right" style="margin-top: -23px">
+                                                Vote by | 投票截止於: {{endTime}}
+                                                </h6>
+                                                </div>
+                                            </a>
+                                            {{#if @key}}
+                                            <div id="poll_{{_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                {{else}}
+                                                <div id="poll_{{_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                                    {{/if}}
+                                                    <div class="panel-body">
+                                                        <form role="form" name="poll_form_{{@key}}" id="poll_form_{{meeting_key}}_{{@key}}">
+                                                            <div class="form-group col-sm-12">
+                                                                <label class='custom_label'>Summary</label>
+                                                                <input type="hidden" name="poll_id" value="{{pollId}}">
+                                                                <textarea rows="3" class="form-control input_fields_{{meeting_key}}" name="summary" readonly="true">{{summary}}</textarea>
+                                                                <div id='summary_div' class='display_meetings_detail_{{meeting_key}}'></div>
+                                                            </div>
+                                                            <div class="form-group col-sm-12">
+                                                                <label class='custom_label'>概要</label>
+                                                                <input type="hidden" name="poll_id" value="{{pollId}}">
+                                                                <textarea rows="3" class="form-control input_fields_{{meeting_key}}" name="summary" readonly="true">{{summaryChn}}</textarea>
+                                                                <div id='summary_div' class='display_meetings_detail_{{meeting_key}}'></div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                            <div class="col-sm-6">
+                                                                <div class="tls-voting-option-box">
+                                                                    <label class='custom_label'>VOTING OPTIONS | 投票選項</label>
+                                                                    <ul>
+                                                                        {{#each options as |value|}}
+                                                                        <li>- {{value}}</li>
+                                                                        {{/each}}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-sm-6">
+                                                                <label>Uploaded Documents | 已上傳的文件</label>
+                                                                <table class="table table-bordered table_custom_Wrapper">
+                                                                    <tr>
+                                                                        <th>
+                                                                            <label>ID | 指數</label>
+                                                                        </th>
+                                                                        <th>
+                                                                            <label>Document Name | 文件名稱</label>
+                                                                        </th>
+                                                                    </tr>
+                                                                    {{#each fileLinks as |value file_key|}}
+                                                                    <tr>
+                                                                        <td>{{file_key}}</td>
+                                                                        <td style="word-break: break-all;"><a href={{this.url}}>{{this.name}}</a></td>
+                                                                    </tr>
+                                                                    {{/each}}
+                                                                </table>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                            <div class="form-group col-sm-6">
+                                                            </div>
+                                                        </form>
+                                                        <div id="dialog1" title="Alert message" style="display: none; ">
+                                                            <div class="ui-dialog-content ui-widget-content">
+                                                                <p>
+                                                                    <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0"></span>
+                                                                    <label id="lblMessage1">
+                                                                    </label>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 pull-right">
+                                                            <div class="input_fields_wrap " id="{{meeting_key}}">
+                                                                <button value="{{@polls}}" class="edit_pole_button  btn btn-primary" id="{{@key}}">修改投票 | Edit Poll</button>
+                                                                <button value="{{@polls}}" class="delete_poll_btn btn btn-danger" id="{{@key}}">修改投票 | Delete Poll</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="poll" class="modal  fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add a Poll | 增加投票</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" action="/editPoll" method="post" name="editpoll_form" id="editpoll_form" enctype="multipart/form-data">
+                                <div class="form-group col-sm-6">
+                                    <label>Poll Title</label>
+                                    <input type="hidden" name="meeting_title" id="meeting_title" />
+                                    <input type="hidden" name="id" id="id" />
+                                    <input type="text" name="pollName" id="title" class="form-control">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>投票标题</label>
+                                    <input type="text" name="pollNameChn" id="title_chinese" class="form-control">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-sm-6">
+                                    <label>Summary</label>
+                                    <textarea name="summary" id="summary" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>概要</label>
+                                    <textarea type="datetime-local" name="summaryChn" id="summary_chinese" class="form-control"></textarea>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-sm-6">
+                                    <label>VOTING OPTION | 投票選項</label>
+                                    <br/>
+                                    <button class="add_field_button1 btn btn-primary pull-left">Add Options | 增加選項</button>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <div class="input_fields_wrap voting_opt1 tls-Vot-box-main">
+                                        <div class="tls-Vot-box">
+                                            <input class="pull-left tls-Voting-options" type="text" name="option" id="option" placeholder="E.g. Yes/是" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>Add Documents | 增加文件</label>
+                                    <p>
+                                        <button class="add_documents btn btn-primary">Add documents | 上傳文件</button>
+                                        <div class="documents_wrapper">
+                                            <div class="added_files"></div>
+                                        </div>
+                                    </p>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="close_model" style="float: right;"> 确认 | Confirm</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="poll2" class="modal  fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add a poll</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" action="/addPollsOfMeeting" method="post" enctype="multipart/form-data" name="#poll_form" id="poll_form">
+                                <div class="form-group col-sm-6 formlabel">
+                                    <label>Poll Title</label>
+                                    <input type="text" name="title" class="form-control">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>投票標題</label>
+                                    <input type="text" name="title_chinese" class="form-control">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-sm-6">
+                                    <label>Summary</label>
+                                    <textarea name="summary" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>概要</label>
+                                    <textarea type="datetime-local" name="summary_chinese" class="form-control"></textarea>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-sm-6">
+                                    <label>VOTING OPTION | 投票選項</label>
+                                    <br/>
+                                    <button class="add_field_button btn btn-primary addoptionbtn pull-left" style="margin-bottom:2%">Add Options | 增加選項</button>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <div class="input_fields_wrap voting_opt tls-Vot-box-main">
+                                        <div class="tls-Vot-box">
+                                            <input class="pull-left tls-Voting-options" type="text" name="option0" id="option" placeholder="E.g. Yes/是" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>Add Documents</label>
+                                    <p>
+                                        <button class="add_documents addoptionbtn btn btn-primary" type="button">Add documents | 上傳文件</button>
+                                        <div class="documents_wrapper" id="documents_file">
+                                        </div>
+                                    </p>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-success" id="close_model2" style="float: right;"> Confirm | 确认</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dialog2" title="Alert message" style="display: none; ">
+                <div class="ui-dialog-content ui-widget-content">
+                    <p>
+                        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0"></span>
+                        <label id="lblMessage2">
+                        </label>
+                    </p>
+                </div>
+            </div>
+            <script type="text/javascript">
+            function searchEstate() {
+                var estateName = $('#searchEs').val();
+                $.post("/searchMeetings", { estateName: estateName }, function(data, status) {
+                    if (data) {
+                        console.log(data, "datatata")
+                        for (var i = 0; i < data.meetingsData.length; i++) {
+                            var item = data.meetingsData[i];
+                            var html = '<li role="presentation">' +
+                                '<a class="past-meeting" href="#tab_' + item._id + '" aria-controls="home" role="tab" data-toggle="tab" id="' + i + '">' + item.title + ' | ' + item.titleChn + '</a>' +
+                                '</li>'
+                            $('#tablist').append(html)
+                            var html2 = '<div role="tabpanel" class="tab-pane active" id="#tab_' + item._id + '">' +
+                                '<div class="div-wrapper">' + '<div class="tls-content-box">' + '<form role="form" name="edit_meeting_' + i + '" id="edit_meeting_' + i + '" action="" method="post">' +
+                                '<div class="form-group col-sm-6">' + '<label class="custom_label">Meeting Title | 會議標題</label>' + '<input name="meeting_id" type="hidden" value="' + item._id + '">' +
+                                '<input id ="title_' + item._id + '"  style="display:none" type="text" class="form-control input_fields_' + item._id + '" name="title" value="' + item.title + '">' +
+                                '<div id="title_div_' + item._id + '" class="display_meetings_detail_' + item._id + '">' + item.title + '</div>' + '</div>' + '<div class="clearfix"></div>' + '<div class="form-group col-sm-6">' +
+                                '<label class="custom_label"> Meeting Start Time | 會議開始時間</label>' + '<input id ="start_time_' + i + '" style="display:none" type="datetime-local" name="start_time" class="form-control input_fields_' + i + '" value="' + item.startTime + '">' +
+                                '<div id="stime_div_' + i + '" class="display_meetings_detail_' + i + '">' + item.startTime + '</div>' + '</div>' +
+                                '<div class="form-group col-sm-6">' + '<label class="custom_label">Meeting End Time | 會議結束時間</label>' +
+                                '<input id ="end_time_' + i + '" style="display:none" type="datetime-local" name="end_time" class="form-control input_fields_' + i + '" value="' + item.endTime + '">' +
+                                '<div id="etime_div_' + i + '" class="display_meetings_detail_' + i + '">' + item.endTime + '</div>' + '</div>' + '<div class="clearfix"></div>' +
+                                '<div class="form-group col-sm-6">' + '<label class="custom_label">Venue | 地點</label>' + '<input t id ="venue_' + i + '" style="display:none" type="text" class="form-control input_fields_' + i + '" name="venue" value="' + item.venue + '">' +
+                                '</div>'
+                            $('#meetingData').append(html2)
+                        }
+                    }
+                });
+            }
+            </script>

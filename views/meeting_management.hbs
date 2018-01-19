@@ -29,6 +29,16 @@
                         <p>業主賬戶管理</p>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/searchMeetings">
+                        <i class="pe-7s-folder"></i>
+                        <p>MEETINGS
+                            <br> 會議
+                        </p>
+                    </a>
+                </li>
+
                 <li>
                     <a href="/logout">
                         <i class="pe-7s-map-marker"></i>
@@ -506,9 +516,9 @@ $(document).ready(function () {
                         '<td>'+pastData[i].pollEndTime+' | "'+pastData[i].pollTime+' </td>'+
                         '<td>'+pastData[i].startTime+' </td>'+
                         '<td>'+pastData[i].estate+'</td>'+
-                        '<td> '+pastData[i].title+' | '+pastData[i].titleChn+'</td>'+
-                       '<td>'+pastData[i].status+'</td>'+
-                       '</tr>';
+                        '<td>'+pastData[i].title+' | '+pastData[i].titleChn+'</td>'+
+                        '<td>'+pastData[i].status+'</td>'+
+                        '</tr>';
                 }
                         $('.tableCtrl').append(html);
     })
