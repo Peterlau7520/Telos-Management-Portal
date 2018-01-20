@@ -17,6 +17,7 @@ const models = require('./models/models');
 const meetingManagement = require('./routes/meeting_management');
 const accountManagement = require('./routes/account_management');
 const searchMeetings = require('./routes/search_meetings');
+const estateManagement = require('./routes/estate');
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
@@ -82,6 +83,7 @@ app.use('/', index);
 app.use('/', meetingManagement);
 app.use('/', accountManagement)
 app.use('/', searchMeetings)
+app.use('/', estateManagement)
 
 //----------------ERRORS----------------
 app.use(function(err, req, res, next) {

@@ -54,66 +54,81 @@ router.post('/searchMeetings', (req, res) => {
       if(meetings.length > 0) {
           promiseArr.push(new Promise(function(resolve, reject){
              forEach(meetings, function(item, key, a){
-               if( item.fileLinks && item.fileLinks.length > 0) {
-                  let fileLinks = [];
-                  var titleLink = ''
-                  var fileLinksLink = ''
-                  if(item.title){
+              if( item.fileLinks && item.fileLinks.length > 0) {
+                    let fileLinks = [];
+                    var titleLink = ''
+                    var fileLinksLink = ''
+                    if(item.title){
                     titleLink = item.title
                     titleLink = titleLink.replace(/[^A-Z0-9]/ig, "");
                     pollMeeting_title = titleLink
-                  }
-                  if(item.fileLinks[0]){
-                      fileLinksLink = item.fileLinks[0]
-                      fileLinksLink = fileLinksLink.replace(/[^A-Z0-9]/ig, "");
-                  }
-                  let Key = `${item.estateName}/${item.guid}/${fileLinksLink}`;
-                    fileLinks.push({
-                      name: item.fileLinks[0],
-                      url: "https://"+BucketName+".s3.amazonaws.com/"+Key
-                    })
-                  item.fileLinks = fileLinks;
+                }
+                if(item.fileLinks[0]){
+                    fileLinksLink = item.fileLinks[0]
+                    fileLinksLink = fileLinksLink.replace(/[^A-Z0-9]/ig, "");
+                }
+                      let Key = `${item.estateName}/${item.guid}/${fileLinksLink}`;
+                      fileLinks.push({
+                        name: item.fileLinks[0],
+                        url: "https://"+BucketName+".s3.amazonaws.com/"+Key
+                      })
+                    item.fileLinks = fileLinks;
               }
               if(item.polls){
-                forEach(item.polls, function(poll, key, a){
-                    var pollEndTime = moment(new Date(poll.endTime));
-                    item.polls[key].endTime = pollEndTime.format("MM-DD-YYYY");
-                    let polefileLinks = [];
-                    if(poll.fileLinks){
-                      forEach(poll.fileLinks, function(name, key, a){
-                        let fileLinks = [];
-                        var titleLink = ''
-                        var fileLinksLink = ''
-                        if(poll.pollName){
-                          titleLink = poll.pollName
-                          titleLink = titleLink.replace(/[^A-Z0-9]/ig, "");
-                        }
-                        if(name){
-                          fileLinksLink = name
-                          fileLinksLink = fileLinksLink.replace(/[^A-Z0-9]/ig, "");
-                        }
-                        let Key = `${item.estateName}/${item.guid}/Poll/${fileLinksLink}`;
-                        polefileLinks.push({
-                          name: name,
-                          url: "https://"+BucketName+".s3.amazonaws.com/"+Key
-                        })
-                        poll.fileLinks = polefileLinks;
+              forEach(item.polls, function(poll, key, a){
+                  var pollEndTime = moment(new Date(poll.endTime));
+                  item.polls[key].endTime = pollEndTime.format("MM-DD-YYYY");
+              let polefileLinks = [];
+              if(poll.fileLinks){
+                  forEach(poll.fileLinks, function(name, key, a){
+                      let fileLinks = [];
+                    var titleLink = ''
+                    var fileLinksLink = ''
+                    if(poll.pollName){
+                    titleLink = poll.pollName
+                    titleLink = titleLink.replace(/[^A-Z0-9]/ig, "");
+                }
+                if(name){
+                    fileLinksLink = name
+                    fileLinksLink = fileLinksLink.replace(/[^A-Z0-9]/ig, "");
+                }
+                      let Key = `${item.estateName}/${item.guid}/Poll/${fileLinksLink}`;
+                      polefileLinks.push({
+                        name: name,
+                        url: "https://"+BucketName+".s3.amazonaws.com/"+Key
                       })
-                   }
-                })
+                    poll.fileLinks = polefileLinks;
+                  })
               }
-              allMeetings.push(item)
-              resolve({meetingsData: allMeetings})
+              })
+          }
+                  var startTime = moment(new Date(item.startTime));
+                  item.startTime =  startTime.format("MM/DD/YYYY hh:mm a");
+                  if(Date.parse(new Date(item.endTime)) > Date.parse(new Date)){
+                    var endTime = moment(new Date(item.endTime));
+                  item.endTime =  endTime.format("MM/DD/YYYY hh:mm a");
+                  currentMeetings.push(item)
+                 //start is less than End
+                  }else{
+                    var endTime = moment(new Date(item.endTime));
+                  item.endTime =  endTime.format("MM/DD/YYYY hh:mm a");
+                   pastMeetings.push(item)
+                  //end is less than start
+                  }
+                  resolve({meetingsData: currentMeetings, pastMeetingsData: pastMeetings})
              })
          }))
           Promise.all(promiseArr)
           .then(function(data){
-            res.json({"meetingsData": data[0].meetingsData})
-         })
+            data[0]["estateNameDisplay"] = req.user.estateNameDisplay;
+            data[0]["estateNameChn"] = req.user.estateNameChn;
+            res.render('search',data[0])
+            //res.json({meetings:data[0]});
+          })
       }
      else{
-         res.render('search_meeting')
-      }
+        res.json({message:'Meetings not found'})
+     }
   })
 })
 

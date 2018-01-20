@@ -1,0 +1,387 @@
+<div id="sidebarMenu" class="side-menu">
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Main Menu -->
+        <div class="side-menu-container">
+            <ul class="nav navbar-nav sidebar-nav">
+                <li class="panel panel-default" id="dropdown">
+                    <a data-toggle="collapse" href="#dropdown-lvl1" class="dropdown-list up-meeting" style="    border-bottom: 1px solid #e7e7e7;">
+                        <span>Upcoming Meetings | 近期會議</span>
+                        <span class="sidebar-rt-arrow">
+                            <i id="ispan" class="fa fa-angle-right right-arrow-add" style="font-size:27px;"></i>
+                        </span>
+                    </a>
+                    <div id="dropdown-lvl1" class="panel-collapse collapse in">
+                        <div class="custome-panel-body panel-body">
+                            <ul class="nav navbar-nav" role="tablist">
+                                {{#each meetingsData}} {{#if @key}}
+                                <li role="presentation">
+                                    {{else}}
+                                    <li role="presentation" class="active">
+                                        {{/if}}
+                                        <a class='meeting_li' href="#tab_{{_id}}" aria-controls="home" id="{{@key}}" role="tab" data-toggle="tab">{{title}} | {{titleChn}}</a>
+                                    </li>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="panel panel-default panel-shadow" id="dropdown2">
+                    <a data-toggle="collapse" href="#dropdown-lvl2" class="dropdown-list down-meeting" style="border-bottom: 1px solid #e7e7e7;box-shadow: none;">
+                        <span>Past Meetings | 過往會議</span>
+                        <span class="sidebar-rt-arrow ">
+                            <i id="ispan2" class="fa fa-angle-right" style="font-size:27px;"></i>
+                        </span>
+                    </a>
+                    <div id="dropdown-lvl2" class="panel-collapse collapse ">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav" role="tablist">
+                                {{#each pastMeetingsData}}
+                                <li role="presentation">
+                                    <a class='past-meeting' href="#tab_{{_id}}" aria-controls="home" role="tab" data-toggle="tab" id="{{@key}}">{{title}} | {{titleChn}}</a>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+    <br/>
+</div>
+<!-- Main Content -->
+<div class="custom_scroll_wrap">
+    <div class="tab-content tab-wraper side-bar tls-wrapper">
+        <div class="content-header">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h3 id="heading3">Upcoming Meeting <br>  近期會議</h3>
+                </div>
+                <div id="headingBottom" class="col-lg-7">
+                    <p id="endhour"> </p>
+                </div>
+            </div>
+        </div>
+        {{#each meetingsData as |value meeting_key|}} {{#if @key}}
+        <div role="tabpanel" class="tab-pane" id="tab_{{_id}}">
+            {{else}}
+            <div role="tabpanel" class="tab-pane active" id="tab_{{_id}}">
+                {{/if}}
+                <div class="div-wrapper">
+                    <div class="tls-content-box">
+                        <form role="form" name="edit_meeting_{{meeting_key}}" id="edit_meeting_{{meeting_key}}" action="" method="post">
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'>Meeting Title | 會議標題</label>
+                                <input name="meeting_id" type="hidden" value="{{_id}}">
+                                <input id='title_{{meeting_key}}' style='display:none' type="text" class="form-control input_fields_{{meeting_key}}" name="title" value="{{title}}">
+                                <div id='title_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{title}}</div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'> Meeting Start Time | 會議開始時間</label>
+                                <input id='start_time_{{meeting_key}}' style='display:none' type="datetime-local" name="start_time" class="form-control input_fields_{{meeting_key}}" value="{{startTime}}">
+                                <div id='stime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{startTime}}</div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'>Meeting End Time | 會議結束時間</label>
+                                <input id='end_time_{{meeting_key}}' style='display:none' type="datetime-local" name="end_time" class="form-control input_fields_{{meeting_key}}" value="{{endTime}}">
+                                <div id='etime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{endTime}}</div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'>Venue | 地點</label>
+                                <input t id='venue_{{meeting_key}}' style='display:none' type="text" class="form-control input_fields_{{meeting_key}}" name="venue" value="{{venue}}">
+                                <div id='venue_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{venue}}</div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'>Agenda | 議程</label>
+                                <table class="table table-bordered table_custom_Wrapper">
+                                    <tr>
+                                        <th>
+                                            <label>ID | 指數</label>
+                                        </th>
+                                        <th>
+                                            <label>Document name | 文件名稱</label>
+                                        </th>
+                                    </tr>
+                                    {{#each fileLinks}}
+                                    <tr>
+                                        <td>1</td>
+                                        <td style="word-break: break-all;"><a href="{{this.url}}">{{this.name}}</a></td>
+                                    </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'> Meeting Summary | 會議摘要</label>
+                                <input id='meeting_summary_{{meeting_key}}' style='display:none' type="datetime-local" name="meeting_summary" class="form-control input_fields_{{meeting_key}}" value="{{startTime}}">
+                                <div id='stime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{meetingSummary}}</div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class='custom_label'>Meeting Summary Chinese | 會議概要中文</label>
+                                <input id='meeting_summary_chinese_{{meeting_key}}' style='display:none' type="datetime-local" name="meeting_summary_chinese" class="form-control input_fields_{{meeting_key}}" value="{{endTime}}">
+                                <div id='etime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{meetingSummaryChn}}</div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="clearfix"></div>
+                        </form>
+                        <div class="clearfix"></div>
+                        <div id="loader2"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="div-wrapper">
+                    <div class="tls-content-box">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            {{#each polls}}
+                            <div class="panel panel-default" style='box-shadow:-5px 6px 9px -8px #888888;margin-left: 1%;margin-right: 1%;'>
+                                <a role="button" data-toggle="collapse" style='color:black' data-parent="#accordion" href="#poll_{{_id}}" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-heading" role="tab" >
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7">
+                                                <h4 class="panel-title">
+                                                {{pollNameChn}} | {{pollName}}
+                                            </h4>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5">
+                                                <h6 class="pull-right">
+                                            Vote by | 投票截止於: {{endTime}}
+                                            </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                {{#if @key}}
+                                <div id="poll_{{_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    {{else}}
+                                    <div id="poll_{{_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        {{/if}}
+                                        <div class="panel-body">
+                                            <form role="form" name="poll_form_{{@key}}" id="poll_form_{{meeting_key}}_{{@key}}">
+                                                <div class="form-group col-sm-12">
+                                                    <label class='custom_label'>Summary</label>
+                                                    <input type="hidden" name="poll_id" value="{{pollId}}">
+                                                    <textarea rows="3" class="form-control input_fields_{{meeting_key}}" name="summary" readonly="true">{{summary}}</textarea>
+                                                    <div id='summary_div' class='display_meetings_detail_{{meeting_key}}'></div>
+                                                </div>
+                                                <div class="form-group col-sm-12">
+                                                    <label class='custom_label'>概要</label>
+                                                    <input type="hidden" name="poll_id" value="{{pollId}}">
+                                                    <textarea rows="3" class="form-control input_fields_{{meeting_key}}" name="summary" readonly="true">{{summaryChn}}</textarea>
+                                                    <div id='summary_div' class='display_meetings_detail_{{meeting_key}}'></div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="col-sm-6">
+                                                    <div class="tls-voting-option-box">
+                                                        <label class='custom_label'>VOTING OPTIONS | 投票選項</label>
+                                                        <ul>
+                                                            {{#each options as |value|}}
+                                                            <li>- {{value}}</li>
+                                                            {{/each}}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <label>Uploaded Documents | 已上傳的文件</label>
+                                                    <table class="table table-bordered table_custom_Wrapper">
+                                                        <tr>
+                                                            <th>
+                                                                <label>ID | 指數</label>
+                                                            </th>
+                                                            <th>
+                                                                <label>Document Name | 文件名稱</label>
+                                                            </th>
+                                                        </tr>
+                                                        {{#each fileLinks as |value file_key|}}
+                                                        <tr>
+                                                            <td>{{file_key}}</td>
+                                                            <td style="word-break: break-all;"><a href={{this.url}}>{{this.name}}</a></td>
+                                                        </tr>
+                                                        {{/each}}
+                                                    </table>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="form-group col-sm-6">
+                                                </div>
+                                            </form>
+                                            <div id="dialog1" title="Alert message" style="display: none; ">
+                                                <div class="ui-dialog-content ui-widget-content">
+                                                    <p>
+                                                        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0"></span>
+                                                        <label id="lblMessage1">
+                                                        </label>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}} {{#each pastMeetingsData as |value meeting_key|}} {{#if @key}}
+                <div role="tabpanel" class="tab-pane" id="tab_{{_id}}">
+                    {{else}}
+                    <div role="tabpanel" class="tab-pane" id="tab_{{_id}}">
+                        {{/if}}
+                        <div class="div-wrapper">
+                            <form role="form" name="edit_meeting_{{meeting_key}}" id="edit_meeting_{{meeting_key}}" action="/deleteMeeting" method="post">
+                                <div class="form-group col-sm-6">
+                                    <label class='custom_label'>Meeting Title | 會議標題</label>
+                                    <input name="meeting_id" type="hidden" value="{{id}}">
+                                    <input id='title_{{meeting_key}}' style='display:none' type="text" class="form-control input_fields_{{meeting_key}}" name="title" value="{{title}}">
+                                    <div id='title_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{title}}</div>
+                                </div>
+                                <div class="form-group col-sm-6 text-right">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-sm-6">
+                                    <label class='custom_label'>Meeting Start Time | 會議開始時間</label>
+                                    <input id='start_time_{{meeting_key}}' style='display:none' type="datetime-local" name="start_time" class="form-control input_fields_{{meeting_key}}" value="{{startTime}}">
+                                    <div id='stime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{startTime}}</div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label class='custom_label'>Meeting End Time | 會議結束時間</label>
+                                    <input id='end_time_{{meeting_key}}' style='display:none' type="datetime-local" name="end_time" class="form-control input_fields_{{meeting_key}}" value="{{endTime}}">
+                                    <div id='etime_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{endTime}}</div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-sm-6">
+                                    <label class='custom_label'>Venue | 地點</label>
+                                    <input t id='venue_{{meeting_key}}' style='display:none' type="text" class="form-control input_fields_{{meeting_key}}" name="venue" value="{{venue}}">
+                                    <div id='venue_div_{{meeting_key}}' class='display_meetings_detail_{{meeting_key}}'>{{venue}}</div>
+                                </div>
+                                <div class="orfm-group col-sm-6">
+                                    <label class='custom_label'>Agenda | 議程</label>
+                                    <table class="table table-bordered table_custom_Wrapper">
+                                        <tr>
+                                            <th>
+                                                <label>ID | 指數</label>
+                                            </th>
+                                            <th>
+                                                <label>Document Name | 文件名稱</label>
+                                            </th>
+                                        </tr>
+                                        {{#each fileLinks}}
+                                        <tr>
+                                            <td>1</td>
+                                            <td style="word-break: break-all;"><a href="{{this.url}}">{{this.name}}</a></td>
+                                        </tr>
+                                        {{/each}}
+                                    </table>
+                                    <div class="add" id="addAgenda"> </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                        <div class="div-wrapper">
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                {{#each polls}}
+                                <div class="panel panel-default" style='box-shadow:-5px 6px 9px -8px #888888; margin-left: 20px; margin-right: 20px'>
+                                    <a role="button" data-toggle="collapse" style='color:black' data-parent="#accordion" href="#poll_{{_id}}" aria-expanded="true" aria-controls="collapseOne">
+                                        <div class="panel-heading" role="tab">
+                                            <div class="row">
+                                                <div class="col-lg-7 col-md-7">
+                                                    <h4 class="panel-title">
+                                                {{pollNameChn}} | {{pollName}}
+                                            </h4>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5">
+                                                    <h6 class="pull-right">
+                                            Vote by | 投票截止於: {{endTime}}
+                                            </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    {{#if @key}}
+                                    <div id="poll_{{_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        {{else}}
+                                        <div id="poll_{{_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                            {{/if}}
+                                            <div class="panel-body">
+                                                <form role="form" name="poll_form_{{@key}}" id="poll_form_{{meeting_key}}_{{@key}}">
+                                                    <div class="form-group col-sm-12">
+                                                        <label class='custom_label'>Summary</label>
+                                                        <input type="hidden" name="poll_id" value="{{pollId}}">
+                                                        <textarea rows="3" class="form-control input_fields_{{meeting_key}}" name="summary" readonly="true">{{summary}}</textarea>
+                                                        <div id='summary_div' class='display_meetings_detail_{{meeting_key}}'></div>
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label class='custom_label'>概要</label>
+                                                        <input type="hidden" name="poll_id" value="{{pollId}}">
+                                                        <textarea rows="3" class="form-control input_fields_{{meeting_key}}" name="summary" readonly="true">{{summaryChn}}</textarea>
+                                                        <div id='summary_div' class='display_meetings_detail_{{meeting_key}}'></div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-sm-6">
+                                                        <div class="tls-voting-option-box">
+                                                            <label class='custom_label'>VOTING OPTIONS | 投票選項</label>
+                                                            <ul>
+                                                                {{#each options as |value|}}
+                                                                <li>- {{value}}</li>
+                                                                {{/each}}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label>Uploaded Documents | 已上傳的文件</label>
+                                                        <table class="table table-bordered table_custom_Wrapper">
+                                                            <tr>
+                                                                <th>
+                                                                    <label>ID | 指數</label>
+                                                                </th>
+                                                                <th>
+                                                                    <label>Document name | 文件名稱</label>
+                                                                </th>
+                                                            </tr>
+                                                            {{#each fileLinks as |value file_key|}}
+                                                            <tr>
+                                                                <td>{{file_key}}</td>
+                                                                <td style="word-break: break-all;"><a href={{this.url}}>{{this.name}}</a></td>
+                                                            </tr>
+                                                            {{/each}}
+                                                        </table>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="form-group col-sm-6">
+                                                    </div>
+                                                </form>
+                                                <div id="dialog1" title="Alert message" style="display: none; ">
+                                                    <div class="ui-dialog-content ui-widget-content">
+                                                        <p>
+                                                            <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0"></span>
+                                                            <label id="lblMessage1">
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div id="dialog2" title="Alert message" style="display: none; ">
+                                                    <div class="ui-dialog-content ui-widget-content">
+                                                        <p>
+                                                            <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0"></span>
+                                                            <label id="lblMessage2">
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
