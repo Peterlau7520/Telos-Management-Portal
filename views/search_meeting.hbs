@@ -94,6 +94,32 @@
                 </div>
             </div>
         </nav>
+<div class="container row page-wrapper custom_wrapper">
+  <h2>All Estates Data</h2>
+  <p>Describes No. of Meetings , Surveys & Forums in a Estate</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">Estate Name</th>
+        <th class="text-center">Upcoming Meetings</th>
+        <th class="text-center">Past Meetings</th>
+        <th class="text-center">Surveys</th>
+        <th class="text-center">Forum Posts</th>
+      </tr>
+    </thead>
+    <tbody>
+     {{#each estateData as |value estate_key|}}
+      <tr>
+        <td class="text-center">{{estateName}}</td>
+        <td class="text-center">{{currentMeetingCount}}</td>
+        <td class="text-center">{{pastMeetingCount}}</td>
+        <td class="text-center">{{surveyCount}}</td>
+        <td class="text-center">{{postCount}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
         <div id="customMainComponent" class="row page-wrapper custom_wrapper">
             <div id="sidebarMenu" class="side-menu">
                 <nav class="navbar navbar-default" role="navigation">
@@ -270,7 +296,12 @@
       </div>
 
   <script type="text/javascript">
-    function searchEstate() {
+    var tableData= `{{{stringify estateData}}}`
+    if(tableData != ''){
+    tableData = JSON.parse(tableData)
+    }
+    console.log(tableData, "tableData")
+      function searchEstate() {
         var estateName = $('#searchEs').val();
         $.post("/searchMeetings", { estateName: estateName }, function(data, status) {
             if (data) {

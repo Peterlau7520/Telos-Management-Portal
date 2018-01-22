@@ -69,7 +69,7 @@ router.get('/searchMeetings', (req,res) => {
                 }
               })
             } else {
-              res.render('search_meeting', estateData)
+              res.render('search_meeting', {estateData:estateData})
             }
           }
           next();
