@@ -277,13 +277,16 @@ function searchEstate(estateName){
     $.post("/searchEstate",{esName: estateName},function(data, status){
          if(data.success){
             $('#xcel').css('display','none')
+            $('#searchEstate').text('SEARCH')
             alert('Estate name already exist');
             status = false
          } else {
             $('#xcel').css('display','')
+            $('#searchEstate').text('UPLOAD')
          }
     });
     return status
 }
+
 
 </script>

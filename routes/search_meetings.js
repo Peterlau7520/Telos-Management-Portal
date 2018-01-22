@@ -1,3 +1,4 @@
+
 /**
  * This file serves routes for notices
  */
@@ -8,6 +9,7 @@ const Notice = models.Notice;
 const Meeting = models.Meeting;
 const Resident = models.Resident;
 const Poll = models.Poll;
+const Post = models.Post;
 const forEach = require('async-foreach').forEach;
 var Promise = require('bluebird');
 const _ = require('lodash');
@@ -41,7 +43,38 @@ let currDate = new Date();
 let currentDate = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate()+" "+currDate.getHours()+":"+currDate.getMinutes()+":"+currDate.getSeconds();
 
 router.get('/searchMeetings', (req,res) => {
-    res.render('search_meeting')
+    Estate.find({}, function(error, estates){
+      const promiseArr = []
+      var estateData = []
+      if(estates.length > 0){
+          var i = -1;
+          var next =  function(){
+            i++;
+            if(i < estates.length){
+              var estateObj = {}
+              estateObj.pastMeetingCount = estates[i].pastMeetings.length;
+              estateObj.currentMeetingCount = estates[i].currentMeetings.length;
+              estateObj.surveyCount = estates[i].surveys.length;
+              estateObj.estateName = estates[i].estateName;
+              console.log(estateObj, "estateObjestateObj")
+              Post.count({estateName:estates[i].estateName}, function(err, posts){
+                if(posts){
+                  estateObj.postCount = posts;
+                  estateData.push(estateObj)
+                  next();
+                } else {
+                  estateObj.postCount = 0;
+                  estateData.push(estateObj)
+                  next();
+                }
+              })
+            } else {
+              res.render('search_meeting', estateData)
+            }
+          }
+          next();
+      }
+    })
 })
 
 router.post('/searchMeetings', (req, res) => {

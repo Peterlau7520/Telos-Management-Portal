@@ -61,12 +61,12 @@ Resident.findOneAndUpdate({_id: req.body.id},
 })
 
 router.post('/searchEstate', (req, res) => {
-  Estate.find({estateName: req.body.esName})
+  Resident.find({estateName: req.body.esName})
   .then(function(data){
     if(data.length){
-      res.json({success: true, message: "Estate Found"})
+      res.json({success: true, message: "Resident Found"})
     } else {
-      res.json({success: false, message: "Estate Not Found"})
+      res.json({success: false, message: "Resident Not Found"})
     }
   })
 })
