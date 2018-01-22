@@ -42,15 +42,17 @@ router.get('/estateManagement', (req,res) => {
 })
 
 router.post('/reportedPosts', (req,res) => {
-  PostReport.remove({"_id":{$in:req.body.reposts}}, function (error, result){
+  var reposts = JSON.parse(req.body.repost)
+  PostReport.remove({"_id":{$in:reposts}}, function (error, result){
     if(!error){
       res.json({success: true, message: "Reported post deleted succesfully"})
     }
   })
 })
 
-router.post('/reportedPosts', (req,res) => {
-  CommentReport.remove({"_id":{$in:req.body.recommen}}, function (error, result){
+router.post('/reportedComments', (req,res) => {
+  var comments = JSON.parse(req.body.recomment)
+  CommentReport.remove({"_id":{$in:comments}}, function (error, result){
     if(!error){
       res.json({success: true, message: "Reported comment deleted succesfully"})
     }

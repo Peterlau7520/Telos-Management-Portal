@@ -56,7 +56,6 @@ router.get('/searchMeetings', (req,res) => {
               estateObj.currentMeetingCount = estates[i].currentMeetings.length;
               estateObj.surveyCount = estates[i].surveys.length;
               estateObj.estateName = estates[i].estateName;
-              console.log(estateObj, "estateObjestateObj")
               Post.count({estateName:estates[i].estateName}, function(err, posts){
                 if(posts){
                   estateObj.postCount = posts;

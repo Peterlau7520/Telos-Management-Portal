@@ -76,6 +76,73 @@
                 </div>
             </div>
         </nav>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-md-6" style="margin-left: -24px;">
+              <div class="container row page-wrapper custom_wrapper" style="min-height: 0%;width: 90%;">
+                <h2>Reported Posts</h2>
+                <p>Describes No. of Reported posts</p>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th class="text-center"></th>
+                      <th class="text-center">No</th>
+                      <th class="text-center">Post</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   {{#each reportedPost as |value post_key|}}
+                    <tr>
+                      <td>
+                        <input type="checkbox"  id="commentCheck{{comment_key}}" class="ads_Checkbox2" name="selector[]" value="{{_id}}">
+                      </td>
+                      <td class="text-center">{{post_key}}</td>
+                      <td class="text-center">{{postReport}}</td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+                <div>
+                {{#if reportedPost.length}}
+                  <button class="btn btn-primary pull-right"  type="button" onclick="removePost()">Remove</button>
+                {{/if}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="container row page-wrapper custom_wrapper" style="min-height: 0%;width: 90%;">
+                <h2>Reported Comments</h2>
+                <p>Describes No. of Reported comments</p>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th class="text-center"></th>
+                      <th class="text-center">No</th>
+                      <th class="text-center">Comment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   {{#each reportedComment as |value comment_key|}}
+                    <tr>
+                      <td>
+                        <input type="checkbox"  id="commentCheck{{comment_key}}" class="ads_Checkbox" name="selector[]" value="{{_id}}">
+                      </td>
+                      <td class="text-center">{{comment_key}}</td>
+                      <td class="text-center">{{commentReport}}</td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+                <div>
+                  {{#if reportedComment.length}}
+                   <button class="btn btn-primary pull-right"  type="button" onclick="removeComment()">Remove</button>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <div class="content" style="padding-bottom:0; min-height:800px">
 
@@ -120,3 +187,43 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+  var reposts = []
+  var recomment = []
+  function removeComment(){
+      var recomment = [];
+      $('.ads_Checkbox:checked').each(function(i){
+        var id = $(this).val();
+        recomment.push(id);
+      });
+      if(recomment.length > 0){
+        $.post("/reportedComments", { recomment: JSON.stringify(recomment) }, function(data, status) {
+            if (data.success) {
+                location.reload();
+            }
+        });
+      } else {
+        alert("Please select comment")
+      }
+  }
+
+  function removePost(){
+    var reposts = [];
+    $('.ads_Checkbox2:checked').each(function(i){
+      var id = $(this).val();
+      reposts.push(id);
+    });
+    if(reposts.length > 0){
+      $.post("/reportedPosts", { repost : JSON.stringify(reposts) }, function(data, status) {
+          if (data.success) {
+              location.reload();
+          } else {
+          }
+      });
+    } else {
+      alert("Please select post")
+    }
+  }
+
+</script>
