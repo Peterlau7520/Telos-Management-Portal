@@ -55,6 +55,7 @@ router.post('/searchMeetings', (req, res) => {
           promiseArr.push(new Promise(function(resolve, reject){
              forEach(meetings, function(item, key, a){
               if( item.fileLinks && item.fileLinks.length > 0) {
+                console.log(item, "item")
                     let fileLinks = [];
                     var titleLink = ''
                     var fileLinksLink = ''
@@ -67,7 +68,7 @@ router.post('/searchMeetings', (req, res) => {
                     fileLinksLink = item.fileLinks[0]
                     fileLinksLink = fileLinksLink.replace(/[^A-Z0-9]/ig, "");
                 }
-                      let Key = `${item.estateName}/${item.guid}/${fileLinksLink}`;
+                      let Key = `${item.estate}/${item.guid}/${fileLinksLink}`;
                       fileLinks.push({
                         name: item.fileLinks[0],
                         url: "https://"+BucketName+".s3.amazonaws.com/"+Key
@@ -92,7 +93,7 @@ router.post('/searchMeetings', (req, res) => {
                     fileLinksLink = name
                     fileLinksLink = fileLinksLink.replace(/[^A-Z0-9]/ig, "");
                 }
-                      let Key = `${item.estateName}/${item.guid}/Poll/${fileLinksLink}`;
+                      let Key = `${item.estate}/${item.guid}/Poll/${fileLinksLink}`;
                       polefileLinks.push({
                         name: name,
                         url: "https://"+BucketName+".s3.amazonaws.com/"+Key
