@@ -113,7 +113,6 @@ router.post('/getPolls', (req,res)=>{
 
 })
 router.post('/updatePolls', (req,res)=>{
-  console.log(req.body, req.files)
   const promiseArr = []
   const fileLinks=[]
 
@@ -146,14 +145,17 @@ router.post('/updatePolls', (req,res)=>{
       updatePolls(req, res, fileLinks)
     }
     function updatePolls(req, res, fileLinks){
-      const poll = JSON.parse(req.body.polls)
-
+      console.log(req.body, "poll")
+     const poll = JSON.parse(req.body.polls)
+            console.log(poll, "poll")
      _.forEach(poll, function(item) {
      promiseArr.push(new Promise(function(resolve, reject){
     var options = item.options
     var  max = -Infinity
     var key
      options.forEach(function (v, k) {
+      console.log(v, "vvvvv")
+      v.choice = v.choice.replace(/_/g," ")
      if (max < +v.percentage) {
         max = +v.percentage;
         key = k;
