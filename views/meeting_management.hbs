@@ -208,15 +208,20 @@
                                     </thead>
                                     <tbody class="tableCtrl">
                                    {{#each upcomingData as |value meeting_key|}}
+
                                         <tr>
                                             <td>  <a href="/" id="{{meeting_key}}" class="btn btn-info btn-fill generate-Proxy">GENERATE</a> </td>
-                                            <td>{{pollEndTime}} | {{pollTime}}</td>
+                                            {{#if pollTime}}
+                                            <td>{{pollEndTime}} | <span style="color: red;" >{{pollTime}}</span></td>
+                                            {{else}}
+                                            <td>{{pollEndTime}} | Remind</td>
+                                            {{/if}}
                                             <td>
                                              {{startTime}}
                                             </td>
                                             <td>{{estate}}</td>
                                            <td> {{title}} | {{titleChn}}</td>
-                                           <td>{{status}}</td>
+                                           <td>{{status}}</td> 
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -373,7 +378,7 @@ $(document).ready(function () {
                         '<th>VotedBy</th>' +
                         '<th>Shares</th>' +
                     '</tr>';
-        const HostName = "http://localhost:3000"
+        const HostName = "http://localhost:4000"
       $.ajax(HostName+'/WriteExcellFile', {
                   type: 'POST',
                   data: JSON.stringify(selectedMeeting),
@@ -496,7 +501,7 @@ $(document).ready(function () {
         const upcomingnewData = `{{{stringify upcomingData}}}`;
         var upcomingData = JSON.parse(upcomingnewData)
         console.log(upcomingData[event.target.id], "dd")
-        const HostName = "http://localhost:3000"
+        const HostName = "http://localhost:4000"
              $.ajax(HostName+'/generateProxyForms', {
                   type: 'POST',
                   data: JSON.stringify(upcomingData[event.target.id]),

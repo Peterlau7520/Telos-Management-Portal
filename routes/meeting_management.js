@@ -70,7 +70,7 @@ router.get('/meetingManagement', (req,res)=> {
       _.forEach(meeting, function(item){
         var pollEndTime = moment.utc(new Date(item.pollEndTime));
         if(pollEndTime > currentDate || pollEndTime == currentDate){
-          item.pollTime = "Remind"
+          //item.pollTime = "Remind"
         }
         else{
           item.pollTime = "Ended"
@@ -208,8 +208,9 @@ router.post('/updatePolls', (req,res)=>{
 })
 
 router.post('/generateProxyForms', (req,res) => {
-  console.log('here')
+  console.log('here', req.body)
 var src = ''
+var body = req.body
 var promiseArr = []
   console.log(req.body.endTime  , req.body.startTime  , "hhhh")
   var monthNames = ["January", "February", "March", "April", "May", "June",
@@ -228,8 +229,8 @@ Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
   if(residents.length == 0){
  res.redirect('/meetingManagement')  }
  else{
-  promiseArr.push(new Promise(function(resolve, reject){
 _.forEach(residents, function(resident) {
+   promiseArr.push(new Promise(function(resolve, reject){
 var html = '<!DOCTYPE html>'+
 '<html>'+
 '<head>'+
@@ -335,8 +336,27 @@ var html = '<!DOCTYPE html>'+
 '<hr>'+
     ' <span>The format as shown in this instrument is the statutory one which is set out in the Building Management Ordinance (Form 2 in Schedule 1A). No alteration of the format is permitted. </span>'+
 '  </div>'+
-'     </div>'+
-'</body>'+
+'     </div>'+ '<br/>' +'<br/>' +
+'<div style="margin-left: 10%;margin-bottom: 1%;margin-top: 10%;page-break-before: always; padding-top: 10%" > Meeting Title English and Chinese : '+body.title+' |' +body.titleChn+ '<br/>'+
+'<span> Venue : '+body.venue+'</span><br/>'+
+'<span> Time: '+body.startTime+'</span>'+
+'</div>'
+ _.forEach(body.polls, function(poll, index) {
+  index++ ;
+html+= '<div style="margin-left: 10%;'+
+'    margin-bottom: 1%;">Item '+index+' : '+poll.pollName+ '|' +poll.pollNameChn + '<br/>' +'<div> Options:' +'<br/>'
+_.forEach(poll.options, function(option, index1) {
+  index1++;
+html+= '<span style="margin-left: 0%;">' +index1+') '+option+'</span><br/>'
+})
+html+= '</div>' +'<span> Number of shares: '+resident.shares+'</span><br/>'+ '<div class="">'+ '<span style=" display:  inherit;"> Signatures:  </span>'
+ _.forEach(resident.signature, function(sign) {
+          console.log(sign , "hhhhh")
+          html+= '<img src="'+sign+'" style="width: 8%;" alt="one" class="" >'
+          })
+html+= '</div>' +'</div>'
+})
+html+= '</body>'+
 '</html>'
 pdf.create(html, options).toBuffer(function(err, buffer){
   console.log('This is a buffer:', buffer, Buffer.isBuffer(buffer));
@@ -349,22 +369,20 @@ pdf.create(html, options).toBuffer(function(err, buffer){
                 ACL: "public-read"
             }; // req.user.estateName
 bucket.putObject(data, function (err, data) {
-            if (err) {
-                    console.log('Error uploading data: ', err);
-                } else {
-            console.log('succesfully uploaded the pdf!');
+            if (err) res.send(err)
+            console.log('succesfully uploaded the pdf!' );
             resolve(data)
-        }
-  });
-});
-})
+        })
+  })
 }))
-}
+})
+
 Promise.all(promiseArr)
 .then(function(form, err){
   res.redirect('/meetingManagement')
   console.log("all files done")
 })
+}
 })
 })
 /*var data = convert(html, {format:'png', quality: 100, width: 1280, height: 960})
@@ -405,5 +423,5 @@ router.post('/WriteExcellFile', (req, res) => {
         //console.log(xls, "xls")
         res.send({xls: xls})
 
-});
+})
 module.exports = router;
