@@ -112,6 +112,24 @@ router.post('/getPolls', (req,res)=>{
 
 
 })
+
+router.post('/appointProxy', (req,res)=>{
+  const id = req.body.meetingYoutube2
+  Meeting.findOneAndUpdate({
+      _id: id
+    }, {
+      $set: {
+        proxyFullName: req.body.proxyFullName,
+      }
+    },{
+      new: true
+    })
+.then(function(meeting, err){
+  res.redirect('/meetingManagement')
+  if(err) res.send(err);
+})
+})
+
 router.post('/updatePolls', (req,res)=>{
   const promiseArr = []
   const fileLinks=[]

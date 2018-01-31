@@ -186,6 +186,7 @@ const meetingSchema = new Schema({
     estate:String,
     youtubelink: String,
     views: { type: String, default: 0 },
+    proxyFullName: String,
 })
 
 //POST

@@ -132,12 +132,12 @@
                                 <h4 class="title">APPOINT PROXY</h4>
                             </div>
                             <div class="content">
-                                <form method="post" enctype="multipart/form-data" action="/sendYouTubeLink">
+                                <form method="post" enctype="multipart/form-data" action="/appointProxy">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATES</label>
-                                                <select class="form-control" id="estateYoutube" name="estateYoutube">
+                                                <select class="form-control" id="estateYoutube2" name="estateYoutube2">
                                                     <option value="" selected hidden>Select Estate</option>
                                                     {{#each Estate as |value estate_key|}}
                                                     <option value="{{estate_key}}">{{estateName}}</option>
@@ -150,7 +150,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
-                                                <select class="form-control" id="meetingYoutube" name="meetingYoutube">
+                                                <select class="form-control" id="meetingYoutube2" name="meetingYoutube2">
                                                     <option value="">Select Meeting</option>
                                                 </select>
                                             </div>
@@ -160,7 +160,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>PROXY 全名 | PROXY FULLNAME </label>
-                                                <input type="text" class="form-control" placeholder="YOUTUBE" name="youtubeLink">
+                                                <input type="text" class="form-control" placeholder="PROXY FULLNAME" name="proxyFullName">
                                             </div>
                                         </div>
                                     </div>
@@ -327,12 +327,27 @@ $(document).ready(function () {
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
         const meeting = newdata[eState].currentMeetings
+        console.log(meeting, "meeting")
         $("#meetingYoutube option").remove();
         $("#meetingYoutube").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
             //$("#meetingYoutube").val(eState);
              $.each(meeting, function(key,item){
                 $("#meetingYoutube").append('<option value='+item._id+'>'+item.title+'</option>');
+            })
+         }
+    });
+    
+    $('#estateYoutube2').change(function() {
+        var eState = $(this).val()
+        const meeting = newdata[eState].currentMeetings
+        console.log(meeting, "meeting")
+        $("#meetingYoutube2 option").remove();
+        $("#meetingYoutube2").append('<option value="">'+'Select Meeting'+'</option>');
+         if(eState){
+            //$("#meetingYoutube").val(eState);
+             $.each(meeting, function(key,item){
+                $("#meetingYoutube2").append('<option value='+item._id+'>'+item.title+'</option>');
             })
          }
     });
