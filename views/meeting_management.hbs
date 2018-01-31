@@ -126,6 +126,50 @@
                                 </form>
                             </div>
                         </div>
+
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">APPOINT PROXY</h4>
+                            </div>
+                            <div class="content">
+                                <form method="post" enctype="multipart/form-data" action="/sendYouTubeLink">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>選擇屋苑 | SELECT ESTATES</label>
+                                                <select class="form-control" id="estateYoutube" name="estateYoutube">
+                                                    <option value="" selected hidden>Select Estate</option>
+                                                    {{#each Estate as |value estate_key|}}
+                                                    <option value="{{estate_key}}">{{estateName}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>選擇會議 | SELECT MEETINGS</label>
+                                                <select class="form-control" id="meetingYoutube" name="meetingYoutube">
+                                                    <option value="">Select Meeting</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                      <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>PROXY 全名 | PROXY FULLNAME </label>
+                                                <input type="text" class="form-control" placeholder="YOUTUBE" name="youtubeLink">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="floor_info" id="floor_info"/>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">委任 | APPOINT</button>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card" style="height: 450px;">
