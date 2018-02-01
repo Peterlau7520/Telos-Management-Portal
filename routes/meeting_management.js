@@ -249,6 +249,19 @@ Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
  else{
 _.forEach(residents, function(resident) {
    promiseArr.push(new Promise(function(resolve, reject){
+  console.log(resident)
+  var proxyName = ''
+  var alternativeproxyName = ''
+  if(body.proxyFullName == ''){
+    proxyName = "Ma Song Sing"
+    alternativeproxyName = "Ho Yu Tin"
+  }
+  else{
+    var arr = body.proxyFullName.split(',')
+    //body.proxyFullName.split()
+    proxyName = arr[0]
+    alternativeproxyName = arr[1]
+  }
 var html = '<!DOCTYPE html>'+
 '<html>'+
 '<head>'+
@@ -331,7 +344,7 @@ var html = '<!DOCTYPE html>'+
 '      </div>'+
 '     <div class="form-contain">'+
 '       <p>The Incorporated Owners of <span class="text-color">'+resident.estateName+'</span>(description of building)</p>'+
-'       <p class="space">I/We,<span class="text-color">'  +resident.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+resident.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">Telos</span> (name of proxy) *[or failing him <span  class="text-color"></span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+resident.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +startDate+'</span> day of <span class="text-color">'  +startMonth+'</span>*[and at any adjournment therof]</p>'+
+'       <p class="space">I/We,<span class="text-color">'  +resident.name+'</span>(name(s) of owner(s)), being the owner(s) of <span class="text-color"> '+resident.unit+'</span>(unit and address of building), hereby appoint <span class="text-color">'+proxyName+'</span> (name of proxy) *[or failing him <span  class="text-color">'+alternativeproxyName+'</span> (name of alternative proxy)], as my/our proxy to attend and vote on my/our behalf at the *[general meeting/annual general meeting] of The Incorporated Owners of<span>  '+resident.estateName+'</span>(description of building), to be held on the<span class="text-color"> ' +startDate+'</span> day of <span class="text-color">'  +startMonth+'</span>*[and at any adjournment therof]</p>'+
 ''+
 ''+
 '       <p class="dated-para">Dated this day of <span class="">'+ newDate +'</span> .</p><br/>'+
@@ -355,7 +368,9 @@ var html = '<!DOCTYPE html>'+
     ' <span>The format as shown in this instrument is the statutory one which is set out in the Building Management Ordinance (Form 2 in Schedule 1A). No alteration of the format is permitted. </span>'+
 '  </div>'+
 '     </div>'+ '<br/>' +'<br/>' +
-'<div style="margin-left: 10%;margin-bottom: 1%;margin-top: 10%;page-break-before: always; padding-top: 10%" > Meeting Title English and Chinese : '+body.title+' |' +body.titleChn+ '<br/>'+
+'<div style="margin-left: 10%;margin-bottom: 1%;margin-top: 10%;page-break-before: always; padding-top: 10% ;font-weight:500;" > Account Name: '+resident.account+ '<br/>'+
+'<div style="font-weight:500">Owners Name:  ' +resident.name+'</div>'+
+'<div style="margin-left: 1%;margin-bottom: 1%;" > Meeting Title English and Chinese : '+body.title+' |' +body.titleChn+ '<br/>'+
 '<span> Venue : '+body.venue+'</span><br/>'+
 '<span> Time: '+body.startTime+'</span>'+
 '</div>'
@@ -368,7 +383,14 @@ _.forEach(poll.options, function(option, index1) {
   index1++;
 html+= '<span style="margin-left: 0%;">' +index1+') '+option+'</span><br/>'
 })
-html+= '<span style="">Final Result: '+poll.finalResult+'</span>'
+var result = ''
+_.forEach(poll.votingResults, function(votes, i) {
+    if(votes.resident == resident._id){
+      console.log("hellooooo")
+      result = votes.choice
+    }
+  })
+html+= '<span style="">Choice: '+result+'</span>'
 html+= '</div>' +'<span> Number of shares: '+resident.shares+'</span><br/>'+ '<div class="">'+ '<span style=" display:  inherit;"> Signatures:  </span>'
  _.forEach(resident.signature, function(sign) {
           console.log(sign , "hhhhh")

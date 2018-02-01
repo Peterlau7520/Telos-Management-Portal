@@ -254,6 +254,7 @@
                                    {{#each upcomingData as |value meeting_key|}}
 
                                         <tr>
+                                            <div id="loading"></div>
                                             <td>  <a href="/" id="{{meeting_key}}" class="btn btn-info btn-fill generate-Proxy">GENERATE</a> </td>
                                             {{#if pollTime}}
                                             <td>{{pollEndTime}} | <span style="color: red;" >{{pollTime}}</span></td>
@@ -445,7 +446,7 @@ $(document).ready(function () {
                   contentType: 'application/json',
                  beforeSend: function() {
                     var html = '<img id="theImg" class ="loader" src= "assets/img/load.gif "/>'
-                      $("#loading").append(html);
+                      //$("#loading").append(html);
                       $("#submit").prop('disabled', true); // disable button
                     },
                     success:function(data){
@@ -567,7 +568,8 @@ $(document).ready(function () {
                   data: JSON.stringify(upcomingData[event.target.id]),
                   contentType: 'application/json',
                  beforeSend: function() {
-                    var html = '<img id="theImg" class ="loader" src= "assets/img/load.gif "/>'
+                     $("body").toggleClass("wait");
+                    var html = '<img id="theImg" class ="loader" style="width: 53px;" src= "assets/img/load.gif "/>'
                       $("#loading").append(html);
                       $("#submit").prop('disabled', true); // disable button
                     },
