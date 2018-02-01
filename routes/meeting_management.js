@@ -370,14 +370,14 @@ var html = '<!DOCTYPE html>'+
 '     </div>'+ '<br/>' +'<br/>' +
 '<div style="margin-left: 10%;margin-bottom: 1%;margin-top: 10%;page-break-before: always; padding-top: 10% ;font-weight:500;" > Account Name: '+resident.account+ '<br/>'+
 '<div style="font-weight:500">Owners Name:  ' +resident.name+'</div>'+
-'<div style="margin-left: 1%;margin-bottom: 1%;" > Meeting Title English and Chinese : '+body.title+' |' +body.titleChn+ '<br/>'+
+'<div style="margin-left: 0%;margin-bottom: 1%;" > Meeting Title English and Chinese : '+body.title+' |' +body.titleChn+ '<br/>'+
 '<span> Venue : '+body.venue+'</span><br/>'+
 '<span> Time: '+body.startTime+'</span>'+
 '</div>'
  _.forEach(body.polls, function(poll, index) {
   console.log(poll, "poll")
   index++ ;
-html+= '<div style="margin-left: 10%;'+
+html+= '<div style="margin-left: 0%;'+
 '    margin-bottom: 1%;">Item '+index+' : '+poll.pollName+ '|' +poll.pollNameChn + '<br/>' +'<div> Options:' +'<br/>'
 _.forEach(poll.options, function(option, index1) {
   index1++;
