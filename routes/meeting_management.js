@@ -360,6 +360,7 @@ var html = '<!DOCTYPE html>'+
 '<span> Time: '+body.startTime+'</span>'+
 '</div>'
  _.forEach(body.polls, function(poll, index) {
+  console.log(poll, "poll")
   index++ ;
 html+= '<div style="margin-left: 10%;'+
 '    margin-bottom: 1%;">Item '+index+' : '+poll.pollName+ '|' +poll.pollNameChn + '<br/>' +'<div> Options:' +'<br/>'
@@ -367,6 +368,7 @@ _.forEach(poll.options, function(option, index1) {
   index1++;
 html+= '<span style="margin-left: 0%;">' +index1+') '+option+'</span><br/>'
 })
+html+= '<span style="">Final Result: '+poll.finalResult+'</span>'
 html+= '</div>' +'<span> Number of shares: '+resident.shares+'</span><br/>'+ '<div class="">'+ '<span style=" display:  inherit;"> Signatures:  </span>'
  _.forEach(resident.signature, function(sign) {
           console.log(sign , "hhhhh")

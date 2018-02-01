@@ -320,6 +320,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
+    
     console.log(JSON.parse(`{{{stringify Estate}}}`))
     console.log({{{stringify Estate}}})
     var data = `{{{stringify Estate}}}`
@@ -337,7 +338,7 @@ $(document).ready(function () {
             })
          }
     });
-    
+
     $('#estateYoutube2').change(function() {
         var eState = $(this).val()
         const meeting = newdata[eState].currentMeetings
