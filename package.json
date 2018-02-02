@@ -35,6 +35,7 @@
     "onesignal": "^0.1.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sendgrid": "^5.2.3"
   }
 }

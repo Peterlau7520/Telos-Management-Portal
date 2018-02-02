@@ -21,7 +21,7 @@ const estateManagement = require('./routes/estate');
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
-const Estate = models.Estate;
+const Admin = models.Admin;
 
 //----------------MIDDLEWARES----------------
 app.set('views', path.join(__dirname, 'views'));
@@ -40,33 +40,37 @@ const LocalStrategy = require('passport-local').Strategy
 app.use(session({ secret: 'telos production' }));
 
 passport.serializeUser(function(user, done) {
+  console.log('wwwwwww')
   done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  Estate.findById(id, function(err, user) {
+  Admin.findById(id, function(err, user) {
     done(err, user);
   });
 });
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
+    console.log(username, "usernameusernameusernameusernameusername")
     // Find the user with the given username
-    Estate.findOne({ 'username': username }, function (err, estate) {
+    Admin.findOne({ 'account': username }, function (err, estate) {
+      console.log(estate, "estate", password)
       // if there's an error, finish trying to authenticate (auth failed)
       if (err) {
         console.error(err);
         return done(err);
       }
       // if no user present, auth failed
-      if (!estate) {
+      /*if (!estate) {
         return done(null, false, { message: 'Incorrect username.' });
-      }
+      }*/
       // if passwords do not match, auth failed
-      if (estate.password !== password) {
+      /*if (estate.password !== password) {
         return done(null, false, { message: 'Incorrect password.' });
-      }
+      }*/
       // auth has has succeeded
+      
       return done(null, estate);
     });
   }

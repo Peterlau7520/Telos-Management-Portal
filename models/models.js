@@ -48,7 +48,15 @@ const residentSchema = new Schema({
     ],
     registered: {type: Boolean , default: false},
 });
-
+//management user schema
+const adminSchema = new Schema({
+    name: String,
+    email: String,
+    account: String,
+    password: String,
+    otp: String,
+    mobileNo: String,
+});
 //ESTATE
 const estateSchema = new Schema({
     estateName: String,
@@ -272,6 +280,7 @@ const commentReport = new Schema({
 
 
 const Resident = mongoose.model('Resident', residentSchema);
+const Admin = mongoose.model('Admins', adminSchema);
 const Estate =   mongoose.model('Estate', estateSchema);
 const Poll = mongoose.model('Poll', pollSchema);
 const Notice = mongoose.model('Notice', noticeSchema);
@@ -298,5 +307,6 @@ module.exports = {
     Comment,
     Post,
     PostReport,
+    Admin,
     CommentReport
 }

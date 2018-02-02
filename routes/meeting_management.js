@@ -38,6 +38,7 @@ const Meeting = models.Meeting;
 const Poll = models.Poll
 router.use(busboyBodyParser({multi: true}));
 let currentDate = moment.utc(new Date());
+
 router.get('/meetingManagement', (req,res)=> {
   const promiseArr = []
   const currentMeetings = []
@@ -179,6 +180,7 @@ router.post('/updatePolls', (req,res)=>{
         key = k;
       }
       });
+     console.log(options, "options")
       var i = 0
        console.log(options[i+1].percentage, options[i+2].percentage,  options[i].percentage, "percentage")
       if(options[i].percentage === options[i+1].percentage &&  options[i+1].percentage === options[i+2].percentage){
