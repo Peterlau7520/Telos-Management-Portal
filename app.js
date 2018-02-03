@@ -62,14 +62,14 @@ passport.use(new LocalStrategy(
         return done(err);
       }
       // if no user present, auth failed
-      /*if (!estate) {
+      if (!estate) {
         return done(null, false, { message: 'Incorrect username.' });
-      }*/
+      }
       // if passwords do not match, auth failed
-      /*if (estate.password !== password) {
+      if (estate.password !== password) {
         return done(null, false, { message: 'Incorrect password.' });
-      }*/
-      // auth has has succeeded
+      }
+      // auh has has succeeded
       
       return done(null, estate);
     });

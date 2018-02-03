@@ -65,25 +65,37 @@ module.exports = function(passport) {
   })
 })
   router.post('/register', (req, res) => {
-    Estate.findOne({"estateName" : req.body.estateName.trim()}, function(err, estate){
-      if(estate){
+    console.log(req.body, "ggggggg")
+    Admin.findOne({"email" : req.body.emailAddress}, function(err, admin){
+      if(admin){
         res.render('login', {
-          flash : "account for this estate already exists",
+          flash : "account for this email already exists",
           layout: 'loginLayout.hbs'
         });
       }
       else{
-        let estate = new Estate({
-          username : req.body.username.trim(),
-          password : req.body.password.trim(),
-          estateName: req.body.estateName,
-          emailAddress: req.body.emailAddress.trim(),
-          chairmanName: req.body.chairmanName.trim(),
-        });
-        estate.save( (err, estate) => {
-          if(err)res.redirect('/error');
-          res.redirect('/login');
-        })
+        const secretCode = "#3415"
+        if(req.body.secretCode == secretCode){
+            let admin = new Admin({
+              name: req.body.name,
+              account : req.body.username.trim(),
+              password : req.body.password.trim(),
+              email: req.body.emailAddress.trim(),
+            });
+            admin.save( (err, adm) => {
+              if(err)res.redirect('/error');
+              res.render('login', {
+              flash : "Account Created",
+              layout: 'loginLayout.hbs'
+            });
+            })
+        }
+        else{
+            res.render('login', {
+              flash : "secret code does not match",
+              layout: 'loginLayout.hbs'
+            });
+        }
       }
     })
   })
