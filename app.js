@@ -14,6 +14,7 @@ const models = require('./models/models');
 
 
 //----------------ROUTES----------------
+const contractorList = require('./routes/contractor_supplier_mgmt');
 const meetingManagement = require('./routes/meeting_management');
 const accountManagement = require('./routes/account_management');
 const searchMeetings = require('./routes/search_meetings');
@@ -88,6 +89,7 @@ app.use('/', meetingManagement);
 app.use('/', accountManagement)
 app.use('/', searchMeetings)
 app.use('/', estateManagement)
+app.use('/', contractorList)
 
 //----------------ERRORS----------------
 app.use(function(err, req, res, next) {

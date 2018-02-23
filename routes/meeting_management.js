@@ -19,7 +19,6 @@ var convert = htmlConvert();
 var pdf = require('html-pdf');
 var json2xls = require('json2xls');
 const download = require('download');
-var http = require('http');
 var options = { format: 'Letter' ,zoomFactor: 1, paginationOffset: 1, "height": "10.5in", "width": "8in"};
 //AWS
 const BucketName = 'telospdf';
