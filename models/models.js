@@ -278,7 +278,28 @@ const commentReport = new Schema({
     }
 })
 
+const supplierSchema = new Schema({
+    chineseName: String,
+    englishName: String,
+    foundedIn: String,
+    address: {},
+    fax: String,
+    tel: String,
+    category: String,
+    website: String,
+    contactPerson: String,
+    businessRegistry: String,
+    description: String,
+});
 
+const contractorSchema = new Schema({
+    chineseName: String,
+    englishName: String,
+    foundedIn: String,
+    address: {},
+    category: String,
+    description: String,
+});
 const Resident = mongoose.model('Resident', residentSchema);
 const Admin = mongoose.model('Admins', adminSchema);
 const Estate =   mongoose.model('Estate', estateSchema);
@@ -293,6 +314,8 @@ const Comment = mongoose.model('Comment', commentSchema);
 const Post = mongoose.model('Post', postSchema);
 const PostReport = mongoose.model('PostReport', postReport);
 const CommentReport = mongoose.model('CommentReport',commentReport);
+const Supplier = mongoose.model('Supplier', supplierSchema);
+const Contractor = mongoose.model('Contractor', contractorSchema);
 
 module.exports = {
     Resident,
@@ -308,5 +331,7 @@ module.exports = {
     Post,
     PostReport,
     Admin,
-    CommentReport
+    Supplier,
+    CommentReport,
+    Contractor
 }

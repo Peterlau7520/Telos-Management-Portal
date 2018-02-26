@@ -46,7 +46,14 @@
                         </p>
                     </a>
                 </li>
-
+                <li>
+                    <a href="/contractorlist">
+                        <i class="pe-7s-graph"></i>
+                        <p>CONTRACTOR & SUPPLIERS<br>
+                            會議管理
+                        </p>
+                    </a>
+                </li>
                 <li>
                     <a href="/logout">
                         <i class="pe-7s-map-marker"></i>
@@ -86,7 +93,7 @@
                                 <h4 class="title">Add Supplier</h4>
                             </div>
                             <div class="content">
-                                <form>
+                                <form method="post" action="/addSupplier" enctype="multipart/form-data">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Company Name Chinese</label>
@@ -101,8 +108,13 @@
                                                 
                                             </div>
                                                  <div class="form-group">
-                                                <label>Company Address</label>
-                                                <input type="text" class="form-control" placeholder="Company" name="companyAddress">
+                                                <label>Company Address English</label>
+                                                <input type="text" class="form-control" placeholder="Company" name="companyAddressEnglish">
+                                                
+                                            </div>
+                                             <div class="form-group">
+                                                <label>Company Address Chinese</label>
+                                                <input type="text" class="form-control" placeholder="Company" name="companyAddressChinese">
                                                 
                                             </div>
                                         </div>
@@ -140,7 +152,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Company Description </label>
-                                                <textarea rows="5" class="form-control"></textarea>
+                                                <textarea rows="5" class="form-control" name="description"></textarea>
                                             </div>
                                              <div class="form-group">
                                                 <label>Business Registry.</label>
@@ -149,7 +161,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-info btn-fill pull-right">Add Contractor</button>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">Add Supplier</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -165,23 +177,28 @@
                                 <h4 class="title">Add Contractor</h4>
                             </div>
                             <div class="content">
-                                <form>
+                                <form method="post" action="/addContractor" enctype="multipart/form-data">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Company Name Chinese</label>
-                                                <input type="text" class="form-control" placeholder="Company">
+                                                <input type="text" class="form-control" placeholder="Company Name Chinese" name="chineseName">
                                                 
                                             </div>
                             
                                        
                                               <div class="form-group">
                                                 <label>Company Name English</label>
-                                                <input type="text" class="form-control" placeholder="Company">
+                                                <input type="text" class="form-control" placeholder="Company Name English" name="englishName">
                                                 
                                             </div>
                                                  <div class="form-group">
-                                                <label>Company Address</label>
-                                                <input type="text" class="form-control" placeholder="Company">
+                                                <label>Company Address Chinese</label>
+                                                <input type="text" class="form-control" placeholder="Company Address Chinese" name="companyAddressChinese">
+                                                
+                                            </div>
+                                             <div class="form-group">
+                                                <label>Company Address English</label>
+                                                <input type="text" class="form-control" placeholder="Company Address English" name="companyAddressEnglish">
                                                 
                                             </div>
                                         </div>
@@ -190,13 +207,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>FoundedIn</label>
-                                                <input type="text" class="form-control" placeholder="Company" s>
+                                                <input type="text" class="form-control" placeholder="FoundedIn" name="foundedIn">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Category</label>
-                                                <input type="text" class="form-control" placeholder="Last Name">
+                                                <input type="text" class="form-control" placeholder="Category" name="category">
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +222,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Company Description </label>
-                                                <textarea rows="5" class="form-control"></textarea>
+                                                <textarea rows="5" class="form-control" name="description"></textarea>
                                             </div>
                                         </div>
                                     </div>
