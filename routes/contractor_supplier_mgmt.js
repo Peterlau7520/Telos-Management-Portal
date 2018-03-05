@@ -31,6 +31,15 @@ router.get('/contractorlist',(req,res)=>{
 
 router.post('/addContractor', (req,res)=>{
   const data = req.body
+  var category = []
+   var s = data.category;
+    var match = s.split(', ')
+    for (var a in match)
+    {
+        var variable = match[a]
+        category.push(variable)
+    }
+    category = category.filter(Boolean)
   const body = {
         chineseName: data.chineseName,
         englishName: data.englishName,
@@ -39,7 +48,7 @@ router.post('/addContractor', (req,res)=>{
           english: data.companyAddressEnglish, 
           chinese:data.companyAddressChinese,
         },
-        category: data.category,
+        category: category,
         description: data.description
       }
   const contractor = new Contractor(body)
@@ -83,6 +92,15 @@ router.post('/addSupplier', (req,res)=>{
 
     function addSupplier(req,res, fileLinks){
       const data = req.body
+      var category = []
+      var s = data.category;
+      var match = s.split(', ')
+      for (var a in match)
+      {
+          var variable = match[a]
+          category.push(variable)
+      }
+      category = category.filter(Boolean)
       const body = {
         chineseName: data.chineseName,
         englishName: data.englishName,
@@ -93,7 +111,7 @@ router.post('/addSupplier', (req,res)=>{
         },
         fax: data.fax,
         tel: data.tel,
-        category: data.category,
+        category: category,
         website: data.website,
         contactPerson: data.contactPerson,
         businessRegistry: fileLinks,

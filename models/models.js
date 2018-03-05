@@ -285,7 +285,7 @@ const supplierSchema = new Schema({
     address: {},
     fax: String,
     tel: String,
-    category: String,
+    category: Array,
     website: String,
     contactPerson: String,
     businessRegistry: String,
@@ -297,7 +297,7 @@ const contractorSchema = new Schema({
     englishName: String,
     foundedIn: String,
     address: {},
-    category: String,
+    category: Array,
     description: String,
 });
 const Resident = mongoose.model('Resident', residentSchema);

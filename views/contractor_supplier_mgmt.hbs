@@ -1,3 +1,9 @@
+<html>
+<head>
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
+</head>
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
 
@@ -100,8 +106,6 @@
                                                 <input type="text" class="form-control" placeholder="Company" name="chineseName">
                                                 
                                             </div>
-                            
-                                       
                                               <div class="form-group">
                                                 <label>Company Name English</label>
                                                 <input type="text" class="form-control" placeholder="Company" name="englishName">
@@ -133,7 +137,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Category</label>
-                                                <input type="text" class="form-control" placeholder="Last Name" name="category">
+                                                <input id="suppliers" class="form-control" type="text" name="category"/>
                                             </div>
                                             <div class="form-group">
                                                 <label>Tel.</label>
@@ -184,8 +188,6 @@
                                                 <input type="text" class="form-control" placeholder="Company Name Chinese" name="chineseName">
                                                 
                                             </div>
-                            
-                                       
                                               <div class="form-group">
                                                 <label>Company Name English</label>
                                                 <input type="text" class="form-control" placeholder="Company Name English" name="englishName">
@@ -213,7 +215,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Category</label>
-                                                <input type="text" class="form-control" placeholder="Category" name="category">
+                                                 <input id="contractors" class="form-control" type="text" name="category"/>
                                             </div>
                                         </div>
                                     </div>
@@ -273,3 +275,92 @@
 
     </div>
     </div>
+   <script type="text/javascript">
+$(document).ready(function () {
+    var availableTagsSuppliers = [
+      "Materials",
+      "Furniture"
+    ];
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#suppliers" )
+      // don't navigate away from the field on tab when selecting an item
+      .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTagsSuppliers, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      });
+        var availableTagsContractors = [
+      "Construction",
+      "Consultants",
+      "Air Conditioning",
+      "Plumbing and Electrical",
+      "Fire Control",
+      "Demoliation",
+      "Architects",
+      "Surveyors",
+      "Interior Designers",
+    ];
+ 
+    $( "#contractors" )
+      // don't navigate away from the field on tab when selecting an item
+      .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTagsContractors, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      }); 
+})
+    </script>
