@@ -139,6 +139,10 @@
                                                 <label>Category</label>
                                                 <input id="suppliers" class="form-control" type="text" name="category"/>
                                             </div>
+                                             <div class="form-group materials none">
+                                                <label>SubCategory</label>
+                                                <input id="materials" class="form-control" type="text" name="subcategory"/>
+                                            </div>
                                             <div class="form-group">
                                                 <label>Tel.</label>
                                                 <input type="text" class="form-control" placeholder="Last Name" name="tel"> 
@@ -161,10 +165,6 @@
                                             <div class="form-group">
                                                 <label>Company Description Chinese</label>
                                                 <textarea rows="5" class="form-control" name="descriptionChn"></textarea>
-                                            </div>
-                                             <div class="form-group">
-                                                <label>Business Registry.</label>
-                                                <input type="file" class="form-control" name="businessRegistry">
                                             </div>
                                         </div>
                                     </div>
@@ -233,6 +233,10 @@
                                               <div class="form-group">
                                                 <label>Company Description Chinese</label>
                                                 <textarea rows="5" class="form-control" name="descriptionChn"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Business Registry.</label>
+                                                <input type="file" class="form-control" name="businessRegistry">
                                             </div>
                                         </div>
                                     </div>
@@ -317,6 +321,13 @@ $(document).ready(function () {
         },
         select: function( event, ui ) {
           var terms = split( this.value );
+           for(var i=0;i<terms.length;i++)
+            {
+                if(terms[i]=== "m"){
+                    $('.materials').removeClass("none")
+                }
+            }
+          //if()
           // remove the current input
           terms.pop();
           // add the selected item
@@ -353,6 +364,50 @@ $(document).ready(function () {
           // delegate back to autocomplete, but extract the last term
           response( $.ui.autocomplete.filter(
             availableTagsContractors, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      }); 
+var availableTagsMaterials = [
+        "flooring",
+        "ceiling",
+        "Wall Paints",
+        "Sanitary",
+        "Lighting",
+        "Electronics",
+        "Curtains",
+        "AV",
+        "Construction",
+        "Others"
+    ];
+ 
+    $( "#materials" )
+      // don't navigate away from the field on tab when selecting an item
+      .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTagsMaterials, extractLast( request.term ) ) );
         },
         focus: function() {
           // prevent value inserted on focus

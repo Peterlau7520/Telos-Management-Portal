@@ -2888,3 +2888,6 @@ body > .navbar-collapse {
     font-size: 13px;
     font-weight: normal;
 }
+.none{
+  display: none
+}

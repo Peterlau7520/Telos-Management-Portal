@@ -17,10 +17,10 @@ var AWS = require('aws-sdk');
 //AWS
 const BucketName = 'telospdf';
 AWS.config.update({
-  accessKeyId: /*process.env.S3_KEY |*/ "AKIAIPMGGVZ7AZ6OEZGQ",
-  secretAccessKey: /*process.env.secretAccessKey |*/ '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'
+  accessKeyId: 'AKIAIRBP4HZIW3P7C7VQ',
+  secretAccessKey: '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',
+  region: 'ap-southeast-1'
 });
-
 const bucket = new AWS.S3({params: {Bucket: BucketName}});
 
 router.get('/contractorlist',(req,res)=>{
@@ -29,9 +29,10 @@ router.get('/contractorlist',(req,res)=>{
     res.render('contractor_supplier_mgmt');
 })
 
-router.post('/addContractor', (req,res)=>{
+router.post('/addSupplier', (req,res)=>{
   const data = req.body
   var category = []
+   var subcategory = []
    var s = data.category;
     var match = s.split(', ')
     for (var a in match)
@@ -40,7 +41,15 @@ router.post('/addContractor', (req,res)=>{
         category.push(variable)
     }
     category = category.filter(Boolean)
-  const body = {
+     var sub = data.subcategory;
+      var matchsub = sub.split(', ')
+      for (var a in matchsub)
+      {
+          var variable = matchsub[a]
+          subcategory.push(variable)
+      }
+      subcategory = subcategory.filter(Boolean)
+      const body = {
         chineseName: data.chineseName,
         englishName: data.englishName,
         foundedIn: data.foundedIn,
@@ -48,18 +57,25 @@ router.post('/addContractor', (req,res)=>{
           english: data.companyAddressEnglish, 
           chinese:data.companyAddressChinese,
         },
+        fax: data.fax,
+        tel: data.tel,
         category: category,
+        subcategory: subcategory,
+        website: data.website,
+        contactPerson: data.contactPerson,
         description: data.description
       }
-  const contractor = new Contractor(body)
-  contractor.save(function(err, contract){
-    if(err) res.send(err);
-    res.render('contractor_supplier_mgmt')
-  })
+       const supplier = new Supplier(body)
+        supplier.save(function(err, supp){
+          if(err) res.send(err);
+          res.render('contractor_supplier_mgmt');
+          /*res.json({message: "Supplier created succesfully"})*/
+        })
+  
 
 
 })
-router.post('/addSupplier', (req,res)=>{
+router.post('/addContractor', (req,res)=>{
   const fileLinks = []
   if(req.files && req.files.businessRegistry) {
         var files = req.files.businessRegistry
@@ -70,7 +86,7 @@ router.post('/addSupplier', (req,res)=>{
             fileLinks.push(name)
                 var data = {
                 Bucket: BucketName,
-                Key: `suppliers/${name}`,
+                Key: `contractors/${name}`,
                 Body: info,
                 ContentType: 'application/pdf',
                 ContentDisposition: 'inline',
@@ -101,7 +117,7 @@ router.post('/addSupplier', (req,res)=>{
           category.push(variable)
       }
       category = category.filter(Boolean)
-      const body = {
+       const body = {
         chineseName: data.chineseName,
         englishName: data.englishName,
         foundedIn: data.foundedIn,
@@ -109,20 +125,15 @@ router.post('/addSupplier', (req,res)=>{
           english: data.companyAddressEnglish, 
           chinese:data.companyAddressChinese,
         },
-        fax: data.fax,
-        tel: data.tel,
         category: category,
-        website: data.website,
-        contactPerson: data.contactPerson,
+        description: data.description,
         businessRegistry: fileLinks,
-        description: data.description
       }
-        const supplier = new Supplier(body)
-        supplier.save(function(err, supp){
-          if(err) res.send(err);
-          res.render('contractor_supplier_mgmt');
-          /*res.json({message: "Supplier created succesfully"})*/
-        })
+      const contractor = new Contractor(body)
+      contractor.save(function(err, contract){
+        if(err) res.send(err);
+        res.render('contractor_supplier_mgmt')
+      })
     }
 })
 module.exports = router;

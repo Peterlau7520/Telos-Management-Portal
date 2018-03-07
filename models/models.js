@@ -286,9 +286,9 @@ const supplierSchema = new Schema({
     fax: String,
     tel: String,
     category: Array,
+    subcategory: Array,
     website: String,
     contactPerson: String,
-    businessRegistry: String,
     description: String,
 });
 
@@ -299,6 +299,7 @@ const contractorSchema = new Schema({
     address: {},
     category: Array,
     description: String,
+    businessRegistry: String,
 });
 const Resident = mongoose.model('Resident', residentSchema);
 const Admin = mongoose.model('Admins', adminSchema);
