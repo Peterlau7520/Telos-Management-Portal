@@ -1,0 +1,243 @@
+<style>
+.search-wrapper {
+    width: 75%;
+    margin: 10px;
+    padding: 0;
+    float: right;
+}
+
+.search-wrapper input {
+    background: transparent url(../assets/img/search-ic.svg);
+    /* border: 1px solid #e4d8d8; */
+    /* color: #000; */
+    width: 100%;
+    height: 41px;
+    padding: 12px 15px 12px 55px;
+    -webkit-transition: all 0.7s ease 0s;
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: 12px;
+}
+</style>
+<div class="wrapper">
+    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="/login" class="simple-text">
+                  Telos Management Portal
+              </a>
+                <a href="/login" class="simple-text">
+                  天羅科技管理平台
+              </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="/meetingManagement">
+                      <i class="pe-7s-graph"></i>
+                      <p>MEETING MANAGEMENT<br>
+                          會議管理
+                      </p>
+                  </a>
+                </li>
+                <li>
+                    <a href="/accountManagement">
+                      <i class="pe-7s-user"></i>
+                      <p>OWNER's ACCOUNT</p>
+                      <p>業主賬戶管理</p>
+                  </a>
+                </li>
+                <li class="active">
+                    <a href="/searchMeetings">
+                      <i class="pe-7s-folder"></i>
+                      <p>MEETINGS
+                          <br> 會議
+                      </p>
+                  </a>
+                </li>
+                <li class="active">
+                    <a href="/accountApproval">
+                      <i class="pe-7s-folder"></i>
+                      <p>ACCOUNT APPROVAL
+                          <br> 會議
+                      </p>
+                  </a>
+                </li>
+                <li>
+                    <a href="/estateManagement">
+                        <i class="pe-7s-star"></i>
+                        <p>ESTATES MANAGEMENT
+                            <br> 會議
+                        </p>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/logout">
+                      <i class="pe-7s-map-marker"></i>
+                      <p>LOG OUT
+                          <br>
+                          登出</p>
+                  </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header" style="width: 100%;">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">ESTATE ALLOWANCE | 會議</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                </div>
+            </div>
+        </nav>
+<div class="container row page-wrapper custom_wrapper" style="min-height: 90%;width: 92%;max-width: 95%;">
+  <h2>All Estates</h2>
+  <p></p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">Estate Name</th>
+        <th class="text-center">Email</th>
+        <th class="text-center">Allow</th>
+      </tr>
+    </thead>
+    <tbody>
+     {{#each estateData as |value estate_key|}}
+      <tr>
+        <td class="text-center">{{estateName}}</td>
+        <td class="text-center">{{emailAddress}}</td>
+        <td class="text-center"><button name="allow" type="button" class="allowed_btn btn" id={{estate_key}}>Allow</button></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+            <!-- Main Content -->
+           
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <nav class="pull-left">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                Home
+                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                Company
+                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                Portfolio
+                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                Blog
+                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <p class="copyright pull-right">
+                                    &copy;
+                                    <script>
+                                    document.write(new Date().getFullYear())
+                                    </script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                                </p>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+
+  <script type="text/javascript">
+    var tableData= `{{{stringify estateData}}}`
+    if(tableData != ''){
+    tableData = JSON.parse(tableData)
+    }
+    console.log(tableData, "tableData")
+      function searchEstate() {
+        var estateName = $('#searchEs').val();
+        $.post("/searchMeetings", { estateName: estateName }, function(data, status) {
+            if (data) {
+                console.log(data, "datatata")
+                $('#customMainComponent').css('display', '')
+                $('#customMainComponent').html(data)
+            } else {
+              $('#customMainComponent').html('<p>'+data.message+'</p>')
+            }
+        });
+    }
+
+    function hd() {
+        var hd = $("#customMainComponent").height()
+        $("#sidebarMenu").css({ "min-height": hd })
+    }
+    $(document).ready(function() {
+        const HostName = window.location.origin
+
+        hd();
+        $("body").delegate(".flatpickr", "focusin", function() {
+            $(this).flatpickr({
+                enableTime: true,
+            });
+            const html = `<p class="close-calendar">Confirm | 確認</p>`;
+            $(".flatpickr-calendar").append(html);
+            $(".close-calendar").click(function() {
+                $(".flatpickr-calendar").removeClass("open", 1000, "easeInBack");
+            })
+        });
+        $(".panel-heading").click(function() {
+            setTimeout(() => { hd(); }, 500)
+        })
+        var tabSelected = localStorage.getItem("tab");
+        if (tabSelected) {
+            var tabDiv = localStorage.getItem("divTab");
+            var a = 'a[id=' + tabSelected + ']';
+            var a0 = 'div[id=' + tabDiv + ']';
+            var a1 = "li[class='active']";
+            var a2 = "div[class='active']";
+            $("div.active").removeClass('active')
+            $(a1).removeClass()
+            $(a).parent().addClass('active');
+            $(a0).addClass('active');
+            localStorage.removeItem("tab");
+            localStorage.removeItem("divTab");
+        }
+
+       
+
+        $(".allowed_btn").on('click', function(event) {
+            var id = event.target.id;
+            console.log(id, "id")
+            var originalData = `{{{stringify estateData}}}`;
+            originalData = JSON.parse(originalData);
+            console.log(originalData[id]._id)
+                const HostName = window.location.origin
+                $.ajax({
+                    url: HostName + "/allowEstate",
+                    data: {id: originalData[id]._id},
+                    type: 'POST',
+                    success: function(data) {
+                        location.reload()
+                    },
+                    err: function(err) {
+                        console.log(err)
+                    }
+                });
+            })
+     
+      })
+    </script>

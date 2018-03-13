@@ -96,7 +96,8 @@ const estateSchema = new Schema({
             ref: 'Notice'
         }
     ],
-    blockArray: []
+    blockArray: [],
+    allowed: {type: Boolean, default: false},
 });
 
 //POLL
