@@ -136,7 +136,7 @@ module.exports = function(passport) {
               new: true 
             })
             .then(function(ad, err){
-            //EmailService.sendVerificationEmail(admin, otp);
+            EmailService.sendVerificationEmail(admin, otp);
           })
           }
           else
