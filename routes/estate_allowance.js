@@ -26,7 +26,7 @@ router.use(busboyBodyParser({multi: true}));
 
 
 router.get('/accountApproval', (req,res) => {
-  Manager.find()
+  Manager.find({allowed: false})
   .then(function(es,err){
     if(err) res.send(err)
     if(es){
@@ -39,6 +39,7 @@ router.get('/accountApproval', (req,res) => {
 
 router.post('/allowEstate', (req,res) => {
   var id = req.body.id
+  console.log(id, "id")
   Manager.findOneAndUpdate({
      _id: id
     }, {
