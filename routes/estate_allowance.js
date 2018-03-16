@@ -4,6 +4,7 @@
 const express = require('express');
 const models = require('../models/models');
 const Estate = models.Estate;
+const Manager = models.Manager;
 const Notice = models.Notice;
 const Meeting = models.Meeting;
 const Resident = models.Resident;
@@ -25,10 +26,11 @@ router.use(busboyBodyParser({multi: true}));
 
 
 router.get('/accountApproval', (req,res) => {
-  Estate.find({allowed: false})
+  Manager.find()
   .then(function(es,err){
     if(err) res.send(err)
     if(es){
+      console.log(err, es)
       res.render('estate_allowance', {estateData: es})
     }
   })
@@ -37,7 +39,7 @@ router.get('/accountApproval', (req,res) => {
 
 router.post('/allowEstate', (req,res) => {
   var id = req.body.id
-  Estate.findOneAndUpdate({
+  Manager.findOneAndUpdate({
      _id: id
     }, {
       $set: {
@@ -53,13 +55,5 @@ router.post('/allowEstate', (req,res) => {
 
 })
 
-router.post('/reportedComments', (req,res) => {
-  var comments = JSON.parse(req.body.recomment)
-  CommentReport.remove({"_id":{$in:comments}}, function (error, result){
-    if(!error){
-      res.json({success: true, message: "Reported comment deleted succesfully"})
-    }
-  })
-})
 
 module.exports = router;

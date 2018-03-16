@@ -99,6 +99,56 @@ const estateSchema = new Schema({
     blockArray: [],
     allowed: {type: Boolean, default: false},
 });
+const managerSchema = new Schema({
+    estateName: String,
+    estateNameDisplay: String,
+    estateNameChn: String,
+    username: String,
+    telephone: String,
+    password: String,
+    allowed: {type: Boolean, default: false},
+    email: String,
+    chairmanName: String,
+    surveys: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Survey'
+        }
+    ],
+    currentMeetings: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Meeting'
+        }
+    ],
+    pastMeetings: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Meeting'
+        }
+    ],
+    currentNotices: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Notice'
+        }
+    ],
+    pastNotices: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Notice'
+        }
+    ],
+    Projects: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Project'
+        }
+    ],    
+    blockArray: [],
+    created_At:{type:Date,default:new Date()},
+    updated_At:{type:Date,default:new Date()}    
+});
 
 //POLL
 const pollSchema = new Schema({
@@ -318,7 +368,7 @@ const PostReport = mongoose.model('PostReport', postReport);
 const CommentReport = mongoose.model('CommentReport',commentReport);
 const Supplier = mongoose.model('Supplier', supplierSchema);
 const Contractor = mongoose.model('Contractor', contractorSchema);
-
+const Manager = mongoose.model('Manager', managerSchema);
 module.exports = {
     Resident,
     Estate,
@@ -335,5 +385,6 @@ module.exports = {
     Admin,
     Supplier,
     CommentReport,
-    Contractor
+    Contractor,
+    Manager
 }
