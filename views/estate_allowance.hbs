@@ -120,6 +120,28 @@
     </tbody>
   </table>
 </div>
+<div class="container row page-wrapper custom_wrapper" style="min-height: 90%;width: 92%;max-width: 95%;">
+  <h2>All Contractors</h2>
+  <p></p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">Estate Name</th>
+        <th class="text-center">Email</th>
+        <th class="text-center">Allow</th>
+      </tr>
+    </thead>
+    <tbody>
+     {{#each contactorData as |value contactor_key|}}
+      <tr>
+        <td class="text-center">{{firstName}}</td>
+        <td class="text-center">{{email}}</td>
+        <td class="text-center"><button name="allow" type="button" class="cont_btn btn" id={{contactor_key}}>Allow</button></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
             <!-- Main Content -->
            
                         <footer class="footer">
@@ -163,11 +185,15 @@
       </div>
 
   <script type="text/javascript">
-    var tableData= `{{{stringify estateData}}}`
+      var tableData= `{{{stringify estateData}}}`
     if(tableData != ''){
     tableData = JSON.parse(tableData)
     }
-    console.log(tableData, "tableData")
+  /*  var tableData2= `{{{stringify contactorData}}}`
+    if(tableData2 != ''){
+    tableData2 = JSON.parse(tableData2)
+    }
+    console.log(tableData, "tableData", tableData2)*/
       function searchEstate() {
         var estateName = $('#searchEs').val();
         $.post("/searchMeetings", { estateName: estateName }, function(data, status) {
@@ -189,16 +215,6 @@
         const HostName = window.location.origin
 
         hd();
-        $("body").delegate(".flatpickr", "focusin", function() {
-            $(this).flatpickr({
-                enableTime: true,
-            });
-            const html = `<p class="close-calendar">Confirm | 確認</p>`;
-            $(".flatpickr-calendar").append(html);
-            $(".close-calendar").click(function() {
-                $(".flatpickr-calendar").removeClass("open", 1000, "easeInBack");
-            })
-        });
         $(".panel-heading").click(function() {
             setTimeout(() => { hd(); }, 500)
         })
@@ -217,7 +233,27 @@
             localStorage.removeItem("divTab");
         }
 
-       
+        
+    $(".cont_btn").on('click', function(event) {
+            var id = event.target.id;
+            console.log(id, "id")
+            var originalData = `{{{stringify contactorData}}}`;
+            originalData = JSON.parse(originalData);
+            console.log(originalData[id]._id)
+                const HostName = window.location.origin
+                $.ajax({
+                    url: HostName + "/allowContractor",
+                    data: {id: originalData[id]._id},
+                    type: 'POST',
+                    success: function(data) {
+                        location.reload()
+                    },
+                    err: function(err) {
+                        console.log(err)
+                    }
+                });
+            })
+})
 
         $(".allowed_btn").on('click', function(event) {
             var id = event.target.id;
@@ -238,6 +274,5 @@
                     }
                 });
             })
-     
-      })
+
     </script>

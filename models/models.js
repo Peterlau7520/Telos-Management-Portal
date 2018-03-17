@@ -344,13 +344,26 @@ const supplierSchema = new Schema({
 });
 
 const contractorSchema = new Schema({
-    chineseName: String,
-    englishName: String,
-    foundedIn: String,
-    address: {},
-    category: Array,
-    description: String,
-    businessRegistry: String,
+    "firstName": String,
+    "lastName": String,
+    "email": String,
+    "password": String,
+    "companyName": String,
+    "companyAddress": String,
+    "businessRegistrationNumber": String,
+    "allowed": {type: Boolean, default: false},
+    "companyTelephoneNumber": String,
+    "website": String,
+    "companyEmail": String,
+    "servicesDescription": String,
+    "awardAndLicencesPdf": Array,
+    "awardAndLicencesImage": Array,
+    "licenses": [],
+    "profilePic":Array,
+    "trackRecord":Array,
+    "awards": Array,
+    "created_At":{type:Date,default:new Date()},
+    "updated_At":{type:Date,default:new Date()}        
 });
 const Resident = mongoose.model('Resident', residentSchema);
 const Admin = mongoose.model('Admins', adminSchema);
