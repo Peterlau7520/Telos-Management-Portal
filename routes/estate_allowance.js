@@ -19,6 +19,7 @@ const _ = require('lodash');
 var Busboy = require('busboy');
 var moment = require("moment");
 const busboyBodyParser = require('busboy-body-parser');
+var EmailService = require('../services/email')
 
 const fs = require('fs');
 const router = express.Router();
@@ -51,6 +52,7 @@ router.post('/allowEstate', (req,res) => {
     })
   .then(function(estate, err){
     if(err) res.send(err);
+    EmailService.sendConfirmationEmail(estate)
     res.redirect('/accountApproval')
   })
 

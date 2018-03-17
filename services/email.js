@@ -41,7 +41,45 @@ var EmailService = {
         }        
       });
   },
- 
-}
+ sendConfirmationEmail: function(user) {
+  console.log(user)
+    const email = (user.email).toString()
+    const name= (user.username).toString()
+    console.log(email,name)
+      var sendGrid = require('sendgrid')("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")
+      var request = sendGrid.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: {
+          personalizations: [{
+            to: [{
+              email: email
+            }],
+            substitutions: {
+              '%name%': name,
+            },
+            subject: 'Welcome to Telos',
+          }],
+          from: {
+            email: 'support@telos-technology.com',
+          },
+          content: [
+            {
+              type: 'text/html',
+              value: 'I\'m replacing the <strong>body tag</strong>',
+            },
+          ],
+          template_id: '18c7ec8d-f7ff-46ac-a802-0e8ea4ce1b4d',
+        }
+      });
 
+      sendGrid.API(request, function (error, response) {
+        if (error) {
+          console.log('Error response received', error.response.body.errors);
+        } else {
+          console.log('response', response.body.errors);
+        }        
+      });
+  },
+}
 module.exports = EmailService
