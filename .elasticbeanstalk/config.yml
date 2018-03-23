@@ -1,6 +1,8 @@
 branch-defaults:
   managementPortal:
     environment: Telos-Management-Portal-staging
+  production:
+    environment: Telos-Management-Portal-production
 environment-defaults:
   Telos-Management-Portal-staging:
     branch: null
