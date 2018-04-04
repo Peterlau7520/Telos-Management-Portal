@@ -23,10 +23,10 @@ var options = { format: 'Letter' ,zoomFactor: 1, paginationOffset: 1, "height": 
 //AWS
 const BucketName = 'telospdf';
 AWS.config.update({
-  accessKeyId: /*process.env.S3_KEY |*/ "AKIAIMLMZLII2XCKU6UA",
-  secretAccessKey: /*process.env.secretAccessKey |*/ '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'
+    accessKeyId: process.env.AWS_accessKeyId,
+    secretAccessKey: process.env.AWS_secretAccessKey,
+    region: 'ap-southeast-1'
 });
-
 const bucket = new AWS.S3({params: {Bucket: BucketName}});
 
 

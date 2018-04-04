@@ -17,9 +17,9 @@ var AWS = require('aws-sdk');
 //AWS
 const BucketName = 'telospdf';
 AWS.config.update({
-  accessKeyId: 'AKIAIRBP4HZIW3P7C7VQ',
-  secretAccessKey: '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',
-  region: 'ap-southeast-1'
+    accessKeyId: process.env.AWS_accessKeyId,
+    secretAccessKey: process.env.AWS_secretAccessKey,
+    region: 'ap-southeast-1'
 });
 const bucket = new AWS.S3({params: {Bucket: BucketName}});
 

@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 // set the global Promise to Mongoose.
 mongoose.Promise = global.Promise;
-const connect = process.env.MONGODB_URI || "mongodb://upwork:upwork@ds119489.mlab.com:19489/telos-production";
+require('dotenv').config()
+
+const connect = process.env.MONGODB_URI /*|| "mongodb://upwork:upwork@ds119489.mlab.com:19489/telos-production"*/;
 mongoose.connect(connect);
 const Schema = mongoose.Schema;
 //const bcrypt = require('bcrypt');

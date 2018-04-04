@@ -19,6 +19,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "dateformat": "^3.0.2",
+    "dotenv": "^5.0.1",
     "download": "^6.2.5",
     "excel-as-json": "^2.0.1",
     "express": "^4.16.2",
