@@ -336,7 +336,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    
+     const HostName = window.location.origin
     console.log(JSON.parse(`{{{stringify Estate}}}`))
     console.log({{{stringify Estate}}})
     var data = `{{{stringify Estate}}}`
@@ -454,7 +454,6 @@ $(document).ready(function () {
                         '<th>VotedBy</th>' +
                         '<th>Shares</th>' +
                     '</tr>';
-        const HostName = "http://localhost:4000"
       $.ajax(HostName+'/WriteExcellFile', {
                   type: 'POST',
                   data: JSON.stringify(selectedMeeting),
@@ -577,7 +576,7 @@ $(document).ready(function () {
         const upcomingnewData = `{{{stringify upcomingData}}}`;
         var upcomingData = JSON.parse(upcomingnewData)
         console.log(upcomingData[event.target.id], "dd")
-        const HostName = "http://localhost:4000"
+       
              $.ajax(HostName+'/generateProxyForms', {
                   type: 'POST',
                   data: JSON.stringify(upcomingData[event.target.id]),
