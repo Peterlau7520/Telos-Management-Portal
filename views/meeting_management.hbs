@@ -337,10 +337,9 @@
 <script type="text/javascript">
 $(document).ready(function () {
      const HostName = window.location.origin
-    console.log(JSON.parse(`{{{stringify Estate}}}`))
     console.log({{{stringify Estate}}})
     var data = `{{{stringify Estate}}}`
-    var newdata = JSON.parse(data);
+    var newdata = {{{stringify Estate}}}
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
         const meeting = newdata[eState].currentMeetings
