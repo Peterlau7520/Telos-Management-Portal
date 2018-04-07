@@ -71,7 +71,7 @@ router.post('/searchEstate', (req, res) => {
   })
 })
 
-router.post('/generateAccount', (req, res) => {
+router.post('/generateAccounts', (req, res) => {
   var files = req.files.file;
   var info = files[0].data;
   var name = files[0].name.replace(/ /g,'');
