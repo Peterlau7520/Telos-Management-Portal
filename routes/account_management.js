@@ -17,6 +17,7 @@ const path = require('path');
 var AWS = require('aws-sdk');
 
 const { registration } = require('./registration');
+var loc = window.location.pathname;
 
 //Data models
 const Estate = models.Estate;
@@ -76,6 +77,7 @@ router.post('/generateAccounts', (req, res) => {
   var info = files[0].data;
   var name = files[0].name.replace(/ /g,'');
   var fileBuffer = info;
+  console.log(loc, "locloclocloclocloc")
   var fileLocation = path.join('public', 'uploads', name);
   var uploadFile = fileLocation;
   fs.writeFile(uploadFile, fileBuffer,function(err) {
