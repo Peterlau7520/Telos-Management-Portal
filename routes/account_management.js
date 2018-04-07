@@ -17,7 +17,6 @@ const path = require('path');
 var AWS = require('aws-sdk');
 
 const { registration } = require('./registration');
-var loc = window.location.pathname;
 
 //Data models
 const Estate = models.Estate;
@@ -77,8 +76,8 @@ router.post('/generateAccounts', (req, res) => {
   var info = files[0].data;
   var name = files[0].name.replace(/ /g,'');
   var fileBuffer = info;
-  console.log(loc, "locloclocloclocloc")
-  var fileLocation = path.join('public', 'uploads', name);
+  var fileLocation = path.join('http://telos-management-portal2-staging.ap-southeast-1.elasticbeanstalk.com/public', 'uploads', name);
+  console.log(fileLocation, "fileLocation")
   var uploadFile = fileLocation;
   fs.writeFile(uploadFile, fileBuffer,function(err) {
       if (err) {console.log(err);}
