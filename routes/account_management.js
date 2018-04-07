@@ -71,18 +71,16 @@ router.post('/searchEstate', (req, res) => {
   })
 })
 
-router.post('/generateAccounts', (req, res) => {
+router.post('/generateAccount', (req, res) => {
   var files = req.files.file;
   var info = files[0].data;
   var name = files[0].name.replace(/ /g,'');
   var fileBuffer = info;
-  var fileLocation = path.join('http://telos-management-portal2-staging.ap-southeast-1.elasticbeanstalk.com/public', 'uploads', name);
-  console.log(fileLocation, "fileLocation")
+  var fileLocation = path.join('./public', 'uploads', name);
   var uploadFile = fileLocation;
   fs.writeFile(uploadFile, fileBuffer,function(err) {
       if (err) {console.log(err);}
       convertExcel( fileLocation, undefined, undefined, function(err, data){
-        console.log(data, "data")
           const excelFile = registration(data);
           const xls = json2xls(excelFile);
           fs.writeFileSync('Exported_data.xlsx', xls, 'binary');
