@@ -81,6 +81,7 @@ router.post('/generateAccounts', (req, res) => {
   fs.writeFile(uploadFile, fileBuffer,function(err) {
       if (err) {console.log(err);}
       convertExcel( fileLocation, undefined, undefined, function(err, data){
+        console.log(data, "data")
           const excelFile = registration(data);
           const xls = json2xls(excelFile);
           fs.writeFileSync('Exported_data.xlsx', xls, 'binary');
