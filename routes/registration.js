@@ -6,6 +6,7 @@ var forEach = require('async-foreach').forEach;
 //Password Generator
 var generator = require('generate-password');
 function registration(data){
+    console.log(data, "data")
     const excelFile =  data;
     var blockArray = {'Blocks': {}}
     var EstateName = ''
