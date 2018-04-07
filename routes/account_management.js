@@ -76,7 +76,7 @@ router.post('/generateAccount', (req, res) => {
   var info = files[0].data;
   var name = files[0].name.replace(/ /g,'');
   var fileBuffer = info;
-  var fileLocation = path.join('public', 'uploads', name);
+  var fileLocation = path.join(__dirname, 'uploads', name);
   var uploadFile = fileLocation;
   fs.writeFile(uploadFile, fileBuffer,function(err) {
       if (err) {console.log(err);}
