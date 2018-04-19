@@ -163,33 +163,31 @@ router.post('/updatePolls', (req,res)=>{
       updatePolls(req, res, fileLinks)
     }
     function updatePolls(req, res, fileLinks){
-      console.log(req.body, "poll")
      const poll = JSON.parse(req.body.polls)
-            console.log(poll, "poll")
      _.forEach(poll, function(item) {
      promiseArr.push(new Promise(function(resolve, reject){
     var options = item.options
     var  max = -Infinity
     var key
      options.forEach(function (v, k) {
-      console.log(v, "vvvvv")
       v.choice = v.choice.replace(/_/g," ")
      if (max < +v.percentage) {
         max = +v.percentage;
         key = k;
       }
       });
-     console.log(options, "options")
       var i = 0
-       console.log(options[i+1].percentage, options[i+2].percentage,  options[i].percentage, "percentage")
+      if(options.length === 3){
       if(options[i].percentage === options[i+1].percentage &&  options[i+1].percentage === options[i+2].percentage){
         var finalResult = "N/A"
       }
       else{
       var finalResult = options[key].choice
       }
-      console.log("Item",item);
-      console.log("finalResult",finalResult);
+      }
+      else{
+      var finalResult = options[key].choice
+      }
       Poll.findOneAndUpdate({
       _id: item.id
     }, {
@@ -219,7 +217,6 @@ router.post('/updatePolls', (req,res)=>{
         new: true
       }).then(function(data, err){
         res.redirect('/meetingManagement')
-            console.log("all files done")
         })
     })
      })
@@ -227,11 +224,9 @@ router.post('/updatePolls', (req,res)=>{
 })
 
 router.post('/generateProxyForms', (req,res) => {
-  console.log('here', req.body)
 var src = ''
 var body = req.body
 var promiseArr = []
-  console.log(req.body.endTime  , req.body.startTime  , "hhhh")
   var monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
@@ -244,16 +239,14 @@ var startDate = moment(new Date(req.body.startTime)).format('Do')
 var startMonth = monthNames[new Date(req.body.startTime).getMonth()]
 Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
 .then(function(residents, err){
-  console.log(residents, "residents")
   if(residents.length == 0){
  res.redirect('/meetingManagement')  }
  else{
 _.forEach(residents, function(resident) {
    promiseArr.push(new Promise(function(resolve, reject){
-  console.log(resident)
   var proxyName = ''
   var alternativeproxyName = ''
-  if(body.proxyFullName == ''){
+  if(body.proxyFullName == '' || body.proxyFullName == undefined){
     proxyName = "Ma Song Sing"
     alternativeproxyName = "Ho Yu Tin"
   }
@@ -351,10 +344,11 @@ var html = '<!DOCTYPE html>'+
 '       <p class="dated-para">Dated this day of <span class="">'+ newDate +'</span> .</p><br/>'+
         '<div class="signature-block">'+
             '<div class="signature-img">'
-        console.log(resident.signature, "ffffff")
         _.forEach(resident.signature, function(sign) {
-          console.log(sign , "hhhhh")
-          html+= '<img src="'+sign+'" alt="one" class="signatures" >'
+           var Strings =sign.substring(sign.lastIndexOf(`/`)+1,sign.lastIndexOf("--"));
+          if(Strings == req.body._id){
+          html+= '<img src="'+sign+'" style="width: 8%;" alt="one" class="" >'
+          }
           })
         if(resident.chopImage){
           html+= '<img src="'+resident.chopImage+'" alt="one" class="signatures" >'
@@ -376,7 +370,6 @@ var html = '<!DOCTYPE html>'+
 '<span> Time: '+body.startTime+'</span>'+
 '</div>'
  _.forEach(body.polls, function(poll, index) {
-  console.log(poll, "poll")
   index++ ;
 html+= '<div style="margin-left: 0%;'+
 '    margin-bottom: 1%;">Item '+index+' : '+poll.pollName+ '|' +poll.pollNameChn + '<br/>' +'<div> Options:' +'<br/>'
@@ -387,22 +380,22 @@ html+= '<span style="margin-left: 0%;">' +index1+') '+option+'</span><br/>'
 var result = ''
 _.forEach(poll.votingResults, function(votes, i) {
     if(votes.resident == resident._id){
-      console.log("hellooooo")
       result = votes.choice
     }
   })
 html+= '<span style="">Choice: '+result+'</span>'
 html+= '</div>' +'<span> Number of shares: '+resident.shares+'</span><br/>'+ '<div class="">'+ '<span style=" display:  inherit;"> Signatures:  </span>'
  _.forEach(resident.signature, function(sign) {
-          console.log(sign , "hhhhh")
-          html+= '<img src="'+sign+'" style="width: 8%;" alt="one" class="" >'
-          })
+    var Strings =sign.substring(sign.lastIndexOf(`/`)+1,sign.lastIndexOf("--"));
+    if(Strings == req.body._id){
+    html+= '<img src="'+sign+'" style="width: 8%;" alt="one" class="" >'
+    }
+  })
 html+= '</div>' +'</div>'
 })
 html+= '</body>'+
 '</html>'
 pdf.create(html, options).toBuffer(function(err, buffer){
-  console.log('This is a buffer:', buffer, Buffer.isBuffer(buffer));
  var data = {
                 Bucket: BucketName,
                 Key: `${resident.estateName}/ProxyForm/${resident.name}`,
@@ -411,10 +404,9 @@ pdf.create(html, options).toBuffer(function(err, buffer){
                 ContentDisposition: 'inline',
                 ACL: "public-read"
             }; // req.user.estateName
-bucket.putObject(data, function (err, data) {
+bucket.upload(data, function (err, data) {
             if (err) res.send(err)
-            console.log('succesfully uploaded the pdf!' );
-            resolve(data)
+            resolve(data.Location)
         })
   })
 }))
@@ -422,8 +414,9 @@ bucket.putObject(data, function (err, data) {
 
 Promise.all(promiseArr)
 .then(function(form, err){
-  res.redirect('/meetingManagement')
-  console.log("all files done")
+  res.send({files: form})
+  //res.download(form[0])
+  //res.redirect('/meetingManagement')
 })
 }
 })
@@ -443,12 +436,10 @@ router.post('/meetingReminder', (req,res)=> {
 
 })
 router.post('/WriteExcellFile', (req, res) => {
-  console.log('here')
         var JsonResultDataArray =[];
         //loop poll
         const polls = req.body.polls;
         forEach(polls, function(poll, index, arr){
-          console.log('poll', poll);
           forEach(poll.votingResults, function(votingResult,index){
             const result = {
               pollName: poll.pollName,
@@ -456,12 +447,10 @@ router.post('/WriteExcellFile', (req, res) => {
               shares: parseFloat(votingResult.resident.shares),
               resident: votingResult.resident.name
             }
-            console.log(result);
             JsonResultDataArray.push(result);
           })
 
         })
-        console.log(JsonResultDataArray, "JsonData")
         var xls = json2xls(JsonResultDataArray);
         //console.log(xls, "xls")
         res.send({xls: xls})

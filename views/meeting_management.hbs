@@ -198,7 +198,7 @@
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATE</label>
                                                 <div id="estate"></div>
-                                                 <select class="form-control" id="estatePoll" name="estatePoll">
+                                                 <select class="form-control" id="estatePoll" name="estatePoll" required="true">
                                                  <option value="" selected hidden>Select Estate</option>
                                                  {{#each Estate as |value estate_key|}}
                                                     <option value="{{estate_key}}">{{estateName}}</option>
@@ -211,7 +211,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
-                                                 <select class="form-control" id="meetingPoll" name="meetingPoll">
+                                                 <select class="form-control" id="meetingPoll" name="meetingPoll" required="true">
                                                     <option value="">{{title}}</option>
                                                 </select>
                                             </div>
@@ -233,7 +233,7 @@
                                     <div class="form-group upload-btn-wrapper">
                                         <label>Agenda | 議程</label>
                                         <div class="documents_wrapper1">
-                                            <input type="file" name="file" accept="application/pdf" style="border-radius: 4px;" id="fileValue"/>
+                                            <input type="file" name="file" accept="application/pdf" style="border-radius: 4px;" id="fileValue" required="true"/>
                                         </div>
 
                                     </div>
@@ -343,7 +343,6 @@ $(document).ready(function () {
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
         const meeting = newdata[eState].currentMeetings
-        console.log(meeting, "meeting")
         $("#meetingYoutube option").remove();
         $("#meetingYoutube").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
@@ -357,7 +356,6 @@ $(document).ready(function () {
     $('#estateYoutube2').change(function() {
         var eState = $(this).val()
         const meeting = newdata[eState].currentMeetings
-        console.log(meeting, "meeting")
         $("#meetingYoutube2 option").remove();
         $("#meetingYoutube2").append('<option value="">'+'Select Meeting'+'</option>');
          if(eState){
@@ -372,10 +370,8 @@ $(document).ready(function () {
         var eState = $(this).val()
         var estateName = newdata[eState].estateName
         //eState = JSON.stringify(eState)
-        console.log(eState)
         console.log('newdata...', newdata)
          meeting = newdata[eState].currentMeetings.concat(newdata[eState].pastMeetings);
-         console.log(meeting, 'meeting')
         $("#meetingPoll option").remove();
         $("#estate").append(`<input type="hidden" name="estateName" value=${estateName}>`);
         $("#meetingPoll").append('<option value="">'+'Select Meeting'+'</option>');
@@ -389,12 +385,10 @@ $(document).ready(function () {
     var selectedMeeting = ''
     $('#meetingPoll').change(function(event) {
         $(".downloadPoll").remove();
-        console.log('change', $(this).val(), meeting)
         var meetingName = meeting[$(this).val()]._id
         $("#estate").append(`<input type="hidden" name="meetingName" value=${meetingName}>`);
         const value = $(this).val()
          selectedMeeting = meeting[value]
-         console.log(selectedMeeting, "selectedMeeting")
          var Dnbtn = '<button type="button" class="btn btn-info btn-fill downloadPoll">發送 | Download Poll Results</button>'
         var Upbtn = '<button type="button" class="btn btn-info  btn-fill pollModel">更新投票結果 | Update Poll</button>'
         $(".pollModal").html('');
@@ -405,7 +399,6 @@ $(document).ready(function () {
     //edit poll model
 
     function poll_modal(blockdata, selectedMeeting){
-        console.log(selectedMeeting, "selectedMeeting", blockdata)
             var html = '<div class="modal-content ModelStyle" style="padding: 10px;">' +
                             '<div class="modal-header">' +
                                 '<h4 class="modal-title">更新投票結果 | Update Poll Results</h4>'+
@@ -442,7 +435,6 @@ $(document).ready(function () {
 
 
     $(document).on('click','.downloadPoll',function(event){
-        console.log('download file')
     $("#excelTable").html('');
      var  estatePoll = $("select[name=estatePoll]").val();
      var  meetingPoll = $("select[name=meetingPoll]").val();
@@ -463,10 +455,8 @@ $(document).ready(function () {
                       $("#submit").prop('disabled', true); // disable button
                     },
                     success:function(data){
-                        console.log(data, "dta")
                         window.open("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + escape(data.xls))
                          //res.download('data.xls');
-                        console.log(data, "data")
                        var html = ''
                       $("#loading").append(html);
                       $("#submit").prop('disabled', false);
@@ -523,10 +513,8 @@ $(document).ready(function () {
 
         $.each($(".poll :input[name*='id']"), function(data1, key1){
             var id = $(this).val()
-            console.log(id, "idddd")
             let options=[]
             let dataVal = $("."+id).find(".voting_opt :input[name*='option']")
-            console.log(dataVal)
             $.each(dataVal, function(data, key){
            // console.log($(this).attr('id'), "iddddddddddd")
              var regex = /[_\s]+/g;
@@ -536,10 +524,8 @@ $(document).ready(function () {
             })
             //console.log(options, "options")
             poll.push({id: id, options: options})
-            console.log(poll, "poll")
         })
         poll = JSON.stringify(poll)
-        console.log(poll, "polllllllll")
         var html = `<input type="hidden" name="polls" value='${poll}'/>`
           $('.pollValue').append(html)
 
@@ -547,11 +533,8 @@ $(document).ready(function () {
     })
     //upcoming Meeting
     $(document).on("click", "#upcomingMeeting", function (event) {
-        console.log(`{{{stringify upcomingData}}}`)
         const upcomingnewData = `{{{stringify upcomingData}}}`;
-        console.log({{{stringify upcomingData}}})
-        var upcomingData = JSON.parse(upcomingnewData)
-        console.log(upcomingData)
+        var upcomingData = {{{stringify upcomingData}}}
         $('.tableCtrl tr').remove();
         $('#upcomingMeeting').css('color', 'Blue');
         $('#pastMeeting').css('color', 'Black');
@@ -571,10 +554,8 @@ $(document).ready(function () {
     //past Meeting
     $(document).on("click", ".generate-Proxy", function (event) {
         event.preventDefault();
-        console.log(event.target.id, "event")
-        const upcomingnewData = `{{{stringify upcomingData}}}`;
-        var upcomingData = JSON.parse(upcomingnewData)
-        console.log(upcomingData[event.target.id], "dd")
+        const upcomingnewData = `{{{upcomingData}}}`;
+        var upcomingData = {{{stringify upcomingData}}};
        
              $.ajax(HostName+'/generateProxyForms', {
                   type: 'POST',
@@ -587,10 +568,13 @@ $(document).ready(function () {
                       $("#submit").prop('disabled', true); // disable button
                     },
                     success:function(data){
+                        for(var i=0; i<data.files.length; i++){
+                        window.open(data.files[i], '');
+                        }
                        var html = ''
-                      $("#loading").append(html);
+                      /*$("#loading").append(html);
                       $("#submit").prop('disabled', false);
-                      location.reload(); // enable button
+                      location.reload(); // enable button*/
                     },
                   error  : function() { console.log('error');}
             });

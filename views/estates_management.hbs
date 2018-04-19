@@ -97,6 +97,7 @@
               <div class="container row page-wrapper custom_wrapper" style="min-height: 0%;width: 90%;">
                 <h2>Reported Posts</h2>
                 <p>Describes No. of Reported posts</p>
+                <button id="select_all_posts" class="btn">Select All</button>
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -137,6 +138,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <button id="select_all_comments" class="btn">Select All</button>
                    {{#each reportedComment as |value comment_key|}}
                     <tr>
                       <td>
@@ -204,6 +206,14 @@
 </div>
 
 <script type="text/javascript">
+   $(document).ready(function () {
+        $("#select_all_posts").click(function () {
+            $(".ads_Checkbox2").attr('checked', true);
+        });
+         $("#select_all_comments").click(function () {
+            $(".ads_Checkbox").attr('checked', true);
+        });
+    });
   var reposts = []
   var recomment = []
   function removeComment(){
@@ -240,5 +250,6 @@
       alert("Please select post")
     }
   }
+
 
 </script>

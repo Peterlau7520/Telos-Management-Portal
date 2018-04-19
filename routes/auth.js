@@ -12,6 +12,8 @@ var moment = require("moment");
 const _ = require('lodash');
 let currentDate = moment.utc(new Date());
 
+
+
 module.exports = function(passport) {
   // main login routes
   router.get('/meetingManagement', (req,res)=> {
@@ -102,12 +104,11 @@ module.exports = function(passport) {
 
   router.get('/login', (req,res) => {
     var mess = req.flash('error');
-          res.render('login', {
+      res.render('login', {
       title: 'Log in',
       flash: mess,
       layout: 'loginLayout.hbs'
     });
-    
   })
     router.get('/verify', (req,res) => {
     console.log(req.body, "hellooo", req.user)
@@ -178,7 +179,11 @@ module.exports = function(passport) {
               new: true 
             })
              .then(function(req, res){
-              console.log("done")
+              passport.authenticate('local', {
+                successRedirect : '/verify',
+                failureRedirect : '/login',
+                failureFlash : true
+              })
              
             })
               //res.json({success:true})
@@ -201,7 +206,7 @@ module.exports = function(passport) {
     failureRedirect : '/login',
     failureFlash : true
   }));
-
+  
 
   router.get('/logout', (req,res) => {
     req.logout();

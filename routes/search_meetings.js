@@ -154,8 +154,8 @@ router.post('/searchMeetings', (req, res) => {
          }))
           Promise.all(promiseArr)
           .then(function(data){
-            data[0]["estateNameDisplay"] = req.user.estateNameDisplay;
-            data[0]["estateNameChn"] = req.user.estateNameChn;
+            data[0]["estateNameDisplay"] = req.body.estateName;
+            data[0]["estateNameChn"] = req.user.estateName;
             res.render('search',data[0])
             //res.json({meetings:data[0]});
           })
