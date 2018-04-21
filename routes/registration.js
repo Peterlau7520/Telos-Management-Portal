@@ -16,6 +16,7 @@ function registration(data){
         uppercase: false
      });
     forEach(data, function(item, index) {
+        console.log(item, "item")
         EstateName = item.estateName.split(" ").join("");;
         var accoutName = "";
         if(item.name === "admin"){

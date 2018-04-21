@@ -33,9 +33,16 @@ router.post('/searchUser', (req, res) => {
   var query = []
   query['$or']=[];
   query["$or"].push()
-  Resident.find({account: req.body.estateName})
+  Resident.find({account: req.body.estateName}).lean()
   .then(function(data){
+    if(data.length != 0){
     res.render('account_management', {searchResult: data})
+    }
+    else{
+      data.push({message : "NO Data Found"})
+          res.render('account_management', {searchResult: data})
+
+    }
     console.log(data)
   })
   //{ $regex: term, $options: 'i'}

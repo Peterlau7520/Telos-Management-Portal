@@ -8,6 +8,7 @@ const Estate = models.Estate;
 const Notice = models.Notice;
 const Meeting = models.Meeting;
 const Resident = models.Resident;
+const Survey = models.Survey;
 const Poll = models.Poll;
 const Post = models.Post;
 const forEach = require('async-foreach').forEach;
@@ -60,12 +61,30 @@ router.get('/searchMeetings', (req,res) => {
               Post.count({estateName:estates[i].estateName}, function(err, posts){
                 if(posts){
                   estateObj.postCount = posts;
-                  estateData.push(estateObj)
-                  next();
+                  Survey.count({estate:estates[i].estateName}, function(err, surveys){
+                    if(surveys){
+                    estateObj.surveyCount = surveys;
+                    estateData.push(estateObj)
+                    next();
+                    } else {
+                      estateObj.surveyCount = 0;
+                      estateData.push(estateObj)
+                      next();
+                    }
+                  })
                 } else {
                   estateObj.postCount = 0;
-                  estateData.push(estateObj)
-                  next();
+                  Survey.count({estate:estates[i].estateName}, function(err, surveys){
+                    if(surveys){
+                    estateObj.surveyCount = surveys;
+                    estateData.push(estateObj)
+                    next();
+                    } else {
+                      estateObj.surveyCount = 0;
+                      estateData.push(estateObj)
+                      next();
+                    }
+                  })
                 }
               })
             } else {
@@ -77,7 +96,8 @@ router.get('/searchMeetings', (req,res) => {
     })
 })
 
-router.post('/searchMeetings', (req, res) => {
+router.post('/searchMeeting', (req, res) => {
+  console.log(req.body)
   Meeting.find({estate: req.body.estateName}).populate('polls').lean().then(function(meetings, err){
       const promiseArr = []
       var currentMeetings = []
@@ -88,7 +108,6 @@ router.post('/searchMeetings', (req, res) => {
           promiseArr.push(new Promise(function(resolve, reject){
              forEach(meetings, function(item, key, a){
               if( item.fileLinks && item.fileLinks.length > 0) {
-                console.log(item, "item")
                     let fileLinks = [];
                     var titleLink = ''
                     var fileLinksLink = ''
@@ -154,8 +173,9 @@ router.post('/searchMeetings', (req, res) => {
          }))
           Promise.all(promiseArr)
           .then(function(data){
+            console.log(data, "data")
             data[0]["estateNameDisplay"] = req.body.estateName;
-            data[0]["estateNameChn"] = req.user.estateName;
+            data[0]["estateNameChn"] = req.body.estateName;
             res.render('search',data[0])
             //res.json({meetings:data[0]});
           })
@@ -165,5 +185,6 @@ router.post('/searchMeetings', (req, res) => {
      }
   })
 })
+
 
 module.exports = router;

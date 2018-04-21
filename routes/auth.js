@@ -179,11 +179,11 @@ module.exports = function(passport) {
               new: true 
             })
              .then(function(req, res){
-              passport.authenticate('local', {
+              /*passport.authenticate('local', {
                 successRedirect : '/verify',
                 failureRedirect : '/login',
                 failureFlash : true
-              })
+              })*/
              
             })
               //res.json({success:true})
@@ -192,6 +192,7 @@ module.exports = function(passport) {
           else{
             res.render('login', {
               title: 'Log in',
+              account: admin.account,
               flash: "Incorrect OTP",
               layout: 'loginLayout.hbs'
             });

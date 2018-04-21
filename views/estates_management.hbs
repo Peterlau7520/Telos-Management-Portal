@@ -39,18 +39,19 @@
                     </a>
                 </li>
 
-                <li class="active">
-                    <a href="/estateManagement">
+                
+                  <li >
+                    <a href="/accountApproval">
                         <i class="pe-7s-star"></i>
-                        <p>ESTATES MANAGEMENT
+                        <p>ACCOUNT APPROVAL
                             <br> 會議
                         </p>
                     </a>
                 </li>
-                               <li >
-                    <a href="/accountApproval">
+                <li class="active">
+                    <a href="/estateManagement">
                         <i class="pe-7s-star"></i>
-                        <p>ACCOUNT APPROVAL
+                        <p>ESTATES MANAGEMENT
                             <br> 會議
                         </p>
                     </a>
@@ -97,7 +98,11 @@
               <div class="container row page-wrapper custom_wrapper" style="min-height: 0%;width: 90%;">
                 <h2>Reported Posts</h2>
                 <p>Describes No. of Reported posts</p>
-                <button id="select_all_posts" class="btn">Select All</button>
+                 <div id="ck-button">
+                       <label>
+                     <input type="checkbox" id="checkall" /><span>Select / Unselect all</span>
+                   </label>
+                   </div>
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -138,7 +143,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <button id="select_all_comments" class="btn">Select All</button>
+                    <div id="ck-button">
+                       <label>
+                     <input type="checkbox" id="checkallcomments" /><span>Select / Unselect all</span>
+                   </label>
+                   </div>
+
                    {{#each reportedComment as |value comment_key|}}
                     <tr>
                       <td>
@@ -168,7 +178,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
-                    <ul>
+                   <!--  <ul>
                         <li>
                             <a href="#">
                                 Home
@@ -189,10 +199,10 @@
                                 Blog
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </nav>
-                <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                  <p class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://telos-technology.com/">Telos</a> Technology
                 </p>
             </div>
         </footer>
@@ -207,12 +217,46 @@
 
 <script type="text/javascript">
    $(document).ready(function () {
+    $('#checkall').click(function() {
+    var checked = $(this).prop('checked');
+    $('.ads_Checkbox2').prop('checked', checked);
+  });
+    $('#checkallcomments').click(function() {
+    var checked = $(this).prop('checked');
+    $('.ads_Checkbox').prop('checked', checked);
+  });
+
         $("#select_all_posts").click(function () {
             $(".ads_Checkbox2").attr('checked', true);
         });
-         $("#select_all_comments").click(function () {
-            $(".ads_Checkbox").attr('checked', true);
+
+         $("#select_all_comments").click(function (event) {
+          var checked = $(".ads_Checkbox").prop("checked")
+          console.log(checked, "checked")
+            if(checked == true){
+                $(".ads_Checkbox").attr('checked', false);
+                $("#select_all_comments").text('Select All');
+                console.log("ghelooo")
+            }
+            if(checked == false){
+              $(".ads_Checkbox").attr('checked', true);
+              $("#select_all_comments").text('Unselect All')
+            }
         });
+        $(".unselect_comments").click(function () {
+            console.log("hello")
+            $(".ads_Checkbox").attr('checked', false);
+            $("#select_all_comments").removeClass('unselect_comments')
+        });
+
+           $('.check:button').toggle(function(){
+        $('.ads_Checkbox').attr('checked','checked');
+        $(this).val('uncheck all')
+    },function(){
+        $('ads_Checkbox').removeAttr('checked');
+        $(this).val('check all');        
+    })
+
     });
   var reposts = []
   var recomment = []

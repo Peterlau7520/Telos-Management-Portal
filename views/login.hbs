@@ -23,9 +23,9 @@
             <div class="navbar-branding">
               <div class="mobile-menu-toggle">
                 <i class="si si-menu"></i>
-              </div><a class="site-logo" href="/" style="width: 120px;">
+              </div><a class="site-logo" href="/login" style="width: 120px;">
                 <img alt="" style="width:50%" src="assets/img/telos_white.png"></a>
-                <a class="mobile-logo" href="/" style="width: 120px;">
+                <a class="mobile-logo" href="/login" style="width: 120px;">
                   <img alt="" style="width:50%" src="assets/img/telos_white.png">
                 </a>
             </div>
@@ -52,7 +52,7 @@
         <div class="navbar-horizontal navbar-sticky border-default-bottom">
           <div class="navbar-inner">
             <div class="navbar-branding">
-              <div class="mobile-menu-toggle"><i class="si si-menu"></i></div><a class="site-logo" href="index.html" style="width: 120px;"><img alt="" src="assets/img/telos.png"></a><a class="mobile-logo" href="index.html" style="width: 120px;"><img alt="" src="assets/img/telos.png"></a>
+              <div class="mobile-menu-toggle"><i class="si si-menu"></i></div><a class="site-logo" href="index.html" style="width: 120px;"><img alt="" src="assets/img/telos.png"></a><a class="mobile-logo" href="/login" style="width: 120px;"><img alt="" src="assets/img/telos.png"></a>
             </div>
           </div>
           <div class="menu-wrap">
@@ -158,8 +158,21 @@ $(document).ready(function () {
   var flash = '{{{stringify flash}}}'
   flash = JSON.parse(flash)
    var account = `{{{account}}}`
+   if(flash == "Incorrect OTP"){
+
+    var myvar = '<form class="login-form2" action="/verified" method="post" >'+
+    '<span class ="flash"></span><label style="padding-left: 0px !important">OTP/OTP</label>'+
+    '                <input type="text" id="otp" name="otp" placeholder="otp" style="margin-bottom: 0px !important;" required />'+
+    '<input type="hidden" id="account" name="account" placeholder="account" value='+account+' style="margin-bottom: 0px !important;" required />'+
+    '                <p class="message" style="font-family: Roboto ,sans-serif; float: left;margin: 5px;">**Sent to your email Id </p> <br/><br/>'+
+    '              <button type = "submit" name="verify" class="verify">Verify</button></form>';
+  
+         $('.flash').text("Incorrect OTP")
+     $(".loginForm").hide();
+     $(".otp").append(myvar)
+   }
   if(flash == "Correct Password"){
-    var myvar = '<form class="login-form2" action="/verified" method="post" ><label style="padding-left: 0px !important">OTP/???</label>'+
+    var myvar = '<form class="login-form2" action="/verified" method="post" ><label style="padding-left: 0px !important">OTP/OTP</label>'+
     '                <input type="text" id="otp" name="otp" placeholder="otp" style="margin-bottom: 0px !important;" required />'+
     '<input type="hidden" id="account" name="account" placeholder="account" value='+account+' style="margin-bottom: 0px !important;" required />'+
     '                <p class="message" style="font-family: Roboto ,sans-serif; float: left;margin: 5px;">**Sent to your email Id </p> <br/><br/>'+
@@ -172,6 +185,7 @@ $(document).ready(function () {
   else{
     $('.flash').text(flash)
   }
+
    /* $('.verify').click(function(event){
       console.log("helo")
       event.preventDefault();

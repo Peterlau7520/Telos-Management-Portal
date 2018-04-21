@@ -106,7 +106,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATES</label>
-                                                <select class="form-control" id="estateYoutube" name="estateYoutube">
+                                                <select class="form-control" id="estateYoutube" name="estateYoutube" required="true">
                                                     <option value="" selected hidden>Select Estate</option>
                                                     {{#each Estate as |value estate_key|}}
                                                     <option value="{{estate_key}}">{{estateName}}</option>
@@ -119,7 +119,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
-                                                <select class="form-control" id="meetingYoutube" name="meetingYoutube">
+                                                <select class="form-control" id="meetingYoutube" name="meetingYoutube" required="true">
                                                     <option value="">Select Meeting</option>
                                                 </select>
                                             </div>
@@ -129,7 +129,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>YouTube 鏈接 | YouTube LINK</label>
-                                                <input type="text" class="form-control" placeholder="YOUTUBE" name="youtubeLink">
+                                                <input type="text" class="form-control" placeholder="YOUTUBE" name="youtubeLink" required="true">
                                             </div>
                                         </div>
                                     </div>
@@ -298,7 +298,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
-                    <ul>
+                    <!-- <ul>
                         <li>
                             <a href="#">
                                 Home
@@ -319,10 +319,10 @@
                                 Blog
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </nav>
-                <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                  <p class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://telos-technology.com/">Telos</a> Technology
                 </p>
             </div>
         </footer>
@@ -338,7 +338,7 @@
 $(document).ready(function () {
      const HostName = window.location.origin
     console.log({{{stringify Estate}}})
-    var data = `{{{stringify Estate}}}`
+    /*var data = `{{{stringify Estate}}}`*/
     var newdata = {{{stringify Estate}}}
     $('#estateYoutube').change(function() {
         var eState = $(this).val()
@@ -533,7 +533,6 @@ $(document).ready(function () {
     })
     //upcoming Meeting
     $(document).on("click", "#upcomingMeeting", function (event) {
-        const upcomingnewData = `{{{stringify upcomingData}}}`;
         var upcomingData = {{{stringify upcomingData}}}
         $('.tableCtrl tr').remove();
         $('#upcomingMeeting').css('color', 'Blue');
@@ -554,7 +553,6 @@ $(document).ready(function () {
     //past Meeting
     $(document).on("click", ".generate-Proxy", function (event) {
         event.preventDefault();
-        const upcomingnewData = `{{{upcomingData}}}`;
         var upcomingData = {{{stringify upcomingData}}};
        
              $.ajax(HostName+'/generateProxyForms', {
@@ -568,13 +566,25 @@ $(document).ready(function () {
                       $("#submit").prop('disabled', true); // disable button
                     },
                     success:function(data){
+                        console.log(data, "data")
+                        if(data.files.length != 0){
                         for(var i=0; i<data.files.length; i++){
                         window.open(data.files[i], '');
                         }
-                       var html = ''
-                      $("#loading").append(html);
-                      $("#submit").prop('disabled', false);
-                      location.reload(); // enable button
+                            var html = ''
+                          $("#loading").append(html);
+                          $("#submit").prop('disabled', false);
+                          location.reload(); // enable button
+                        }
+                        else{
+                             var html = ''
+                          $("#loading").append(html);
+                          $("#submit").prop('disabled', false);
+                            alert('No Forms can be Generated')
+                            location.reload(); // enable button
+                           
+                        }
+                       
                     },
                   error  : function() { console.log('error');}
             });

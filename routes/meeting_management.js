@@ -240,7 +240,7 @@ var startMonth = monthNames[new Date(req.body.startTime).getMonth()]
 Resident.find({estateName: req.body.estate, proxyAppointed: req.body._id })
 .then(function(residents, err){
   if(residents.length == 0){
- res.redirect('/meetingManagement')  }
+ res.send({files: []})  }
  else{
 _.forEach(residents, function(resident) {
    promiseArr.push(new Promise(function(resolve, reject){
@@ -414,6 +414,7 @@ bucket.upload(data, function (err, data) {
 
 Promise.all(promiseArr)
 .then(function(form, err){
+  console.log(form, "form")
   res.send({files: form})
   //res.download(form[0])
   //res.redirect('/meetingManagement')

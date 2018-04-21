@@ -72,6 +72,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/contractorlist">
+                        <i class="pe-7s-graph"></i>
+                        <p>CONTRACTOR & SUPPLIERS<br>
+                            會議管理
+                        </p>
+                    </a>
+                </li>
+                <li>
                     <a href="/logout">
                       <i class="pe-7s-map-marker"></i>
                       <p>LOG OUT
@@ -265,7 +273,7 @@
                         <footer class="footer">
                             <div class="container-fluid">
                                 <nav class="pull-left">
-                                    <ul>
+                                   <!--  <ul>
                                         <li>
                                             <a href="#">
                                 Home
@@ -286,13 +294,10 @@
                                 Blog
                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </nav>
-                                <p class="copyright pull-right">
-                                    &copy;
-                                    <script>
-                                    document.write(new Date().getFullYear())
-                                    </script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                                  <p class="copyright pull-right">
+                                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://telos-technology.com/">Telos</a> Technology
                                 </p>
                             </div>
                         </footer>
@@ -309,12 +314,18 @@
     }
     console.log(tableData, "tableData")
       function searchEstate() {
+        console.log("hello2")
+
         var estateName = $('#searchEs').val();
-        $.post("/searchMeetings", { estateName: estateName }, function(data, status) {
+        $.post("/searchMeeting", { estateName: estateName }, function(data, status) {
             if (data) {
+                 var objDiv = $(".main-panel");
+                var h = objDiv.get(0).scrollHeight;
+                objDiv.animate({scrollTop: h});
                 console.log(data, "datatata")
                 $('#customMainComponent').css('display', '')
                 $('#customMainComponent').html(data)
+                 
             } else {
               $('#customMainComponent').html('<p>'+data.message+'</p>')
             }
@@ -326,8 +337,22 @@
         $("#sidebarMenu").css({ "min-height": hd })
     }
     $(document).ready(function() {
+        
         const HostName = window.location.origin
-
+         /*$('#searchEs').change(function(event) {
+            console.log("hello")
+             var estateName = $('#searchEs').val();
+             console.log(estateName, "ssssssss")
+                $.post("/searchMeetings", { estateName: estateName }, function(data, status) {
+            if (data) {
+                console.log(data, "datatata")
+                $('#customMainComponent').css('display', '')
+                $('#customMainComponent').html(data)
+            } else {
+              $('#customMainComponent').html('<p>'+data.message+'</p>')
+            }
+        });
+         })*/
         hd();
         $("body").delegate(".flatpickr", "focusin", function() {
             $(this).flatpickr({
