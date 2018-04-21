@@ -7,7 +7,7 @@
                 <a href="/login" class="simple-text">
                     Telos Management Portal
                 </a>
-                <a href="/" class="simple-text">
+                <a href="/login" class="simple-text">
                     天羅科技管理平台
                 </a>
             </div>
@@ -152,7 +152,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇屋苑 | SELECT ESTATES</label>
-                                                <select class="form-control" id="estateYoutube2" name="estateYoutube2">
+                                                <select class="form-control" id="estateYoutube2" name="estateYoutube2" required="true">
                                                     <option value="" selected hidden>Select Estate</option>
                                                     {{#each Estate as |value estate_key|}}
                                                     <option value="{{estate_key}}">{{estateName}}</option>
@@ -165,7 +165,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>選擇會議 | SELECT MEETINGS</label>
-                                                <select class="form-control" id="meetingYoutube2" name="meetingYoutube2">
+                                                <select class="form-control" id="meetingYoutube2" name="meetingYoutube2" required="true">
                                                     <option value="">Select Meeting</option>
                                                 </select>
                                             </div>
@@ -175,7 +175,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>PROXY 全名 | PROXY FULLNAME </label>
-                                                <input type="text" class="form-control" placeholder="PROXY FULLNAME" name="proxyFullName">
+                                                <input type="text" class="form-control" placeholder="PROXY FULLNAME" name="proxyFullName" required="true">
                                             </div>
                                         </div>
                                     </div>
