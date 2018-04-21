@@ -32,8 +32,8 @@ router.get('/estateManagement', (req,res) => {
               finalArray.push(item.estateName)
             })
             var promise1 = Post.find({estateName:{$in:finalArray}}).populate('comments')
-            var promise2 = PostReport.find({})
-            var promise3 = CommentReport.find({})
+            var promise2 = PostReport.find({}).populate('reportedPost')
+            var promise3 = CommentReport.find({}).populate('reportedComment')
             Promise.all([promise1, promise2, promise3]).then(function(values){
               res.render('estates_management', {posts:values[0],reportedPost:values[1],reportedComment:values[2]})
             })

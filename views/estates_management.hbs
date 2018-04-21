@@ -108,7 +108,8 @@
                     <tr>
                       <th class="text-center"></th>
                       <th class="text-center">No</th>
-                      <th class="text-center">Post</th>
+                      <th class="text-center">Reported Comment</th>
+                      <th class="text-center">Post Title</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -119,6 +120,7 @@
                       </td>
                       <td class="text-center">{{post_key}}</td>
                       <td class="text-center">{{postReport}}</td>
+                      <td class="text-center">{{reportedPost.content}}</td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -139,7 +141,8 @@
                     <tr>
                       <th class="text-center"></th>
                       <th class="text-center">No</th>
-                      <th class="text-center">Comment</th>
+                      <th class="text-center">Reported Comment</th>
+                      <th class="text-center">Comment Title</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -156,6 +159,7 @@
                       </td>
                       <td class="text-center">{{comment_key}}</td>
                       <td class="text-center">{{commentReport}}</td>
+                      <td class="text-center">{{reportedComment.content}}</td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -217,6 +221,7 @@
 
 <script type="text/javascript">
    $(document).ready(function () {
+    console.log(`{{{reportedComment}}}`, "ready")
     $('#checkall').click(function() {
     var checked = $(this).prop('checked');
     $('.ads_Checkbox2').prop('checked', checked);

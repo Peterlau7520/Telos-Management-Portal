@@ -317,6 +317,7 @@
         console.log("hello2")
 
         var estateName = $('#searchEs').val();
+        
         $.post("/searchMeeting", { estateName: estateName }, function(data, status) {
             if (data) {
                  var objDiv = $(".main-panel");
