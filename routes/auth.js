@@ -110,6 +110,14 @@ module.exports = function(passport) {
       layout: 'loginLayout.hbs'
     });
   })
+  router.get('/', (req,res) => {
+    var mess = req.flash('error');
+      res.render('login', {
+      title: 'Log in',
+      flash: mess,
+      layout: 'loginLayout.hbs'
+    });
+  })
     router.get('/verify', (req,res) => {
     console.log(req.body, "hellooo", req.user)
     const body = req.user
