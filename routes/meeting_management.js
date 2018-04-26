@@ -347,7 +347,7 @@ var html = '<!DOCTYPE html>'+
         _.forEach(resident.signature, function(sign) {
            var Strings =sign.substring(sign.lastIndexOf(`/`)+1,sign.lastIndexOf("--"));
           if(Strings == req.body._id){
-          html+= '<img src="'+sign+'" style="width: 8%;" alt="one" class="" >'
+          html+= '<img src="'+sign+'" style="width: 8%;" alt="one" class="" >   '
           }
           })
         if(resident.chopImage){
@@ -414,8 +414,8 @@ bucket.upload(data, function (err, data) {
 
 Promise.all(promiseArr)
 .then(function(form, err){
-  console.log(form, "form")
-  res.send({files: form})
+/*  console.log(form, "form")
+*/  res.send({files: form})
   //res.download(form[0])
   //res.redirect('/meetingManagement')
 })
