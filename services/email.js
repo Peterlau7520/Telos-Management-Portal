@@ -5,7 +5,7 @@ var EmailService = {
     const email = (user.email).toString()
     const name= (user.name).toString()
     console.log(email,name, otp)
-      var sendGrid = require('sendgrid')("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")
+      var sendGrid = require('sendgrid')("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")
       var request = sendGrid.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -29,7 +29,7 @@ var EmailService = {
               value: 'I\'m replacing the <strong>body tag</strong>',
             },
           ],
-          template_id: '21f88245-5b62-4ee3-87f4-e3db6db678a1',
+          template_id: '768fe477-7549-4df4-8a10-342649d632c9',
         }
       });
 
@@ -46,7 +46,7 @@ var EmailService = {
     const email = (user.email).toString()
     const name= (user.username).toString()
     console.log(email,name)
-      var sendGrid = require('sendgrid')("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")
+      var sendGrid = require('sendgrid')("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")
       var request = sendGrid.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -69,7 +69,7 @@ var EmailService = {
               value: 'I\'m replacing the <strong>body tag</strong>',
             },
           ],
-          template_id: '18c7ec8d-f7ff-46ac-a802-0e8ea4ce1b4d',
+          template_id: '44624a63-4d5b-4c66-88d4-f63159709e44',
         }
       });
 
